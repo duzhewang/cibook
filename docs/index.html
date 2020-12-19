@@ -32,7 +32,7 @@
   
   
 
-
+<link rel="next" href="why-model.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -131,10 +131,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">R code for causal inference book</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path=""><a href="#why-model"><i class="fa fa-check"></i>11. Why model?</a><ul>
-<li class="chapter" data-level="" data-path=""><a href="#program-11.1"><i class="fa fa-check"></i>Program 11.1</a></li>
-<li class="chapter" data-level="" data-path=""><a href="#program-11.2"><i class="fa fa-check"></i>Program 11.2</a></li>
-<li class="chapter" data-level="" data-path=""><a href="#program-11.3"><i class="fa fa-check"></i>Program 11.3</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html"><i class="fa fa-check"></i>11. Why model?</a><ul>
+<li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#program-11.1"><i class="fa fa-check"></i>Program 11.1</a></li>
+<li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#program-11.2"><i class="fa fa-check"></i>Program 11.2</a></li>
+<li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#program-11.3"><i class="fa fa-check"></i>Program 11.3</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -160,143 +161,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p class="author"><em>Duzhe Wang</em></p>
 <p class="date"><em>2020-12-18</em></p>
 </div>
-<div id="why-model" class="section level1 unnumbered">
-<h1>11. Why model?</h1>
-<div id="program-11.1" class="section level2 unnumbered">
-<h2>Program 11.1</h2>
-<ul>
-<li>Sample averages by treatment level</li>
-<li>Data from Figures 11.1 and 11.2</li>
-</ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">A &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">Y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">150</span>, <span class="dv">220</span>, <span class="dv">110</span>, <span class="dv">50</span>, <span class="dv">180</span>, <span class="dv">90</span>, <span class="dv">170</span>, <span class="dv">170</span>, <span class="dv">30</span>,</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">       <span class="dv">70</span>, <span class="dv">110</span>, <span class="dv">80</span>, <span class="dv">50</span>, <span class="dv">10</span>, <span class="dv">20</span>)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">plot</span>(A, Y)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-1-1.png" width="85%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">summary</span>(Y[A <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</a></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    10.0    27.5    60.0    67.5    87.5   170.0</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">summary</span>(Y[A <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    50.0   105.0   160.0   146.2   185.0   220.0</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">A2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">Y2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">110</span>, <span class="dv">80</span>, <span class="dv">50</span>, <span class="dv">40</span>, <span class="dv">170</span>, <span class="dv">30</span>, <span class="dv">70</span>, <span class="dv">50</span>, <span class="dv">110</span>, <span class="dv">50</span>, <span class="dv">180</span>,</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">        <span class="dv">130</span>, <span class="dv">200</span>, <span class="dv">150</span>, <span class="dv">220</span>, <span class="dv">210</span>)</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw">plot</span>(A2, Y2)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-1-2.png" width="85%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">summary</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    40.0    47.5    65.0    70.0    87.5   110.0</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">summary</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##      30      45      60      80      95     170</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">summary</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">3</span>])</a></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    50.0    95.0   120.0   117.5   142.5   180.0</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">summary</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">4</span>])</a></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   150.0   187.5   205.0   195.0   212.5   220.0</code></pre>
-</div>
-<div id="program-11.2" class="section level2 unnumbered">
-<h2>Program 11.2</h2>
-<ul>
-<li>2-parameter linear model</li>
-<li>Data from Figures 11.3 and 11.1</li>
-</ul>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">A3 &lt;-</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="st">  </span><span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">11</span>, <span class="dv">17</span>, <span class="dv">23</span>, <span class="dv">29</span>, <span class="dv">37</span>, <span class="dv">41</span>, <span class="dv">53</span>, <span class="dv">67</span>, <span class="dv">79</span>, <span class="dv">83</span>, <span class="dv">97</span>, <span class="dv">60</span>, <span class="dv">71</span>, <span class="dv">15</span>, <span class="dv">45</span>)</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">Y3 &lt;-</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="st">  </span><span class="kw">c</span>(<span class="dv">21</span>, <span class="dv">54</span>, <span class="dv">33</span>, <span class="dv">101</span>, <span class="dv">85</span>, <span class="dv">65</span>, <span class="dv">157</span>, <span class="dv">120</span>, <span class="dv">111</span>, <span class="dv">200</span>, <span class="dv">140</span>, <span class="dv">220</span>, <span class="dv">230</span>, <span class="dv">217</span>,</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">    <span class="dv">11</span>, <span class="dv">190</span>)</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="kw">plot</span>(Y3 <span class="op">~</span><span class="st"> </span>A3)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-1.png" width="85%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">glm</span>(Y3 <span class="op">~</span><span class="st"> </span>A3))</a></code></pre></div>
-<pre><code>## 
-## Call:
-## glm(formula = Y3 ~ A3)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -61.930  -30.564   -5.741   30.653   77.225  
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  24.5464    21.3300   1.151 0.269094    
-## A3            2.1372     0.3997   5.347 0.000103 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for gaussian family taken to be 1944.109)
-## 
-##     Null deviance: 82800  on 15  degrees of freedom
-## Residual deviance: 27218  on 14  degrees of freedom
-## AIC: 170.43
-## 
-## Number of Fisher Scoring iterations: 2</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">predict</span>(<span class="kw">glm</span>(Y3 <span class="op">~</span><span class="st"> </span>A3), <span class="kw">data.frame</span>(<span class="dt">A3 =</span> <span class="dv">90</span>))</a></code></pre></div>
-<pre><code>##      1 
-## 216.89</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">glm</span>(Y <span class="op">~</span><span class="st"> </span>A))</a></code></pre></div>
-<pre><code>## 
-## Call:
-## glm(formula = Y ~ A)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -96.250  -40.000    3.125   35.938  102.500  
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)   
-## (Intercept)    67.50      19.72   3.424  0.00412 **
-## A              78.75      27.88   2.824  0.01352 * 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for gaussian family taken to be 3109.821)
-## 
-##     Null deviance: 68344  on 15  degrees of freedom
-## Residual deviance: 43538  on 14  degrees of freedom
-## AIC: 177.95
-## 
-## Number of Fisher Scoring iterations: 2</code></pre>
-</div>
-<div id="program-11.3" class="section level2 unnumbered">
-<h2>Program 11.3</h2>
-<ul>
-<li>3-parameter linear model</li>
-<li>Data from Figure 11.3</li>
-</ul>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">Asq &lt;-<span class="st"> </span>A3 <span class="op">*</span><span class="st"> </span>A3</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2">mod3 &lt;-<span class="st"> </span><span class="kw">glm</span>(Y3 <span class="op">~</span><span class="st"> </span>A3 <span class="op">+</span><span class="st"> </span>Asq)</a>
-<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="kw">summary</span>(mod3)</a></code></pre></div>
-<pre><code>## 
-## Call:
-## glm(formula = Y3 ~ A3 + Asq)
-## 
-## Deviance Residuals: 
-##    Min      1Q  Median      3Q     Max  
-## -65.27  -34.41   13.21   26.11   64.36  
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)  
-## (Intercept) -7.40688   31.74777  -0.233   0.8192  
-## A3           4.10723    1.53088   2.683   0.0188 *
-## Asq         -0.02038    0.01532  -1.331   0.2062  
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for gaussian family taken to be 1842.697)
-## 
-##     Null deviance: 82800  on 15  degrees of freedom
-## Residual deviance: 23955  on 13  degrees of freedom
-## AIC: 170.39
-## 
-## Number of Fisher Scoring iterations: 2</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">predict</span>(mod3, <span class="kw">data.frame</span>(<span class="kw">cbind</span>(<span class="dt">A3 =</span> <span class="dv">90</span>, <span class="dt">Asq =</span> <span class="dv">8100</span>)))</a></code></pre></div>
-<pre><code>##        1 
-## 197.1269</code></pre>
+<div id="preface" class="section level1 unnumbered">
+<h1>Preface</h1>
+<p>The R code is based on the code by Joy Shi and Sean McGrath given <a href="https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/1268/20/Rcode_CIpart2.zip">here</a>, and the rendered version by Tom Palmer given <a href="https://remlapmot.github.io/cibookex-r/">here</a>.</p>
 
-</div>
 </div>
             </section>
 
@@ -304,7 +172,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 
-
+<a href="why-model.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
