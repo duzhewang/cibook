@@ -10,10 +10,11 @@
 
 - What is a model? A model is defined by an a priori restriction on the joint distribution of the data. 
 
+- When using a parametric model, the inferences are correct only if the restrictions encoded in the model are correct, i.e., if the model is correctly specified. Thus model-based causal inference relies on conditions of no model misspecification. 
 
+- Fisher consistency: An estimator of a population quantity that, when calculated using the entire population rather than a sample, yields the true value of the population parameter. 
 
-
-
+- Bias-variance trade-off
 
 
 ## Program 11.1{-}
@@ -47,12 +48,9 @@ mean(Y2[A2 == 4])
 - Data from Figures 11.3 and 11.1
 
 ```{r out.width="85%", fig.align='center'}
-A3 <-
-  c(3, 11, 17, 23, 29, 37, 41, 53, 67, 79, 83, 97, 60, 71, 15, 45)
-Y3 <-
-  c(21, 54, 33, 101, 85, 65, 157, 120, 111, 200, 140, 220, 230, 217,
-    11, 190)
-plot(Y3 ~ A3)
+A3 <-c(3, 11, 17, 23, 29, 37, 41, 53, 67, 79, 83, 97, 60, 71, 15, 45)
+Y3 <-c(21, 54, 33, 101, 85, 65, 157, 120, 111, 200, 140, 220, 230, 217, 11, 190)
+plot(Y3 ~ A3, pch=16)
 summary(glm(Y3 ~ A3))
 predict(glm(Y3 ~ A3), data.frame(A3 = 90))
 summary(glm(Y ~ A))
@@ -60,7 +58,7 @@ summary(glm(Y ~ A))
 
 ## Program 11.3{-}
 
-- 3-parameter linear model
+- 3-parameter linear model: $E(Y|A)=\theta_0+\theta_{1}A+\theta_{2}A^2$, where $A^2=A\times A$
 - Data from Figure 11.3
 
 ```{r}
@@ -69,3 +67,8 @@ mod3 <- glm(Y3 ~ A3 + Asq)
 summary(mod3)
 predict(mod3, data.frame(cbind(A3 = 90, Asq = 8100)))
 ```
+
+
+
+
+
