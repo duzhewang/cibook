@@ -2,5 +2,5 @@
 
 - Reference:
   - [Causal inference book](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)
-  - [R markdown code](https://remlapmot.github.io/cibookex-r/)
+  - [R markdown code](hthttps://github.com/remlapmot/cibookex-rtps://remlapmot.github.io/cibookex-r/)
   
