@@ -24,7 +24,7 @@
 <meta name="author" content="Duzhe Wang" />
 
 
-<meta name="date" content="2020-12-18" />
+<meta name="date" content="2020-12-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -133,6 +133,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
 <li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html"><i class="fa fa-check"></i>11. Why model?</a><ul>
+<li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#some-concepts-and-points"><i class="fa fa-check"></i>Some concepts and points</a></li>
 <li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#program-11.1"><i class="fa fa-check"></i>Program 11.1</a></li>
 <li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#program-11.2"><i class="fa fa-check"></i>Program 11.2</a></li>
 <li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#program-11.3"><i class="fa fa-check"></i>Program 11.3</a></li>
@@ -158,40 +159,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="why-model" class="section level1 unnumbered">
 <h1>11. Why model?</h1>
+<div id="some-concepts-and-points" class="section level2 unnumbered">
+<h2>Some concepts and points</h2>
+<ul>
+<li><p>Estimand</p></li>
+<li><p>Estimator</p></li>
+<li><p>We can not always let the data “speak for themselves” to obtain a meaningful estimate. Rather, we often need to supplement the data with a model.</p></li>
+<li><p>What is a model? A model is defined by an a priori restriction on the joint distribution of the data.</p></li>
+</ul>
+</div>
 <div id="program-11.1" class="section level2 unnumbered">
 <h2>Program 11.1</h2>
 <ul>
 <li>Sample averages by treatment level</li>
 <li>Data from Figures 11.1 and 11.2</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">A &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">Y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">150</span>, <span class="dv">220</span>, <span class="dv">110</span>, <span class="dv">50</span>, <span class="dv">180</span>, <span class="dv">90</span>, <span class="dv">170</span>, <span class="dv">170</span>, <span class="dv">30</span>,</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">       <span class="dv">70</span>, <span class="dv">110</span>, <span class="dv">80</span>, <span class="dv">50</span>, <span class="dv">10</span>, <span class="dv">20</span>)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">plot</span>(A, Y)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">A&lt;-<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">8</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>))</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">Y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">150</span>, <span class="dv">220</span>, <span class="dv">110</span>, <span class="dv">50</span>, <span class="dv">180</span>, <span class="dv">90</span>, <span class="dv">170</span>, <span class="dv">170</span>, <span class="dv">30</span>, <span class="dv">70</span>, <span class="dv">110</span>, <span class="dv">80</span>, <span class="dv">50</span>, <span class="dv">10</span>, <span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">plot</span>(A, Y, <span class="dt">pch=</span><span class="dv">16</span>)</a></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/unnamed-chunk-1-1.png" width="85%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">summary</span>(Y[A <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</a></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    10.0    27.5    60.0    67.5    87.5   170.0</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">summary</span>(Y[A <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    50.0   105.0   160.0   146.2   185.0   220.0</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">A2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">Y2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">110</span>, <span class="dv">80</span>, <span class="dv">50</span>, <span class="dv">40</span>, <span class="dv">170</span>, <span class="dv">30</span>, <span class="dv">70</span>, <span class="dv">50</span>, <span class="dv">110</span>, <span class="dv">50</span>, <span class="dv">180</span>,</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">        <span class="dv">130</span>, <span class="dv">200</span>, <span class="dv">150</span>, <span class="dv">220</span>, <span class="dv">210</span>)</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw">plot</span>(A2, Y2)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-1-2.png" width="85%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">summary</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    40.0    47.5    65.0    70.0    87.5   110.0</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">summary</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##      30      45      60      80      95     170</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">summary</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">3</span>])</a></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    50.0    95.0   120.0   117.5   142.5   180.0</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">summary</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">4</span>])</a></code></pre></div>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   150.0   187.5   205.0   195.0   212.5   220.0</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">mean</span>(Y[A <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</a></code></pre></div>
+<pre><code>## [1] 67.5</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">mean</span>(Y[A <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
+<pre><code>## [1] 146.25</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">A2&lt;-<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">4</span>,<span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">Y2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">110</span>, <span class="dv">80</span>, <span class="dv">50</span>, <span class="dv">40</span>, <span class="dv">170</span>, <span class="dv">30</span>, <span class="dv">70</span>, <span class="dv">50</span>, <span class="dv">110</span>, <span class="dv">50</span>, <span class="dv">180</span>, <span class="dv">130</span>, <span class="dv">200</span>, <span class="dv">150</span>, <span class="dv">220</span>, <span class="dv">210</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">plot</span>(A2, Y2, <span class="dt">pch=</span><span class="dv">16</span>)</a></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
+<pre><code>## [1] 70</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre></div>
+<pre><code>## [1] 80</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">3</span>])</a></code></pre></div>
+<pre><code>## [1] 117.5</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">4</span>])</a></code></pre></div>
+<pre><code>## [1] 195</code></pre>
 </div>
 <div id="program-11.2" class="section level2 unnumbered">
 <h2>Program 11.2</h2>
@@ -205,7 +207,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb15-4" data-line-number="4"><span class="st">  </span><span class="kw">c</span>(<span class="dv">21</span>, <span class="dv">54</span>, <span class="dv">33</span>, <span class="dv">101</span>, <span class="dv">85</span>, <span class="dv">65</span>, <span class="dv">157</span>, <span class="dv">120</span>, <span class="dv">111</span>, <span class="dv">200</span>, <span class="dv">140</span>, <span class="dv">220</span>, <span class="dv">230</span>, <span class="dv">217</span>,</a>
 <a class="sourceLine" id="cb15-5" data-line-number="5">    <span class="dv">11</span>, <span class="dv">190</span>)</a>
 <a class="sourceLine" id="cb15-6" data-line-number="6"><span class="kw">plot</span>(Y3 <span class="op">~</span><span class="st"> </span>A3)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-1.png" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">glm</span>(Y3 <span class="op">~</span><span class="st"> </span>A3))</a></code></pre></div>
 <pre><code>## 
 ## Call:

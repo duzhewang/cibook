@@ -1,25 +1,43 @@
 # 11. Why model?{-}
 
+## Some concepts and points{-} 
+
+- Estimand 
+
+- Estimator
+
+- We can not always let the data "speak for themselves" to obtain a meaningful estimate. Rather, we often need to supplement the data with a model. 
+
+- What is a model? A model is defined by an a priori restriction on the joint distribution of the data. 
+
+
+
+
+
+
+
 ## Program 11.1{-}
 
 - Sample averages by treatment level
 - Data from Figures 11.1 and 11.2
 
 ```{r out.width="85%", fig.align='center'}
-A <- c(1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0)
-Y <- c(200, 150, 220, 110, 50, 180, 90, 170, 170, 30,
-       70, 110, 80, 50, 10, 20)
-plot(A, Y)
-summary(Y[A == 0])
-summary(Y[A == 1])
-A2 <- c(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4)
-Y2 <- c(110, 80, 50, 40, 170, 30, 70, 50, 110, 50, 180,
-        130, 200, 150, 220, 210)
-plot(A2, Y2)
-summary(Y2[A2 == 1])
-summary(Y2[A2 == 2])
-summary(Y2[A2 == 3])
-summary(Y2[A2 == 4])
+A<-c(rep(1, 8), rep(0, 8))
+Y <- c(200, 150, 220, 110, 50, 180, 90, 170, 170, 30, 70, 110, 80, 50, 10, 20)
+plot(A, Y, pch=16)
+mean(Y[A == 0])
+mean(Y[A == 1])
+```
+
+
+```{r out.width="85%", fig.align='center'}
+A2<-c(rep(1,4), rep(2, 4), rep(3, 4), rep(4,4))
+Y2 <- c(110, 80, 50, 40, 170, 30, 70, 50, 110, 50, 180, 130, 200, 150, 220, 210)
+plot(A2, Y2, pch=16)
+mean(Y2[A2 == 1])
+mean(Y2[A2 == 2])
+mean(Y2[A2 == 3])
+mean(Y2[A2 == 4])
 ```
 
 
