@@ -7,7 +7,7 @@ site: bookdown::bookdown_site
 
 # 11. Why model?{-}
 
-## Program 11.1
+## Program 11.1{-}
 
 - Sample averages by treatment level
 - Data from Figures 11.1 and 11.2
@@ -30,7 +30,7 @@ summary(Y2[A2 == 4])
 ```
 
 
-## Program 11.2
+## Program 11.2{-}
 
 - 2-parameter linear model
 - Data from Figures 11.3 and 11.1
@@ -47,7 +47,7 @@ predict(glm(Y3 ~ A3), data.frame(A3 = 90))
 summary(glm(Y ~ A))
 ```
 
-## Program 11.3
+## Program 11.3{-}
 
 - 3-parameter linear model
 - Data from Figure 11.3
