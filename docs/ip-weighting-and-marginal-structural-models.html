@@ -24,7 +24,7 @@
 <meta name="author" content="Duzhe Wang" />
 
 
-<meta name="date" content="2020-12-20" />
+<meta name="date" content="2020-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -140,6 +140,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html"><i class="fa fa-check"></i>12. IP weighting and marginal structural models</a><ul>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#concepts-and-points"><i class="fa fa-check"></i>Concepts and points</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#estimating-ip-weights-via-modeling"><i class="fa fa-check"></i>Estimating IP weights via modeling</a><ul>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#definition"><i class="fa fa-check"></i>Definition</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#equivalence-of-ip-weighting-and-standardization"><i class="fa fa-check"></i>Equivalence of IP weighting and standardization</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#equivalence-of-potential-outcome-mean-standardized-mean-and-ip-weighted-mean"><i class="fa fa-check"></i>Equivalence of potential outcome mean, standardized mean and IP weighted mean</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#real-data-analysis"><i class="fa fa-check"></i>Real data analysis</a><ul>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#background"><i class="fa fa-check"></i>Background</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#program-12.1"><i class="fa fa-check"></i>Program 12.1</a></li>
@@ -171,6 +176,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>Confounder</li>
 </ul>
+</div>
+<div id="estimating-ip-weights-via-modeling" class="section level2 unnumbered">
+<h2>Estimating IP weights via modeling</h2>
+<div id="definition" class="section level3 unnumbered">
+<h3>Definition</h3>
+<p>An individual’s IP weight depends on her values of treatment <span class="math inline">\(A\)</span> and covariate <span class="math inline">\(L\)</span>. Since the denominator of the weight for each individual is the conditional density evaluated at the individual’s own values of <span class="math inline">\(A\)</span> and <span class="math inline">\(L\)</span>, it can be expressed as the conditional density evaluated at the random arguments <span class="math inline">\(A\)</span> and <span class="math inline">\(L\)</span>, that is, as <span class="math inline">\(f(A|L)\)</span>. Therefore, we write the IP weights as <span class="math inline">\(1/f(A|L)\)</span>.</p>
+<ul>
+<li>Potential outcome mean for treatment level <span class="math inline">\(A=a\)</span>: <span class="math inline">\(E(Y^{a})\)</span></li>
+<li>Standardized mean for treatment level <span class="math inline">\(A=a\)</span>: <span class="math inline">\(\sum_{l}E(Y|A=a, L=l)P(L=l)\)</span></li>
+<li>IP weighted mean of <span class="math inline">\(Y\)</span> for treatment level <span class="math inline">\(A=a\)</span>: <span class="math inline">\(E\left(\frac{I(A=a)Y}{f(A|L)}\right)\)</span></li>
+</ul>
+</div>
+<div id="equivalence-of-ip-weighting-and-standardization" class="section level3 unnumbered">
+<h3>Equivalence of IP weighting and standardization</h3>
+<p>Under the positivity assumption, we have
+<span class="math display">\[\begin{equation*}
+\begin{split}
+E\left(\frac{I(A=a)Y}{f(A|L)}\right)=E_{A, L}\left( E_{Y}(\frac{I(A=a)}{f(A|L)}Y|A, L)\right)=E_{A, L}\left( E_{Y}(Y|A, L)\frac{I(A=a)}{f(A|L)}\right) \\
+= E_{L}\left(E_{A}\left( E_{Y}(Y|A, L)\frac{I(A=a)}{f(A|L)}|L\right)\right)=E_{L}\left( E_{Y}(Y|A=a, L)|L\right) \\
+=\sum_{l}E(Y|A=a, L=l)P(L=l)
+\end{split}
+\end{equation*}\]</span></p>
+</div>
+<div id="equivalence-of-potential-outcome-mean-standardized-mean-and-ip-weighted-mean" class="section level3 unnumbered">
+<h3>Equivalence of potential outcome mean, standardized mean and IP weighted mean</h3>
+<ul>
+<li>First, we show <span class="math inline">\(E(Y^a)=\sum_{l}E(Y|A=a, L=l)P(L=l)\)</span> under conditional exchangeability, positivity, and consistency.</li>
+</ul>
+<p><span class="math display">\[\begin{equation*}
+\begin{split}
+E(Y^{a})=\sum_{l}E(Y^a|L=l)P(L=l) \\
+=\sum_{l}E(Y^a|A=a, L=l)P(L=l)=\sum_{l}E(Y|A=a, L=l)P(L=l), 
+\end{split}
+\end{equation*}\]</span>
+where the second equality is by conditional exchangeability and positivity, and the third by consistency.</p>
+<ul>
+<li>Second, we show <span class="math inline">\(E(Y^a)=E\left( \frac{I(A=a)}{f(A|L)}Y \right)\)</span> under positivity, conditional exchangeability, and consistency.</li>
+</ul>
+<p><span class="math display">\[\begin{equation*}
+\begin{split}
+E\left(\frac{I(A=a)}{f(A|L)}Y\right)= E\left( \frac{I(A=a)}{f(A|L)}Y^a \right)=E\left(  E\left(\frac{I(A=a)}{f(A|L)}Y^{a}|L\right) \right) \\
+= E\left(E\left(\frac{I(A=a)}{f(A|L)}|L\right)E\left(Y^a|L\right) \right)=E\left(1\times E\left(Y^{a}|L\right)  \right)=E(Y^a),
+\end{split}
+\end{equation*}\]</span>
+where the first equality is by consistency, the third by conditional exchangeability. Furthermore, we need positivity to well define the IP weights.</p>
+</div>
 </div>
 <div id="real-data-analysis" class="section level2 unnumbered">
 <h2>Real data analysis</h2>
@@ -244,7 +295,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb34-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb34-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb34-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <ul>
 <li><code>wt71</code></li>
 </ul>
@@ -262,7 +313,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb39-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb39-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb39-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <ul>
 <li><code>smokeintensity</code>: number of cigarettes smoked per day in 1971</li>
 </ul>
@@ -280,7 +331,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb44-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb44-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb44-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <ul>
 <li><code>smokeyrs</code>: years of smoking</li>
 </ul>
@@ -298,7 +349,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb49-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb49-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb49-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <ul>
 <li>sex</li>
 </ul>
@@ -315,7 +366,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">nhefs.nmv<span class="op">$</span>sex=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>sex)</a>
 <a class="sourceLine" id="cb54-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> sex)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb54-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <ul>
 <li>race: 0 if white, 1 if black or other in 1971</li>
 </ul>
@@ -332,7 +383,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">nhefs.nmv<span class="op">$</span>race=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>race)</a>
 <a class="sourceLine" id="cb59-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> race)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb59-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <ul>
 <li>education (AMOUNT OF EDUCATION BY 1971): 1 if 8TH GRADE OR LESS, 2 if HS DROPOUT, 3 if HS, 4 if COLLEGE DROPOUT, 5 if COLLEGE OR MORE</li>
 </ul>
@@ -349,7 +400,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">nhefs.nmv<span class="op">$</span>education=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>education)</a>
 <a class="sourceLine" id="cb64-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> education)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb64-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <ul>
 <li>exercise: 0 if much exercise,1 if moderate exercise,2 if little or no exercise</li>
 </ul>
@@ -366,7 +417,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1">nhefs.nmv<span class="op">$</span>exercise=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>exercise)</a>
 <a class="sourceLine" id="cb69-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> exercise)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb69-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <ul>
 <li>active: 0 if very active, 1 if moderately active, 2 if inactive</li>
 </ul>
@@ -383,7 +434,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1">nhefs.nmv<span class="op">$</span>active=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>active)</a>
 <a class="sourceLine" id="cb74-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> active)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb74-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 
 </div>
 </div>

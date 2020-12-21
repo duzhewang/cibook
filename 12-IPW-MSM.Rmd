@@ -4,7 +4,46 @@
 
 - Confounder
 
-- Estimating IP weights via modeling 
+## Estimating IP weights via modeling{-} 
+
+### Definition{-}
+
+An individual's IP weight depends on her values of treatment $A$ and covariate $L$. Since the denominator of the weight for each individual is the conditional density evaluated at the individual's own values of $A$ and $L$, it can be expressed as the conditional density evaluated at the random arguments $A$ and $L$, that is, as $f(A|L)$. Therefore, we write the IP weights as $1/f(A|L)$. 
+
+- Potential outcome mean for treatment level $A=a$: $E(Y^{a})$
+- Standardized mean for treatment level $A=a$: $\sum_{l}E(Y|A=a, L=l)P(L=l)$
+- IP weighted mean of $Y$ for treatment level $A=a$: $E\left(\frac{I(A=a)Y}{f(A|L)}\right)$
+
+### Equivalence of IP weighting and standardization{-}
+Under the positivity assumption, we have 
+\begin{equation*}
+\begin{split}
+E\left(\frac{I(A=a)Y}{f(A|L)}\right)=E_{A, L}\left( E_{Y}(\frac{I(A=a)}{f(A|L)}Y|A, L)\right)=E_{A, L}\left( E_{Y}(Y|A, L)\frac{I(A=a)}{f(A|L)}\right) \\
+= E_{L}\left(E_{A}\left( E_{Y}(Y|A, L)\frac{I(A=a)}{f(A|L)}|L\right)\right)=E_{L}\left( E_{Y}(Y|A=a, L)|L\right) \\
+=\sum_{l}E(Y|A=a, L=l)P(L=l)
+\end{split}
+\end{equation*}
+
+### Equivalence of potential outcome mean, standardized mean and IP weighted mean{-} 
+- First, we show $E(Y^a)=\sum_{l}E(Y|A=a, L=l)P(L=l)$ under conditional exchangeability, positivity, and consistency. 
+
+\begin{equation*}
+\begin{split}
+E(Y^{a})=\sum_{l}E(Y^a|L=l)P(L=l) \\
+=\sum_{l}E(Y^a|A=a, L=l)P(L=l)=\sum_{l}E(Y|A=a, L=l)P(L=l), 
+\end{split}
+\end{equation*}
+where the second equality is by conditional exchangeability and positivity, and the third by consistency. 
+
+- Second, we show $E(Y^a)=E\left( \frac{I(A=a)}{f(A|L)}Y \right)$ under positivity, conditional exchangeability, and consistency. 
+
+\begin{equation*}
+\begin{split}
+E\left(\frac{I(A=a)}{f(A|L)}Y\right)= E\left( \frac{I(A=a)}{f(A|L)}Y^a \right)=E\left(  E\left(\frac{I(A=a)}{f(A|L)}Y^{a}|L\right) \right) \\
+= E\left(E\left(\frac{I(A=a)}{f(A|L)}|L\right)E\left(Y^a|L\right) \right)=E\left(1\times E\left(Y^{a}|L\right)  \right)=E(Y^a),
+\end{split}
+\end{equation*}
+where the first equality is by consistency, the third by conditional exchangeability. Furthermore, we need positivity to well define the IP weights. 
 
 
 
