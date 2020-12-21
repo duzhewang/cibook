@@ -1,0 +1,221 @@
+# 12. IP weighting and marginal structural models {-} 
+
+## Concepts and points{-}
+
+- Confounder
+
+- Estimating IP weights via modeling 
+
+
+
+
+
+
+
+
+
+
+
+
+## Real data analysis{-}
+
+### Background{-}
+- NHEFS data (National Health and Nutrition Examination Survey Data I Epidemiologic Follow-up Study)
+- Goal: estimate the effect of smoking cessation on weight gain 
+- $A=1$: if cigarette smokers reported having quit smoking before the follow-up visit
+- $Y$: the body weight at the follow-up visit minus the body weight at the baseline visit
+- $E(Y^{a=1})$: mean weight gain that would have been observed if all individuals in the population had quit smoking before the follow-up visit
+- $E(Y^{a=0})$: mean weight gain that would have been observed if all individuals in the population had not quit smoking
+- Average causal effect: $E(Y^{a=1})-E(Y^{a=0})$
+
+### Program 12.1 {-}
+
+```{r}
+library(here) # for path 
+library(readxl) # for reafing excel files 
+library(tidyverse)
+library(hrbrthemes)
+library(viridis)
+# copy from https://www.r-graph-gallery.com/89-box-and-scatter-plot-with-ggplot2.html
+```
+
+#### Input dataset{-}
+
+```{r}
+nhefs=read_excel(here("data", "NHEFS.xls"))
+head(nhefs)
+```
+
+#### Ignore subjects with missing values for weight in 1982{-} 
+- ```wt82```: weight in 1982
+- ```qsmk```: quit smoking between 1st questionnaire and 1982 (Yes:1; No:0)
+
+```{r}
+nhefs.nmv=nhefs[which(!is.na(nhefs$wt82)), ]
+nhefs.nmv$qsmk=as.factor(nhefs.nmv$qsmk)
+```
+
+
+#### Compare the treatment group and the control group{-} 
+- ```age```
+```{r}
+summary(nhefs.nmv[which(nhefs.nmv$qsmk==0), ]$age)
+summary(nhefs.nmv[which(nhefs.nmv$qsmk==1), ]$age)
+
+nhefs.nmv %>% ggplot( aes(x=qsmk, y=age, fill=qsmk)) +
+      geom_boxplot()+ 
+      scale_fill_viridis(discrete = TRUE, alpha=0.6) +
+      geom_jitter(color="black", size=0.4, alpha=0.9) +
+      theme_ipsum() +
+      theme(legend.position="none", plot.title = element_text(size=11)) +
+      ggtitle("Boxplot") +
+      xlab("qsmk")
+```
+
+- ```wt71```
+
+```{r}
+summary(nhefs.nmv[which(nhefs.nmv$qsmk==0), ]$wt71)
+summary(nhefs.nmv[which(nhefs.nmv$qsmk==1), ]$wt71)
+
+
+nhefs.nmv %>% ggplot( aes(x=qsmk, y=wt71, fill=qsmk)) +
+      geom_boxplot()+ 
+      scale_fill_viridis(discrete = TRUE, alpha=0.6) +
+      geom_jitter(color="black", size=0.4, alpha=0.9) +
+      theme_ipsum() +
+      theme(legend.position="none", plot.title = element_text(size=11)) +
+      ggtitle("Boxplot") +
+      xlab("qsmk")
+
+
+
+
+
+```
+
+- ```smokeintensity```: number of cigarettes smoked per day in 1971
+    
+```{r}
+
+summary(nhefs.nmv[which(nhefs.nmv$qsmk==0), ]$smokeintensity)
+summary(nhefs.nmv[which(nhefs.nmv$qsmk==1), ]$smokeintensity)
+
+
+nhefs.nmv %>% ggplot( aes(x=qsmk, y=smokeintensity, fill=qsmk)) +
+      geom_boxplot()+ 
+      scale_fill_viridis(discrete = TRUE, alpha=0.6) +
+      geom_jitter(color="black", size=0.4, alpha=0.9) +
+      theme_ipsum() +
+      theme(legend.position="none", plot.title = element_text(size=11)) +
+      ggtitle("Boxplot") +
+      xlab("qsmk")
+
+
+
+
+
+
+
+```  
+
+- ```smokeyrs```: years of smoking 
+```{r}
+summary(nhefs.nmv[which(nhefs.nmv$qsmk==0), ]$smokeyrs)
+summary(nhefs.nmv[which(nhefs.nmv$qsmk==1), ]$smokeyrs)
+
+
+nhefs.nmv %>% ggplot( aes(x=qsmk, y=smokeyrs, fill=qsmk)) +
+      geom_boxplot()+ 
+      scale_fill_viridis(discrete = TRUE, alpha=0.6) +
+      geom_jitter(color="black", size=0.4, alpha=0.9) +
+      theme_ipsum() +
+      theme(legend.position="none", plot.title = element_text(size=11)) +
+      ggtitle("Boxplot") +
+      xlab("qsmk")
+
+```   
+   
+- sex
+
+```{r}
+table(nhefs.nmv$qsmk, nhefs.nmv$sex)
+
+prop.table(table(nhefs.nmv$qsmk, nhefs.nmv$sex), margin=1) # row-wise
+
+nhefs.nmv$sex=as.factor(nhefs.nmv$sex)
+nhefs.nmv%>%ggplot(aes(x = qsmk, fill = sex)) + 
+  geom_bar(position = "dodge")
+
+
+
+```
+
+
+- race: 0 if white, 1 if black or other in 1971
+
+```{r}
+table(nhefs.nmv$qsmk, nhefs.nmv$race)
+
+prop.table(table(nhefs.nmv$qsmk, nhefs.nmv$race), margin=1) # row-wise
+
+nhefs.nmv$race=as.factor(nhefs.nmv$race)
+nhefs.nmv%>%ggplot(aes(x = qsmk, fill = race)) + 
+  geom_bar(position = "dodge")
+
+
+
+```
+
+- education (AMOUNT OF EDUCATION BY 1971): 1 if 8TH GRADE OR LESS, 2 if HS DROPOUT, 3 if HS, 4 if COLLEGE DROPOUT, 5 if COLLEGE OR MORE
+
+```{r}
+table(nhefs.nmv$qsmk, nhefs.nmv$education)
+
+prop.table(table(nhefs.nmv$qsmk, nhefs.nmv$education), margin=1) # row-wise
+
+nhefs.nmv$education=as.factor(nhefs.nmv$education)
+nhefs.nmv%>%ggplot(aes(x = qsmk, fill = education)) + 
+  geom_bar(position = "dodge")
+
+
+
+```
+
+
+- exercise: 0 if much exercise,1 if moderate exercise,2 if little or no exercise
+
+```{r}
+table(nhefs.nmv$qsmk, nhefs.nmv$exercise)
+
+prop.table(table(nhefs.nmv$qsmk, nhefs.nmv$exercise), margin=1) # row-wise
+
+nhefs.nmv$exercise=as.factor(nhefs.nmv$exercise)
+nhefs.nmv%>%ggplot(aes(x = qsmk, fill = exercise)) + 
+  geom_bar(position = "dodge")
+
+
+
+```
+
+- active: 0 if very active, 1 if moderately active, 2 if inactive
+
+```{r}
+table(nhefs.nmv$qsmk, nhefs.nmv$active)
+
+prop.table(table(nhefs.nmv$qsmk, nhefs.nmv$active), margin=1) # row-wise
+
+nhefs.nmv$active=as.factor(nhefs.nmv$active)
+nhefs.nmv%>%ggplot(aes(x = qsmk, fill = active)) + 
+  geom_bar(position = "dodge")
+
+
+
+```
+
+
+
+
+
+
+

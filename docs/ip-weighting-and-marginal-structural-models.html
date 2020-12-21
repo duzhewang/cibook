@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>12. IP weighting and marginal structural models | R code for causal inference book</title>
+  <meta name="description" content="12. IP weighting and marginal structural models | R code for causal inference book" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="12. IP weighting and marginal structural models | R code for causal inference book" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="12. IP weighting and marginal structural models | R code for causal inference book" />
+  
+  
+  
+
+<meta name="author" content="Duzhe Wang" />
+
+
+<meta name="date" content="2020-12-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="why-model.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">R code for causal inference book</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html"><i class="fa fa-check"></i>11. Why model?</a><ul>
+<li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#some-concepts-and-points"><i class="fa fa-check"></i>Some concepts and points</a></li>
+<li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#program-11.1"><i class="fa fa-check"></i>Program 11.1</a></li>
+<li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#program-11.2"><i class="fa fa-check"></i>Program 11.2</a></li>
+<li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#program-11.3"><i class="fa fa-check"></i>Program 11.3</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html"><i class="fa fa-check"></i>12. IP weighting and marginal structural models</a><ul>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#concepts-and-points"><i class="fa fa-check"></i>Concepts and points</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#real-data-analysis"><i class="fa fa-check"></i>Real data analysis</a><ul>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#background"><i class="fa fa-check"></i>Background</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#program-12.1"><i class="fa fa-check"></i>Program 12.1</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R code for causal inference book</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ip-weighting-and-marginal-structural-models" class="section level1 unnumbered">
+<h1>12. IP weighting and marginal structural models</h1>
+<div id="concepts-and-points" class="section level2 unnumbered">
+<h2>Concepts and points</h2>
+<ul>
+<li>Confounder</li>
+</ul>
+</div>
+<div id="real-data-analysis" class="section level2 unnumbered">
+<h2>Real data analysis</h2>
+<div id="background" class="section level3 unnumbered">
+<h3>Background</h3>
+<ul>
+<li>NHEFS data (National Health and Nutrition Examination Survey Data I Epidemiologic Follow-up Study)</li>
+<li>Goal: estimate the effect of smoking cessation on weight gain</li>
+<li><span class="math inline">\(A=1\)</span>: if cigarette smokers reported having quit smoking before the follow-up visit</li>
+<li><span class="math inline">\(Y\)</span>: the body weight at the follow-up visit minus the body weight at the baseline visit</li>
+<li><span class="math inline">\(E(Y^{a=1})\)</span>: mean weight gain that would have been observed if all individuals in the population had quit smoking before the follow-up visit</li>
+<li><span class="math inline">\(E(Y^{a=0})\)</span>: mean weight gain that would have been observed if all individuals in the population had not quit smoking</li>
+<li>Average causal effect: <span class="math inline">\(E(Y^{a=1})-E(Y^{a=0})\)</span></li>
+</ul>
+</div>
+<div id="program-12.1" class="section level3 unnumbered">
+<h3>Program 12.1</h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">library</span>(here) <span class="co"># for path </span></a>
+<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw">library</span>(readxl) <span class="co"># for reafing excel files </span></a>
+<a class="sourceLine" id="cb26-3" data-line-number="3"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb26-4" data-line-number="4"><span class="kw">library</span>(hrbrthemes)</a>
+<a class="sourceLine" id="cb26-5" data-line-number="5"><span class="kw">library</span>(viridis)</a>
+<a class="sourceLine" id="cb26-6" data-line-number="6"><span class="co"># copy from https://www.r-graph-gallery.com/89-box-and-scatter-plot-with-ggplot2.html</span></a></code></pre></div>
+<div id="input-dataset" class="section level4 unnumbered">
+<h4>Input dataset</h4>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">nhefs=<span class="kw">read_excel</span>(<span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;NHEFS.xls&quot;</span>))</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw">head</span>(nhefs)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 64
+##    seqn  qsmk death yrdth modth dadth   sbp   dbp   sex   age  race income marital school education    ht
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
+## 1   233     0     0    NA    NA    NA   175    96     0    42     1     19       2      7         1  174.
+## 2   235     0     0    NA    NA    NA   123    80     0    36     0     18       2      9         2  159.
+## 3   244     0     0    NA    NA    NA   115    75     1    56     1     15       3     11         2  168.
+## 4   245     0     1    85     2    14   148    78     0    68     1     15       3      5         1  170.
+## 5   252     0     0    NA    NA    NA   118    77     0    40     0     18       2     11         2  182.
+## 6   257     0     0    NA    NA    NA   141    83     1    43     1     11       4      9         2  162.
+## # … with 48 more variables: wt71 &lt;dbl&gt;, wt82 &lt;dbl&gt;, wt82_71 &lt;dbl&gt;, birthplace &lt;dbl&gt;, smokeintensity &lt;dbl&gt;,
+## #   smkintensity82_71 &lt;dbl&gt;, smokeyrs &lt;dbl&gt;, asthma &lt;dbl&gt;, bronch &lt;dbl&gt;, tb &lt;dbl&gt;, hf &lt;dbl&gt;, hbp &lt;dbl&gt;,
+## #   pepticulcer &lt;dbl&gt;, colitis &lt;dbl&gt;, hepatitis &lt;dbl&gt;, chroniccough &lt;dbl&gt;, hayfever &lt;dbl&gt;, diabetes &lt;dbl&gt;,
+## #   polio &lt;dbl&gt;, tumor &lt;dbl&gt;, nervousbreak &lt;dbl&gt;, alcoholpy &lt;dbl&gt;, alcoholfreq &lt;dbl&gt;, alcoholtype &lt;dbl&gt;,
+## #   alcoholhowmuch &lt;dbl&gt;, pica &lt;dbl&gt;, headache &lt;dbl&gt;, otherpain &lt;dbl&gt;, weakheart &lt;dbl&gt;, allergies &lt;dbl&gt;,
+## #   nerves &lt;dbl&gt;, lackpep &lt;dbl&gt;, hbpmed &lt;dbl&gt;, boweltrouble &lt;dbl&gt;, wtloss &lt;dbl&gt;, infection &lt;dbl&gt;,
+## #   active &lt;dbl&gt;, exercise &lt;dbl&gt;, birthcontrol &lt;dbl&gt;, pregnancies &lt;dbl&gt;, cholesterol &lt;dbl&gt;, hightax82 &lt;dbl&gt;,
+## #   price71 &lt;dbl&gt;, price82 &lt;dbl&gt;, tax71 &lt;dbl&gt;, tax82 &lt;dbl&gt;, price71_82 &lt;dbl&gt;, tax71_82 &lt;dbl&gt;</code></pre>
+</div>
+<div id="ignore-subjects-with-missing-values-for-weight-in-1982" class="section level4 unnumbered">
+<h4>Ignore subjects with missing values for weight in 1982</h4>
+<ul>
+<li><code>wt82</code>: weight in 1982</li>
+<li><code>qsmk</code>: quit smoking between 1st questionnaire and 1982 (Yes:1; No:0)</li>
+</ul>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">nhefs.nmv=nhefs[<span class="kw">which</span>(<span class="op">!</span><span class="kw">is.na</span>(nhefs<span class="op">$</span>wt82)), ]</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">nhefs.nmv<span class="op">$</span>qsmk=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>qsmk)</a></code></pre></div>
+</div>
+<div id="compare-the-treatment-group-and-the-control-group" class="section level4 unnumbered">
+<h4>Compare the treatment group and the control group</h4>
+<ul>
+<li><code>age</code></li>
+</ul>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">summary</span>(nhefs.nmv[<span class="kw">which</span>(nhefs.nmv<span class="op">$</span>qsmk<span class="op">==</span><span class="dv">0</span>), ]<span class="op">$</span>age)</a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   25.00   33.00   42.00   42.79   51.00   72.00</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">summary</span>(nhefs.nmv[<span class="kw">which</span>(nhefs.nmv<span class="op">$</span>qsmk<span class="op">==</span><span class="dv">1</span>), ]<span class="op">$</span>age)</a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   25.00   35.00   46.00   46.17   56.00   74.00</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">nhefs.nmv <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>( <span class="kw">aes</span>(<span class="dt">x=</span>qsmk, <span class="dt">y=</span>age, <span class="dt">fill=</span>qsmk)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="st">      </span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="st">      </span><span class="kw">scale_fill_viridis</span>(<span class="dt">discrete =</span> <span class="ot">TRUE</span>, <span class="dt">alpha=</span><span class="fl">0.6</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="st">      </span><span class="kw">geom_jitter</span>(<span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">size=</span><span class="fl">0.4</span>, <span class="dt">alpha=</span><span class="fl">0.9</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb34-5" data-line-number="5"><span class="st">      </span><span class="kw">theme_ipsum</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb34-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb34-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb34-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<ul>
+<li><code>wt71</code></li>
+</ul>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">summary</span>(nhefs.nmv[<span class="kw">which</span>(nhefs.nmv<span class="op">$</span>qsmk<span class="op">==</span><span class="dv">0</span>), ]<span class="op">$</span>wt71)</a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   40.82   59.19   68.49   70.30   79.38  151.73</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">summary</span>(nhefs.nmv[<span class="kw">which</span>(nhefs.nmv<span class="op">$</span>qsmk<span class="op">==</span><span class="dv">1</span>), ]<span class="op">$</span>wt71)</a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   39.58   60.67   71.21   72.35   81.08  136.98</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">nhefs.nmv <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>( <span class="kw">aes</span>(<span class="dt">x=</span>qsmk, <span class="dt">y=</span>wt71, <span class="dt">fill=</span>qsmk)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="st">      </span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="st">      </span><span class="kw">scale_fill_viridis</span>(<span class="dt">discrete =</span> <span class="ot">TRUE</span>, <span class="dt">alpha=</span><span class="fl">0.6</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="st">      </span><span class="kw">geom_jitter</span>(<span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">size=</span><span class="fl">0.4</span>, <span class="dt">alpha=</span><span class="fl">0.9</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-5" data-line-number="5"><span class="st">      </span><span class="kw">theme_ipsum</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb39-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<ul>
+<li><code>smokeintensity</code>: number of cigarettes smoked per day in 1971</li>
+</ul>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw">summary</span>(nhefs.nmv[<span class="kw">which</span>(nhefs.nmv<span class="op">$</span>qsmk<span class="op">==</span><span class="dv">0</span>), ]<span class="op">$</span>smokeintensity)</a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.00   15.00   20.00   21.19   30.00   60.00</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw">summary</span>(nhefs.nmv[<span class="kw">which</span>(nhefs.nmv<span class="op">$</span>qsmk<span class="op">==</span><span class="dv">1</span>), ]<span class="op">$</span>smokeintensity)</a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##     1.0    10.0    20.0    18.6    25.0    80.0</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">nhefs.nmv <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>( <span class="kw">aes</span>(<span class="dt">x=</span>qsmk, <span class="dt">y=</span>smokeintensity, <span class="dt">fill=</span>qsmk)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb44-2" data-line-number="2"><span class="st">      </span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb44-3" data-line-number="3"><span class="st">      </span><span class="kw">scale_fill_viridis</span>(<span class="dt">discrete =</span> <span class="ot">TRUE</span>, <span class="dt">alpha=</span><span class="fl">0.6</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb44-4" data-line-number="4"><span class="st">      </span><span class="kw">geom_jitter</span>(<span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">size=</span><span class="fl">0.4</span>, <span class="dt">alpha=</span><span class="fl">0.9</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb44-5" data-line-number="5"><span class="st">      </span><span class="kw">theme_ipsum</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb44-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb44-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb44-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<ul>
+<li><code>smokeyrs</code>: years of smoking</li>
+</ul>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">summary</span>(nhefs.nmv[<span class="kw">which</span>(nhefs.nmv<span class="op">$</span>qsmk<span class="op">==</span><span class="dv">0</span>), ]<span class="op">$</span>smokeyrs)</a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.00   15.00   23.00   24.09   32.00   64.00</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">summary</span>(nhefs.nmv[<span class="kw">which</span>(nhefs.nmv<span class="op">$</span>qsmk<span class="op">==</span><span class="dv">1</span>), ]<span class="op">$</span>smokeyrs)</a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.00   15.00   26.00   26.03   35.00   60.00</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">nhefs.nmv <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>( <span class="kw">aes</span>(<span class="dt">x=</span>qsmk, <span class="dt">y=</span>smokeyrs, <span class="dt">fill=</span>qsmk)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="st">      </span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb49-3" data-line-number="3"><span class="st">      </span><span class="kw">scale_fill_viridis</span>(<span class="dt">discrete =</span> <span class="ot">TRUE</span>, <span class="dt">alpha=</span><span class="fl">0.6</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb49-4" data-line-number="4"><span class="st">      </span><span class="kw">geom_jitter</span>(<span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">size=</span><span class="fl">0.4</span>, <span class="dt">alpha=</span><span class="fl">0.9</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb49-5" data-line-number="5"><span class="st">      </span><span class="kw">theme_ipsum</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb49-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb49-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb49-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<ul>
+<li>sex</li>
+</ul>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">table</span>(nhefs.nmv<span class="op">$</span>qsmk, nhefs.nmv<span class="op">$</span>sex)</a></code></pre></div>
+<pre><code>##    
+##       0   1
+##   0 542 621
+##   1 220 183</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(nhefs.nmv<span class="op">$</span>qsmk, nhefs.nmv<span class="op">$</span>sex), <span class="dt">margin=</span><span class="dv">1</span>) <span class="co"># row-wise</span></a></code></pre></div>
+<pre><code>##    
+##             0         1
+##   0 0.4660361 0.5339639
+##   1 0.5459057 0.4540943</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">nhefs.nmv<span class="op">$</span>sex=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>sex)</a>
+<a class="sourceLine" id="cb54-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> sex)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb54-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<ul>
+<li>race: 0 if white, 1 if black or other in 1971</li>
+</ul>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">table</span>(nhefs.nmv<span class="op">$</span>qsmk, nhefs.nmv<span class="op">$</span>race)</a></code></pre></div>
+<pre><code>##    
+##       0   1
+##   0 993 170
+##   1 367  36</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(nhefs.nmv<span class="op">$</span>qsmk, nhefs.nmv<span class="op">$</span>race), <span class="dt">margin=</span><span class="dv">1</span>) <span class="co"># row-wise</span></a></code></pre></div>
+<pre><code>##    
+##              0          1
+##   0 0.85382631 0.14617369
+##   1 0.91066998 0.08933002</code></pre>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">nhefs.nmv<span class="op">$</span>race=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>race)</a>
+<a class="sourceLine" id="cb59-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> race)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb59-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<ul>
+<li>education (AMOUNT OF EDUCATION BY 1971): 1 if 8TH GRADE OR LESS, 2 if HS DROPOUT, 3 if HS, 4 if COLLEGE DROPOUT, 5 if COLLEGE OR MORE</li>
+</ul>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">table</span>(nhefs.nmv<span class="op">$</span>qsmk, nhefs.nmv<span class="op">$</span>education)</a></code></pre></div>
+<pre><code>##    
+##       1   2   3   4   5
+##   0 210 266 480  92 115
+##   1  81  74 157  29  62</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(nhefs.nmv<span class="op">$</span>qsmk, nhefs.nmv<span class="op">$</span>education), <span class="dt">margin=</span><span class="dv">1</span>) <span class="co"># row-wise</span></a></code></pre></div>
+<pre><code>##    
+##              1          2          3          4          5
+##   0 0.18056750 0.22871883 0.41272571 0.07910576 0.09888220
+##   1 0.20099256 0.18362283 0.38957816 0.07196030 0.15384615</code></pre>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">nhefs.nmv<span class="op">$</span>education=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>education)</a>
+<a class="sourceLine" id="cb64-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> education)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb64-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<ul>
+<li>exercise: 0 if much exercise,1 if moderate exercise,2 if little or no exercise</li>
+</ul>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="kw">table</span>(nhefs.nmv<span class="op">$</span>qsmk, nhefs.nmv<span class="op">$</span>exercise)</a></code></pre></div>
+<pre><code>##    
+##       0   1   2
+##   0 237 485 441
+##   1  63 176 164</code></pre>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(nhefs.nmv<span class="op">$</span>qsmk, nhefs.nmv<span class="op">$</span>exercise), <span class="dt">margin=</span><span class="dv">1</span>) <span class="co"># row-wise</span></a></code></pre></div>
+<pre><code>##    
+##             0         1         2
+##   0 0.2037833 0.4170249 0.3791917
+##   1 0.1563275 0.4367246 0.4069479</code></pre>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1">nhefs.nmv<span class="op">$</span>exercise=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>exercise)</a>
+<a class="sourceLine" id="cb69-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> exercise)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb69-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<ul>
+<li>active: 0 if very active, 1 if moderately active, 2 if inactive</li>
+</ul>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1"><span class="kw">table</span>(nhefs.nmv<span class="op">$</span>qsmk, nhefs.nmv<span class="op">$</span>active)</a></code></pre></div>
+<pre><code>##    
+##       0   1   2
+##   0 532 527 104
+##   1 170 188  45</code></pre>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(nhefs.nmv<span class="op">$</span>qsmk, nhefs.nmv<span class="op">$</span>active), <span class="dt">margin=</span><span class="dv">1</span>) <span class="co"># row-wise</span></a></code></pre></div>
+<pre><code>##    
+##             0         1         2
+##   0 0.4574377 0.4531384 0.0894239
+##   1 0.4218362 0.4665012 0.1116625</code></pre>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1">nhefs.nmv<span class="op">$</span>active=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>active)</a>
+<a class="sourceLine" id="cb74-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> active)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb74-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="why-model.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/duzhewang/cibook/edit/master/12-IPW-MSM.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/duzhewang/cibook/blob/master/12-IPW-MSM.Rmd",
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
