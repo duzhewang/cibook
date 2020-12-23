@@ -24,7 +24,7 @@
 <meta name="author" content="Duzhe Wang" />
 
 
-<meta name="date" content="2020-12-22" />
+<meta name="date" content="2020-12-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -194,15 +194,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">A&lt;-<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">8</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>))</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">Y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">150</span>, <span class="dv">220</span>, <span class="dv">110</span>, <span class="dv">50</span>, <span class="dv">180</span>, <span class="dv">90</span>, <span class="dv">170</span>, <span class="dv">170</span>, <span class="dv">30</span>, <span class="dv">70</span>, <span class="dv">110</span>, <span class="dv">80</span>, <span class="dv">50</span>, <span class="dv">10</span>, <span class="dv">20</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">plot</span>(A, Y, <span class="dt">pch=</span><span class="dv">16</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-1-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-27-1.png" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">mean</span>(Y[A <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</a></code></pre></div>
 <pre><code>## [1] 67.5</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">mean</span>(Y[A <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
-<pre><code>## [1] 146.25</code></pre>
+<pre><code>## [1] 146.2</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">A2&lt;-<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">4</span>,<span class="dv">4</span>))</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">Y2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">110</span>, <span class="dv">80</span>, <span class="dv">50</span>, <span class="dv">40</span>, <span class="dv">170</span>, <span class="dv">30</span>, <span class="dv">70</span>, <span class="dv">50</span>, <span class="dv">110</span>, <span class="dv">50</span>, <span class="dv">180</span>, <span class="dv">130</span>, <span class="dv">200</span>, <span class="dv">150</span>, <span class="dv">220</span>, <span class="dv">210</span>)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">plot</span>(A2, Y2, <span class="dt">pch=</span><span class="dv">16</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-28-1.png" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
 <pre><code>## [1] 70</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre></div>
@@ -221,54 +221,54 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">A3 &lt;-<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">11</span>, <span class="dv">17</span>, <span class="dv">23</span>, <span class="dv">29</span>, <span class="dv">37</span>, <span class="dv">41</span>, <span class="dv">53</span>, <span class="dv">67</span>, <span class="dv">79</span>, <span class="dv">83</span>, <span class="dv">97</span>, <span class="dv">60</span>, <span class="dv">71</span>, <span class="dv">15</span>, <span class="dv">45</span>)</a>
 <a class="sourceLine" id="cb15-2" data-line-number="2">Y3 &lt;-<span class="kw">c</span>(<span class="dv">21</span>, <span class="dv">54</span>, <span class="dv">33</span>, <span class="dv">101</span>, <span class="dv">85</span>, <span class="dv">65</span>, <span class="dv">157</span>, <span class="dv">120</span>, <span class="dv">111</span>, <span class="dv">200</span>, <span class="dv">140</span>, <span class="dv">220</span>, <span class="dv">230</span>, <span class="dv">217</span>, <span class="dv">11</span>, <span class="dv">190</span>)</a>
 <a class="sourceLine" id="cb15-3" data-line-number="3"><span class="kw">plot</span>(Y3 <span class="op">~</span><span class="st"> </span>A3, <span class="dt">pch=</span><span class="dv">16</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-29-1.png" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">glm</span>(Y3 <span class="op">~</span><span class="st"> </span>A3))</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Y3 ~ A3)
 ## 
 ## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -61.930  -30.564   -5.741   30.653   77.225  
+##    Min      1Q  Median      3Q     Max  
+## -61.93  -30.56   -5.74   30.65   77.22  
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  24.5464    21.3300   1.151 0.269094    
-## A3            2.1372     0.3997   5.347 0.000103 ***
+## (Intercept)    24.55      21.33    1.15   0.2691    
+## A3              2.14       0.40    5.35   0.0001 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## (Dispersion parameter for gaussian family taken to be 1944.109)
+## (Dispersion parameter for gaussian family taken to be 1944)
 ## 
 ##     Null deviance: 82800  on 15  degrees of freedom
 ## Residual deviance: 27218  on 14  degrees of freedom
-## AIC: 170.43
+## AIC: 170.4
 ## 
 ## Number of Fisher Scoring iterations: 2</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">predict</span>(<span class="kw">glm</span>(Y3 <span class="op">~</span><span class="st"> </span>A3), <span class="kw">data.frame</span>(<span class="dt">A3 =</span> <span class="dv">90</span>))</a></code></pre></div>
-<pre><code>##      1 
-## 216.89</code></pre>
+<pre><code>##     1 
+## 216.9</code></pre>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">glm</span>(Y <span class="op">~</span><span class="st"> </span>A))</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = Y ~ A)
 ## 
 ## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -96.250  -40.000    3.125   35.938  102.500  
+##    Min      1Q  Median      3Q     Max  
+## -96.25  -40.00    3.12   35.94  102.50  
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)   
-## (Intercept)    67.50      19.72   3.424  0.00412 **
-## A              78.75      27.88   2.824  0.01352 * 
+## (Intercept)     67.5       19.7    3.42   0.0041 **
+## A               78.8       27.9    2.82   0.0135 * 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## (Dispersion parameter for gaussian family taken to be 3109.821)
+## (Dispersion parameter for gaussian family taken to be 3110)
 ## 
 ##     Null deviance: 68344  on 15  degrees of freedom
 ## Residual deviance: 43538  on 14  degrees of freedom
-## AIC: 177.95
+## AIC: 177.9
 ## 
 ## Number of Fisher Scoring iterations: 2</code></pre>
 </div>
@@ -287,26 +287,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Deviance Residuals: 
 ##    Min      1Q  Median      3Q     Max  
-## -65.27  -34.41   13.21   26.11   64.36  
+##  -65.3   -34.4    13.2    26.1    64.4  
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)  
-## (Intercept) -7.40688   31.74777  -0.233   0.8192  
-## A3           4.10723    1.53088   2.683   0.0188 *
-## Asq         -0.02038    0.01532  -1.331   0.2062  
+## (Intercept)  -7.4069    31.7478   -0.23    0.819  
+## A3            4.1072     1.5309    2.68    0.019 *
+## Asq          -0.0204     0.0153   -1.33    0.206  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## (Dispersion parameter for gaussian family taken to be 1842.697)
+## (Dispersion parameter for gaussian family taken to be 1843)
 ## 
 ##     Null deviance: 82800  on 15  degrees of freedom
 ## Residual deviance: 23955  on 13  degrees of freedom
-## AIC: 170.39
+## AIC: 170.4
 ## 
 ## Number of Fisher Scoring iterations: 2</code></pre>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">predict</span>(mod3, <span class="kw">data.frame</span>(<span class="kw">cbind</span>(<span class="dt">A3 =</span> <span class="dv">90</span>, <span class="dt">Asq =</span> <span class="dv">8100</span>)))</a></code></pre></div>
-<pre><code>##        1 
-## 197.1269</code></pre>
+<pre><code>##     1 
+## 197.1</code></pre>
 
 </div>
 </div>
