@@ -24,7 +24,7 @@
 <meta name="author" content="Duzhe Wang" />
 
 
-<meta name="date" content="2020-12-21" />
+<meta name="date" content="2020-12-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -144,6 +144,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#definition"><i class="fa fa-check"></i>Definition</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#equivalence-of-ip-weighting-and-standardization"><i class="fa fa-check"></i>Equivalence of IP weighting and standardization</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#equivalence-of-potential-outcome-mean-standardized-mean-and-ip-weighted-mean"><i class="fa fa-check"></i>Equivalence of potential outcome mean, standardized mean and IP weighted mean</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#what-does-ip-weighting-mean"><i class="fa fa-check"></i>What does IP weighting mean?</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#horvitz-thompson-estimator-and-hajek-estimator"><i class="fa fa-check"></i>Horvitz-Thompson estimator and Hajek estimator</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#real-data-analysis"><i class="fa fa-check"></i>Real data analysis</a><ul>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#background"><i class="fa fa-check"></i>Background</a></li>
@@ -221,6 +223,22 @@ E\left(\frac{I(A=a)}{f(A|L)}Y\right)= E\left( \frac{I(A=a)}{f(A|L)}Y^a \right)=E
 \end{split}
 \end{equation*}\]</span>
 where the first equality is by consistency, the third by conditional exchangeability. Furthermore, we need positivity to well define the IP weights.</p>
+</div>
+<div id="what-does-ip-weighting-mean" class="section level3 unnumbered">
+<h3>What does IP weighting mean?</h3>
+<p>IP weighting creates a pseudo-population in which the arrow from the covariates <span class="math inline">\(L\)</span> to the treatment <span class="math inline">\(A\)</span> is removed. The pseudo-population has the following two properties:
+- <span class="math inline">\(A\)</span> and <span class="math inline">\(L\)</span> are statistically independent
+- the mean <span class="math inline">\(E_{ps}(Y|A=a)\)</span> in the pseudo-population equals the standardized mean <span class="math inline">\(\sum_{l}E(Y|A=a, L=l)P(L=l)\)</span> in the actual population under positivity</p>
+</div>
+<div id="horvitz-thompson-estimator-and-hajek-estimator" class="section level3 unnumbered">
+<h3>Horvitz-Thompson estimator and Hajek estimator</h3>
+<ul>
+<li>The IP weighted mean can be consistently estimated by Horvitz-Thompson estimator <span class="math inline">\(\widehat{E}(\frac{I(A=a)}{f(A|L)}Y)\)</span></li>
+</ul>
+<p>or</p>
+<ul>
+<li>the Hajek estimator <span class="math inline">\(\frac{\widehat{E}(\frac{I(A=a)}{f(A|L)}Y)}{\widehat{E}(\frac{I(A=a)}{f(A|L)})}\)</span>, which is an unbiased estimator of <span class="math inline">\(\frac{E(\frac{I(A=a)}{f(A|L)}Y)}{E(\frac{I(A=a)}{f(A|L)})}\)</span>. Note under positivity, <span class="math inline">\(\frac{E(\frac{I(A=a)}{f(A|L)}Y)}{E(\frac{I(A=a)}{f(A|L)})}=E(\frac{I(A=a)}{f(A|L)}Y)\)</span>. In practice, the Hajek estimator is preferred because it is guaranteed to lie between 0 and 1 for dichotomous <span class="math inline">\(Y\)</span>.</li>
+</ul>
 </div>
 </div>
 <div id="real-data-analysis" class="section level2 unnumbered">
@@ -435,6 +453,13 @@ where the first equality is by consistency, the third by conditional exchangeabi
 <a class="sourceLine" id="cb74-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> active)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb74-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+<div id="estimating-ip-weights-via-modeling-1" class="section level4 unnumbered">
+<h4>Estimating IP weights via modeling</h4>
+<ul>
+<li>Step 1: Estimate <span class="math inline">\(f(A|L)\)</span> by logistic regression and let <span class="math inline">\(\widehat{W}_i=\frac{1}{\widehat{P}(A|L)}\)</span></li>
+<li>Step 2:</li>
+</ul>
 
 </div>
 </div>

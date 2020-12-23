@@ -45,13 +45,19 @@ E\left(\frac{I(A=a)}{f(A|L)}Y\right)= E\left( \frac{I(A=a)}{f(A|L)}Y^a \right)=E
 \end{equation*}
 where the first equality is by consistency, the third by conditional exchangeability. Furthermore, we need positivity to well define the IP weights. 
 
+### What does IP weighting mean? {-}
 
+IP weighting creates a pseudo-population in which the arrow from the covariates $L$ to the treatment $A$ is removed. The pseudo-population has the following two properties:
+- $A$ and $L$ are statistically independent
+- the mean $E_{ps}(Y|A=a)$ in the pseudo-population equals the standardized mean $\sum_{l}E(Y|A=a, L=l)P(L=l)$ in the actual population under positivity
 
+### Horvitz-Thompson estimator and Hajek estimator{-}
 
+- The IP weighted mean can be consistently estimated by Horvitz-Thompson estimator $\widehat{E}(\frac{I(A=a)}{f(A|L)}Y)$
 
+or 
 
-
-
+- the Hajek estimator $\frac{\widehat{E}(\frac{I(A=a)}{f(A|L)}Y)}{\widehat{E}(\frac{I(A=a)}{f(A|L)})}$, which is an unbiased estimator of $\frac{E(\frac{I(A=a)}{f(A|L)}Y)}{E(\frac{I(A=a)}{f(A|L)})}$. Note under positivity, $\frac{E(\frac{I(A=a)}{f(A|L)}Y)}{E(\frac{I(A=a)}{f(A|L)})}=E(\frac{I(A=a)}{f(A|L)}Y)$. In practice, the Hajek estimator is preferred because it is guaranteed to lie between 0 and 1 for dichotomous $Y$. 
 
 
 
@@ -75,6 +81,7 @@ library(readxl) # for reafing excel files
 library(tidyverse)
 library(hrbrthemes)
 library(viridis)
+library(geepack) # for GEE
 # copy from https://www.r-graph-gallery.com/89-box-and-scatter-plot-with-ggplot2.html
 ```
 
@@ -251,6 +258,108 @@ nhefs.nmv%>%ggplot(aes(x = qsmk, fill = active)) +
 
 
 ```
+
+#### Estimating IP weights via modeling {-}
+
+- Step 1: Estimate $f(A|L)$ by logistic regression and let $\widehat{W}_i=\frac{1}{\widehat{P}(A|L)}$
+- Step 2: Estimate the IP weighted mean $E\left(\frac{I(A=a)}{f(A|L)}Y\right)$ by Hajek estimator $\frac{\sum_{i}\widehat{W}_iY_i}{\sum_{i}\widehat{W}_i}$, where the sum is over all subjects with $A_i=a$
+
+```{r}
+## run logistic regression
+logfit<-glm(
+  qsmk~sex+race+age+I(age^2)+education+smokeintensity+I(smokeintensity^2)+
+  smokeyrs+I(smokeyrs^2)+exercise+active+wt71+I(wt71^2), 
+  family=binomial(),
+  data=nhefs.nmv
+)
+
+summary(logfit)
+
+
+
+```
+
+
+```{r}
+## calculate estimated probability
+p.qsmk.obs=ifelse(nhefs.nmv$qsmk==0, 
+                  1-predict(logfit, type="response"), 
+                  predict(logfit, type="response")   ## this predicts the conditional probability of treatment 1
+                  )
+nhefs.nmv$ipw=1/p.qsmk.obs
+summary(nhefs.nmv$ipw)
+
+```
+
+```{r}
+## run weighted least squares 
+
+wls=geeglm(wt82_71~qsmk, 
+           data=nhefs.nmv,
+           weights=ipw,
+           id=seqn,
+           corstr = "independence"
+           )
+summary(wls)
+
+## build 95% confidence intervals for coefficients
+## use the robust variance estimator, see more details in page 152 of the book
+theta=coef(wls)
+se=coef(summary(wls))[,2]
+ci.lower=theta-qnorm(0.975)*se
+ci.upper=theta+qnorm(0.975)*se
+cbind(theta, ci.lower, ci.upper)
+
+```
+
+
+```{r}
+## estimate average causal effect
+
+## A=1
+y1=nhefs.nmv[nhefs.nmv$qsmk==1, ]$wt82_71
+w1=nhefs.nmv[nhefs.nmv$qsmk==1, ]$ipw
+
+## A=0
+y0=nhefs.nmv[nhefs.nmv$qsmk==0, ]$wt82_71
+w0=nhefs.nmv[nhefs.nmv$qsmk==0, ]$ipw
+
+ate=sum(y1*w1)/sum(w1)-sum(y0*w0)/sum(w0)
+
+ate
+
+```
+
+
+```{r}
+## association of sex and qsmk in the original population
+xtabs(~nhefs.nmv$sex+nhefs.nmv$qsmk)
+
+
+## no association between sex and qsmk in the pseudo-population
+
+xtabs(nhefs.nmv$ipw~nhefs.nmv$sex+nhefs.nmv$qsmk)
+
+```
+
+
+```{r}
+## check for positivity (white women)
+
+xtabs(~nhefs.nmv$age[nhefs.nmv$race==0&nhefs.nmv$sex==1]+
+       nhefs.nmv$qsmk[nhefs.nmv$race==0&nhefs.nmv$sex==1])
+
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
