@@ -24,7 +24,7 @@
 <meta name="author" content="Duzhe Wang" />
 
 
-<meta name="date" content="2020-12-23" />
+<meta name="date" content="2020-12-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -147,9 +147,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#what-does-ip-weighting-mean"><i class="fa fa-check"></i>What does IP weighting mean?</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#horvitz-thompson-estimator-and-hajek-estimator"><i class="fa fa-check"></i>Horvitz-Thompson estimator and Hajek estimator</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#stablized-ip-weights"><i class="fa fa-check"></i>Stablized IP weights</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#real-data-analysis"><i class="fa fa-check"></i>Real data analysis</a><ul>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#background"><i class="fa fa-check"></i>Background</a></li>
-<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#program-12.1"><i class="fa fa-check"></i>Program 12.1</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#input-dataset"><i class="fa fa-check"></i>Input dataset</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#ignore-subjects-with-missing-values-for-weight-in-1982"><i class="fa fa-check"></i>Ignore subjects with missing values for weight in 1982</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#compare-the-treatment-group-and-the-control-group"><i class="fa fa-check"></i>Compare the treatment group and the control group</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#estimating-ip-weights-via-modeling-1"><i class="fa fa-check"></i>Estimating IP weights via modeling</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#stablized-ip-weights-1"><i class="fa fa-check"></i>Stablized IP weights</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -194,21 +199,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">A&lt;-<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">8</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>))</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">Y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">150</span>, <span class="dv">220</span>, <span class="dv">110</span>, <span class="dv">50</span>, <span class="dv">180</span>, <span class="dv">90</span>, <span class="dv">170</span>, <span class="dv">170</span>, <span class="dv">30</span>, <span class="dv">70</span>, <span class="dv">110</span>, <span class="dv">80</span>, <span class="dv">50</span>, <span class="dv">10</span>, <span class="dv">20</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">plot</span>(A, Y, <span class="dt">pch=</span><span class="dv">16</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-27-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-1-1.png" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">mean</span>(Y[A <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</a></code></pre></div>
 <pre><code>## [1] 67.5</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">mean</span>(Y[A <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
-<pre><code>## [1] 146.2</code></pre>
+<pre><code>## [1] 146</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">A2&lt;-<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">4</span>,<span class="dv">4</span>))</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">Y2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">110</span>, <span class="dv">80</span>, <span class="dv">50</span>, <span class="dv">40</span>, <span class="dv">170</span>, <span class="dv">30</span>, <span class="dv">70</span>, <span class="dv">50</span>, <span class="dv">110</span>, <span class="dv">50</span>, <span class="dv">180</span>, <span class="dv">130</span>, <span class="dv">200</span>, <span class="dv">150</span>, <span class="dv">220</span>, <span class="dv">210</span>)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">plot</span>(A2, Y2, <span class="dt">pch=</span><span class="dv">16</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-28-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-1.png" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
 <pre><code>## [1] 70</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre></div>
 <pre><code>## [1] 80</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">3</span>])</a></code></pre></div>
-<pre><code>## [1] 117.5</code></pre>
+<pre><code>## [1] 118</code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">4</span>])</a></code></pre></div>
 <pre><code>## [1] 195</code></pre>
 </div>
@@ -221,7 +226,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">A3 &lt;-<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">11</span>, <span class="dv">17</span>, <span class="dv">23</span>, <span class="dv">29</span>, <span class="dv">37</span>, <span class="dv">41</span>, <span class="dv">53</span>, <span class="dv">67</span>, <span class="dv">79</span>, <span class="dv">83</span>, <span class="dv">97</span>, <span class="dv">60</span>, <span class="dv">71</span>, <span class="dv">15</span>, <span class="dv">45</span>)</a>
 <a class="sourceLine" id="cb15-2" data-line-number="2">Y3 &lt;-<span class="kw">c</span>(<span class="dv">21</span>, <span class="dv">54</span>, <span class="dv">33</span>, <span class="dv">101</span>, <span class="dv">85</span>, <span class="dv">65</span>, <span class="dv">157</span>, <span class="dv">120</span>, <span class="dv">111</span>, <span class="dv">200</span>, <span class="dv">140</span>, <span class="dv">220</span>, <span class="dv">230</span>, <span class="dv">217</span>, <span class="dv">11</span>, <span class="dv">190</span>)</a>
 <a class="sourceLine" id="cb15-3" data-line-number="3"><span class="kw">plot</span>(Y3 <span class="op">~</span><span class="st"> </span>A3, <span class="dt">pch=</span><span class="dv">16</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-29-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-1.png" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">glm</span>(Y3 <span class="op">~</span><span class="st"> </span>A3))</a></code></pre></div>
 <pre><code>## 
 ## Call:
@@ -246,8 +251,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Number of Fisher Scoring iterations: 2</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">predict</span>(<span class="kw">glm</span>(Y3 <span class="op">~</span><span class="st"> </span>A3), <span class="kw">data.frame</span>(<span class="dt">A3 =</span> <span class="dv">90</span>))</a></code></pre></div>
-<pre><code>##     1 
-## 216.9</code></pre>
+<pre><code>##   1 
+## 217</code></pre>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">glm</span>(Y <span class="op">~</span><span class="st"> </span>A))</a></code></pre></div>
 <pre><code>## 
 ## Call:
@@ -305,8 +310,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 
 ## Number of Fisher Scoring iterations: 2</code></pre>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">predict</span>(mod3, <span class="kw">data.frame</span>(<span class="kw">cbind</span>(<span class="dt">A3 =</span> <span class="dv">90</span>, <span class="dt">Asq =</span> <span class="dv">8100</span>)))</a></code></pre></div>
-<pre><code>##     1 
-## 197.1</code></pre>
+<pre><code>##   1 
+## 197</code></pre>
 
 </div>
 </div>

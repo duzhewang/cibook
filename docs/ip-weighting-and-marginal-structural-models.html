@@ -24,7 +24,7 @@
 <meta name="author" content="Duzhe Wang" />
 
 
-<meta name="date" content="2020-12-23" />
+<meta name="date" content="2020-12-25" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -147,9 +147,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#what-does-ip-weighting-mean"><i class="fa fa-check"></i>What does IP weighting mean?</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#horvitz-thompson-estimator-and-hajek-estimator"><i class="fa fa-check"></i>Horvitz-Thompson estimator and Hajek estimator</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#stablized-ip-weights"><i class="fa fa-check"></i>Stablized IP weights</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#real-data-analysis"><i class="fa fa-check"></i>Real data analysis</a><ul>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#background"><i class="fa fa-check"></i>Background</a></li>
-<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#program-12.1"><i class="fa fa-check"></i>Program 12.1</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#input-dataset"><i class="fa fa-check"></i>Input dataset</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#ignore-subjects-with-missing-values-for-weight-in-1982"><i class="fa fa-check"></i>Ignore subjects with missing values for weight in 1982</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#compare-the-treatment-group-and-the-control-group"><i class="fa fa-check"></i>Compare the treatment group and the control group</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#estimating-ip-weights-via-modeling-1"><i class="fa fa-check"></i>Estimating IP weights via modeling</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#stablized-ip-weights-1"><i class="fa fa-check"></i>Stablized IP weights</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -226,7 +231,7 @@ where the first equality is by consistency, the third by conditional exchangeabi
 </div>
 <div id="what-does-ip-weighting-mean" class="section level3 unnumbered">
 <h3>What does IP weighting mean?</h3>
-<p>IP weighting creates a pseudo-population in which the arrow from the covariates <span class="math inline">\(L\)</span> to the treatment <span class="math inline">\(A\)</span> is removed. The pseudo-population has the following two properties:
+<p>IP weighting creates a pseudo-population in which the arrow from the covariates <span class="math inline">\(L\)</span> to the treatment <span class="math inline">\(A\)</span> is removed (ther is no association between covariates <span class="math inline">\(L\)</span> and the treatment <span class="math inline">\(A\)</span>). The pseudo-population has the following two properties:
 - <span class="math inline">\(A\)</span> and <span class="math inline">\(L\)</span> are statistically independent
 - the mean <span class="math inline">\(E_{ps}(Y|A=a)\)</span> in the pseudo-population equals the standardized mean <span class="math inline">\(\sum_{l}E(Y|A=a, L=l)P(L=l)\)</span> in the actual population under positivity</p>
 </div>
@@ -241,6 +246,22 @@ where the first equality is by consistency, the third by conditional exchangeabi
 </ul>
 </div>
 </div>
+<div id="stablized-ip-weights" class="section level2 unnumbered">
+<h2>Stablized IP weights</h2>
+<ul>
+<li><p>Several facts from mathematics: under positivity, conditional exchangeability, and consistency,
+<span class="math display">\[\begin{equation*}
+\frac{E(\frac{pI(A=a)}{f(A|L)}Y)}{E(\frac{pI(A=a)}{f(A|L)})}=E(Y^a),
+\end{equation*}\]</span>
+and
+<span class="math display">\[\begin{equation*}
+\frac{E(\frac{g(A)I(A=a)}{f(A|L)}Y)}{E(\frac{g(A)I(A=a)}{f(A|L)})}=E(Y^a),
+\end{equation*}\]</span>
+where g(A) is any function of <span class="math inline">\(A\)</span> that is not a function of <span class="math inline">\(L\)</span>. Usually we take <span class="math inline">\(g(A)=f(A)\)</span>.</p></li>
+<li><p>The IP weights <span class="math inline">\(W^{A}=1/f(A|L)\)</span> are referred to as nonstabilized weights, and the IP weights <span class="math inline">\(SW^{A}=f(A)/f(A|L)\)</span> are referred to as stabilized weights. The stablizing factor <span class="math inline">\(f(A)\)</span> in the numerator is responsible for the narrower range of the <span class="math inline">\(f(A)/f(A|L)\)</span> weights.</p></li>
+<li><p>More on IPW: <a href="http://www.rebeccabarter.com/blog/2017-07-05-ip-weighting/" class="uri">http://www.rebeccabarter.com/blog/2017-07-05-ip-weighting/</a></p></li>
+</ul>
+</div>
 <div id="real-data-analysis" class="section level2 unnumbered">
 <h2>Real data analysis</h2>
 <div id="background" class="section level3 unnumbered">
@@ -254,9 +275,6 @@ where the first equality is by consistency, the third by conditional exchangeabi
 <li><span class="math inline">\(E(Y^{a=0})\)</span>: mean weight gain that would have been observed if all individuals in the population had not quit smoking</li>
 <li>Average causal effect: <span class="math inline">\(E(Y^{a=1})-E(Y^{a=0})\)</span></li>
 </ul>
-</div>
-<div id="program-12.1" class="section level3 unnumbered">
-<h3>Program 12.1</h3>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">library</span>(here) <span class="co"># for path </span></a>
 <a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw">library</span>(readxl) <span class="co"># for reafing excel files </span></a>
 <a class="sourceLine" id="cb26-3" data-line-number="3"><span class="kw">library</span>(tidyverse)</a>
@@ -264,8 +282,9 @@ where the first equality is by consistency, the third by conditional exchangeabi
 <a class="sourceLine" id="cb26-5" data-line-number="5"><span class="kw">library</span>(viridis)</a>
 <a class="sourceLine" id="cb26-6" data-line-number="6"><span class="kw">library</span>(geepack) <span class="co"># for GEE</span></a>
 <a class="sourceLine" id="cb26-7" data-line-number="7"><span class="co"># copy from https://www.r-graph-gallery.com/89-box-and-scatter-plot-with-ggplot2.html</span></a></code></pre></div>
-<div id="input-dataset" class="section level4 unnumbered">
-<h4>Input dataset</h4>
+</div>
+<div id="input-dataset" class="section level3 unnumbered">
+<h3>Input dataset</h3>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">nhefs=<span class="kw">read_excel</span>(<span class="kw">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;NHEFS.xls&quot;</span>))</a>
 <a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw">head</span>(nhefs)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 64
@@ -286,8 +305,8 @@ where the first equality is by consistency, the third by conditional exchangeabi
 ## #   active &lt;dbl&gt;, exercise &lt;dbl&gt;, birthcontrol &lt;dbl&gt;, pregnancies &lt;dbl&gt;, cholesterol &lt;dbl&gt;, hightax82 &lt;dbl&gt;,
 ## #   price71 &lt;dbl&gt;, price82 &lt;dbl&gt;, tax71 &lt;dbl&gt;, tax82 &lt;dbl&gt;, price71_82 &lt;dbl&gt;, tax71_82 &lt;dbl&gt;</code></pre>
 </div>
-<div id="ignore-subjects-with-missing-values-for-weight-in-1982" class="section level4 unnumbered">
-<h4>Ignore subjects with missing values for weight in 1982</h4>
+<div id="ignore-subjects-with-missing-values-for-weight-in-1982" class="section level3 unnumbered">
+<h3>Ignore subjects with missing values for weight in 1982</h3>
 <ul>
 <li><code>wt82</code>: weight in 1982</li>
 <li><code>qsmk</code>: quit smoking between 1st questionnaire and 1982 (Yes:1; No:0)</li>
@@ -295,8 +314,8 @@ where the first equality is by consistency, the third by conditional exchangeabi
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">nhefs.nmv=nhefs[<span class="kw">which</span>(<span class="op">!</span><span class="kw">is.na</span>(nhefs<span class="op">$</span>wt82)), ]</a>
 <a class="sourceLine" id="cb29-2" data-line-number="2">nhefs.nmv<span class="op">$</span>qsmk=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>qsmk)</a></code></pre></div>
 </div>
-<div id="compare-the-treatment-group-and-the-control-group" class="section level4 unnumbered">
-<h4>Compare the treatment group and the control group</h4>
+<div id="compare-the-treatment-group-and-the-control-group" class="section level3 unnumbered">
+<h3>Compare the treatment group and the control group</h3>
 <ul>
 <li><code>age</code></li>
 </ul>
@@ -314,7 +333,7 @@ where the first equality is by consistency, the third by conditional exchangeabi
 <a class="sourceLine" id="cb34-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb34-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb34-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <ul>
 <li><code>wt71</code></li>
 </ul>
@@ -323,7 +342,7 @@ where the first equality is by consistency, the third by conditional exchangeabi
 ##    40.8    59.2    68.5    70.3    79.4   151.7</code></pre>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">summary</span>(nhefs.nmv[<span class="kw">which</span>(nhefs.nmv<span class="op">$</span>qsmk<span class="op">==</span><span class="dv">1</span>), ]<span class="op">$</span>wt71)</a></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    39.6    60.7    71.2    72.3    81.1   137.0</code></pre>
+##    39.6    60.7    71.2    72.4    81.1   137.0</code></pre>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">nhefs.nmv <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>( <span class="kw">aes</span>(<span class="dt">x=</span>qsmk, <span class="dt">y=</span>wt71, <span class="dt">fill=</span>qsmk)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb39-2" data-line-number="2"><span class="st">      </span><span class="kw">geom_boxplot</span>()<span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb39-3" data-line-number="3"><span class="st">      </span><span class="kw">scale_fill_viridis</span>(<span class="dt">discrete =</span> <span class="ot">TRUE</span>, <span class="dt">alpha=</span><span class="fl">0.6</span>) <span class="op">+</span></a>
@@ -332,7 +351,7 @@ where the first equality is by consistency, the third by conditional exchangeabi
 <a class="sourceLine" id="cb39-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb39-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb39-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <ul>
 <li><code>smokeintensity</code>: number of cigarettes smoked per day in 1971</li>
 </ul>
@@ -350,7 +369,7 @@ where the first equality is by consistency, the third by conditional exchangeabi
 <a class="sourceLine" id="cb44-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb44-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb44-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <ul>
 <li><code>smokeyrs</code>: years of smoking</li>
 </ul>
@@ -368,7 +387,7 @@ where the first equality is by consistency, the third by conditional exchangeabi
 <a class="sourceLine" id="cb49-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb49-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb49-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <ul>
 <li>sex</li>
 </ul>
@@ -379,13 +398,13 @@ where the first equality is by consistency, the third by conditional exchangeabi
 ##   1 220 183</code></pre>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(nhefs.nmv<span class="op">$</span>qsmk, nhefs.nmv<span class="op">$</span>sex), <span class="dt">margin=</span><span class="dv">1</span>) <span class="co"># row-wise</span></a></code></pre></div>
 <pre><code>##    
-##          0      1
-##   0 0.4660 0.5340
-##   1 0.5459 0.4541</code></pre>
+##         0     1
+##   0 0.466 0.534
+##   1 0.546 0.454</code></pre>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">nhefs.nmv<span class="op">$</span>sex=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>sex)</a>
 <a class="sourceLine" id="cb54-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> sex)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb54-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <ul>
 <li>race: 0 if white, 1 if black or other in 1971</li>
 </ul>
@@ -396,13 +415,13 @@ where the first equality is by consistency, the third by conditional exchangeabi
 ##   1 367  36</code></pre>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(nhefs.nmv<span class="op">$</span>qsmk, nhefs.nmv<span class="op">$</span>race), <span class="dt">margin=</span><span class="dv">1</span>) <span class="co"># row-wise</span></a></code></pre></div>
 <pre><code>##    
-##           0       1
-##   0 0.85383 0.14617
-##   1 0.91067 0.08933</code></pre>
+##          0      1
+##   0 0.8538 0.1462
+##   1 0.9107 0.0893</code></pre>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">nhefs.nmv<span class="op">$</span>race=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>race)</a>
 <a class="sourceLine" id="cb59-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> race)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb59-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <ul>
 <li>education (AMOUNT OF EDUCATION BY 1971): 1 if 8TH GRADE OR LESS, 2 if HS DROPOUT, 3 if HS, 4 if COLLEGE DROPOUT, 5 if COLLEGE OR MORE</li>
 </ul>
@@ -413,13 +432,13 @@ where the first equality is by consistency, the third by conditional exchangeabi
 ##   1  81  74 157  29  62</code></pre>
 <div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(nhefs.nmv<span class="op">$</span>qsmk, nhefs.nmv<span class="op">$</span>education), <span class="dt">margin=</span><span class="dv">1</span>) <span class="co"># row-wise</span></a></code></pre></div>
 <pre><code>##    
-##           1       2       3       4       5
-##   0 0.18057 0.22872 0.41273 0.07911 0.09888
-##   1 0.20099 0.18362 0.38958 0.07196 0.15385</code></pre>
+##          1      2      3      4      5
+##   0 0.1806 0.2287 0.4127 0.0791 0.0989
+##   1 0.2010 0.1836 0.3896 0.0720 0.1538</code></pre>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">nhefs.nmv<span class="op">$</span>education=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>education)</a>
 <a class="sourceLine" id="cb64-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> education)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb64-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <ul>
 <li>exercise: 0 if much exercise,1 if moderate exercise,2 if little or no exercise</li>
 </ul>
@@ -430,13 +449,13 @@ where the first equality is by consistency, the third by conditional exchangeabi
 ##   1  63 176 164</code></pre>
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(nhefs.nmv<span class="op">$</span>qsmk, nhefs.nmv<span class="op">$</span>exercise), <span class="dt">margin=</span><span class="dv">1</span>) <span class="co"># row-wise</span></a></code></pre></div>
 <pre><code>##    
-##          0      1      2
-##   0 0.2038 0.4170 0.3792
-##   1 0.1563 0.4367 0.4069</code></pre>
+##         0     1     2
+##   0 0.204 0.417 0.379
+##   1 0.156 0.437 0.407</code></pre>
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1">nhefs.nmv<span class="op">$</span>exercise=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>exercise)</a>
 <a class="sourceLine" id="cb69-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> exercise)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb69-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <ul>
 <li>active: 0 if very active, 1 if moderately active, 2 if inactive</li>
 </ul>
@@ -447,16 +466,16 @@ where the first equality is by consistency, the third by conditional exchangeabi
 ##   1 170 188  45</code></pre>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(nhefs.nmv<span class="op">$</span>qsmk, nhefs.nmv<span class="op">$</span>active), <span class="dt">margin=</span><span class="dv">1</span>) <span class="co"># row-wise</span></a></code></pre></div>
 <pre><code>##    
-##           0       1       2
-##   0 0.45744 0.45314 0.08942
-##   1 0.42184 0.46650 0.11166</code></pre>
+##          0      1      2
+##   0 0.4574 0.4531 0.0894
+##   1 0.4218 0.4665 0.1117</code></pre>
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1">nhefs.nmv<span class="op">$</span>active=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>active)</a>
 <a class="sourceLine" id="cb74-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> active)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb74-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
-<div id="estimating-ip-weights-via-modeling-1" class="section level4 unnumbered">
-<h4>Estimating IP weights via modeling</h4>
+<div id="estimating-ip-weights-via-modeling-1" class="section level3 unnumbered">
+<h3>Estimating IP weights via modeling</h3>
 <ul>
 <li>Step 1: Estimate <span class="math inline">\(f(A|L)\)</span> by logistic regression and let <span class="math inline">\(\widehat{W}_i=\frac{1}{\widehat{P}(A|L)}\)</span></li>
 <li>Step 2: Estimate the IP weighted mean <span class="math inline">\(E\left(\frac{I(A=a)}{f(A|L)}Y\right)\)</span> by Hajek estimator <span class="math inline">\(\frac{\sum_{i}\widehat{W}_iY_i}{\sum_{i}\widehat{W}_i}\)</span>, where the sum is over all subjects with <span class="math inline">\(A_i=a\)</span></li>
@@ -639,8 +658,146 @@ where the first equality is by consistency, the third by conditional exchangeabi
 ##                                                      71  0  1
 ##                                                      72  2  2
 ##                                                      74  0  1</code></pre>
-
 </div>
+<div id="stablized-ip-weights-1" class="section level3 unnumbered">
+<h3>Stablized IP weights</h3>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="co">## estimate the denominator and numerator of the stablized IP weights </span></a>
+<a class="sourceLine" id="cb91-2" data-line-number="2">denom.logfit&lt;-<span class="kw">glm</span>(</a>
+<a class="sourceLine" id="cb91-3" data-line-number="3">  qsmk<span class="op">~</span>sex<span class="op">+</span>race<span class="op">+</span>age<span class="op">+</span><span class="kw">I</span>(age<span class="op">^</span><span class="dv">2</span>)<span class="op">+</span>education<span class="op">+</span>smokeintensity<span class="op">+</span><span class="kw">I</span>(smokeintensity<span class="op">^</span><span class="dv">2</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb91-4" data-line-number="4"><span class="st">  </span>smokeyrs<span class="op">+</span><span class="kw">I</span>(smokeyrs<span class="op">^</span><span class="dv">2</span>)<span class="op">+</span>exercise<span class="op">+</span>active<span class="op">+</span>wt71<span class="op">+</span><span class="kw">I</span>(wt71<span class="op">^</span><span class="dv">2</span>), </a>
+<a class="sourceLine" id="cb91-5" data-line-number="5">  <span class="dt">family=</span><span class="kw">binomial</span>(),</a>
+<a class="sourceLine" id="cb91-6" data-line-number="6">  <span class="dt">data=</span>nhefs.nmv</a>
+<a class="sourceLine" id="cb91-7" data-line-number="7">)</a>
+<a class="sourceLine" id="cb91-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb91-9" data-line-number="9"><span class="kw">summary</span>(denom.logfit)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = qsmk ~ sex + race + age + I(age^2) + education + 
+##     smokeintensity + I(smokeintensity^2) + smokeyrs + I(smokeyrs^2) + 
+##     exercise + active + wt71 + I(wt71^2), family = binomial(), 
+##     data = nhefs.nmv)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -1.513  -0.791  -0.639   0.983   2.373  
+## 
+## Coefficients:
+##                      Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)         -2.242519   1.380836   -1.62  0.10437    
+## sex1                -0.527478   0.154050   -3.42  0.00062 ***
+## race1               -0.839264   0.210067   -4.00  6.5e-05 ***
+## age                  0.121205   0.051266    2.36  0.01807 *  
+## I(age^2)            -0.000825   0.000536   -1.54  0.12404    
+## education2          -0.028776   0.198351   -0.15  0.88465    
+## education3           0.086432   0.178085    0.49  0.62744    
+## education4           0.063601   0.273211    0.23  0.81592    
+## education5           0.475961   0.226224    2.10  0.03538 *  
+## smokeintensity      -0.077270   0.015250   -5.07  4.0e-07 ***
+## I(smokeintensity^2)  0.001045   0.000287    3.65  0.00027 ***
+## smokeyrs            -0.073597   0.027777   -2.65  0.00806 ** 
+## I(smokeyrs^2)        0.000844   0.000463    1.82  0.06840 .  
+## exercise1            0.354841   0.180135    1.97  0.04885 *  
+## exercise2            0.395704   0.187240    2.11  0.03457 *  
+## active1              0.031944   0.132937    0.24  0.81010    
+## active2              0.176784   0.214972    0.82  0.41087    
+## wt71                -0.015236   0.026316   -0.58  0.56262    
+## I(wt71^2)            0.000135   0.000163    0.83  0.40737    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1786.1  on 1565  degrees of freedom
+## Residual deviance: 1676.9  on 1547  degrees of freedom
+## AIC: 1715
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1">numer.logfit&lt;-<span class="kw">glm</span>(qsmk<span class="op">~</span><span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb93-2" data-line-number="2">                  <span class="dt">family=</span><span class="kw">binomial</span>(),</a>
+<a class="sourceLine" id="cb93-3" data-line-number="3">                  <span class="dt">data=</span>nhefs.nmv)</a>
+<a class="sourceLine" id="cb93-4" data-line-number="4"><span class="kw">summary</span>(numer.logfit)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = qsmk ~ 1, family = binomial(), data = nhefs.nmv)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -0.771  -0.771  -0.771   1.648   1.648  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  -1.0598     0.0578   -18.3   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1786.1  on 1565  degrees of freedom
+## Residual deviance: 1786.1  on 1565  degrees of freedom
+## AIC: 1788
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1">pd.qsmk=<span class="kw">predict</span>(denom.logfit, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)</a>
+<a class="sourceLine" id="cb95-2" data-line-number="2">pn.qsmk=<span class="kw">predict</span>(numer.logfit, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)</a>
+<a class="sourceLine" id="cb95-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb95-4" data-line-number="4">nhefs.nmv<span class="op">$</span>sw=<span class="kw">ifelse</span>(nhefs.nmv<span class="op">$</span>qsmk<span class="op">==</span><span class="dv">0</span>, ((<span class="dv">1</span><span class="op">-</span>pn.qsmk)<span class="op">/</span>(<span class="dv">1</span><span class="op">-</span>pd.qsmk)), (pn.qsmk<span class="op">/</span>pd.qsmk))</a></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="co">## weighted least squares with the stabilized IP weights </span></a>
+<a class="sourceLine" id="cb96-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb96-3" data-line-number="3">wls.sw=<span class="kw">geeglm</span>(wt82_<span class="dv">71</span><span class="op">~</span>qsmk,</a>
+<a class="sourceLine" id="cb96-4" data-line-number="4">              <span class="dt">data=</span>nhefs.nmv,</a>
+<a class="sourceLine" id="cb96-5" data-line-number="5">              <span class="dt">weights=</span>sw,</a>
+<a class="sourceLine" id="cb96-6" data-line-number="6">              <span class="dt">id=</span>seqn,</a>
+<a class="sourceLine" id="cb96-7" data-line-number="7">              <span class="dt">corstr=</span><span class="st">&quot;independence&quot;</span></a>
+<a class="sourceLine" id="cb96-8" data-line-number="8">              )</a>
+<a class="sourceLine" id="cb96-9" data-line-number="9"><span class="kw">summary</span>(wls.sw)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## geeglm(formula = wt82_71 ~ qsmk, data = nhefs.nmv, weights = sw, 
+##     id = seqn, corstr = &quot;independence&quot;)
+## 
+##  Coefficients:
+##             Estimate Std.err Wald Pr(&gt;|W|)    
+## (Intercept)    1.780   0.225 62.7  2.3e-15 ***
+## qsmk1          3.441   0.525 42.9  5.9e-11 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation structure = independence 
+## Estimated Scale Parameters:
+## 
+##             Estimate Std.err
+## (Intercept)     60.7    3.71
+## Number of clusters:   1566  Maximum cluster size: 1</code></pre>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1">theta=<span class="kw">coef</span>(wls.sw)</a>
+<a class="sourceLine" id="cb98-2" data-line-number="2">se=<span class="kw">coef</span>(<span class="kw">summary</span>(wls.sw))[,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb98-3" data-line-number="3">ci.lower=theta<span class="op">-</span><span class="kw">qnorm</span>(<span class="fl">0.975</span>)<span class="op">*</span>se</a>
+<a class="sourceLine" id="cb98-4" data-line-number="4">ci.upper=theta<span class="op">+</span><span class="kw">qnorm</span>(<span class="fl">0.975</span>)<span class="op">*</span>se</a>
+<a class="sourceLine" id="cb98-5" data-line-number="5"><span class="kw">cbind</span>(theta, ci.lower, ci.upper)</a></code></pre></div>
+<pre><code>##             theta ci.lower ci.upper
+## (Intercept)  1.78     1.34     2.22
+## qsmk1        3.44     2.41     4.47</code></pre>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1"><span class="co">## no association between sex and qsmk in the pseudo population</span></a>
+<a class="sourceLine" id="cb100-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb100-3" data-line-number="3"><span class="kw">xtabs</span>(nhefs.nmv<span class="op">$</span>sw<span class="op">~</span>nhefs.nmv<span class="op">$</span>sex<span class="op">+</span>nhefs.nmv<span class="op">$</span>qsmk)</a></code></pre></div>
+<pre><code>##              nhefs.nmv$qsmk
+## nhefs.nmv$sex   0   1
+##             0 567 197
+##             1 595 205</code></pre>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" data-line-number="1"><span class="co">## estimate average causal effect</span></a>
+<a class="sourceLine" id="cb102-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb102-3" data-line-number="3"><span class="co">## A=1</span></a>
+<a class="sourceLine" id="cb102-4" data-line-number="4">y1=nhefs.nmv[nhefs.nmv<span class="op">$</span>qsmk<span class="op">==</span><span class="dv">1</span>, ]<span class="op">$</span>wt82_<span class="dv">71</span></a>
+<a class="sourceLine" id="cb102-5" data-line-number="5">w1=nhefs.nmv[nhefs.nmv<span class="op">$</span>qsmk<span class="op">==</span><span class="dv">1</span>, ]<span class="op">$</span>sw</a>
+<a class="sourceLine" id="cb102-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb102-7" data-line-number="7"><span class="co">## A=0</span></a>
+<a class="sourceLine" id="cb102-8" data-line-number="8">y0=nhefs.nmv[nhefs.nmv<span class="op">$</span>qsmk<span class="op">==</span><span class="dv">0</span>, ]<span class="op">$</span>wt82_<span class="dv">71</span></a>
+<a class="sourceLine" id="cb102-9" data-line-number="9">w0=nhefs.nmv[nhefs.nmv<span class="op">$</span>qsmk<span class="op">==</span><span class="dv">0</span>, ]<span class="op">$</span>sw</a>
+<a class="sourceLine" id="cb102-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb102-11" data-line-number="11">ate=<span class="kw">sum</span>(y1<span class="op">*</span>w1)<span class="op">/</span><span class="kw">sum</span>(w1)<span class="op">-</span><span class="kw">sum</span>(y0<span class="op">*</span>w0)<span class="op">/</span><span class="kw">sum</span>(w0)</a>
+<a class="sourceLine" id="cb102-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb102-13" data-line-number="13">ate</a></code></pre></div>
+<pre><code>## [1] 3.44</code></pre>
+
 </div>
 </div>
 </div>
