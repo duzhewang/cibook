@@ -1,8 +1,9 @@
 # 12. IP weighting and marginal structural models {-} 
 
-## Concepts and points{-}
+<!--## Concepts and points{-}
 
 - Confounder
+-->
 
 ## Estimating IP weights via modeling{-} 
 
@@ -78,7 +79,7 @@ where g(A) is any function of $A$ that is not a function of $L$. Usually we take
 
 ## Marginal structural models {-}
 
-
+- Examples of marginal structural mean models: $E(Y^a)=\beta_0+\beta_1a$ or $E(Y^a)=\beta_0+\beta_1a+\beta_2a^2$
 
 
 
@@ -464,6 +465,58 @@ ate
 ```
 
 
+### Marginal structural models {-}
+
+- Estimating stabilized weights 
+  - Approaches in the book: we need to estimate the stabilized weights $SW^A=f(A)/f(A|L)$. For a continuous treatment $A$, $f(A|L)$ is a probability density function. We assume that the density $f(A|L)$ is normal with mean $\mu_L=E(A|L)$ and constant variance $\sigma^2$. Then we use a linear regression model to estimate the mean $E(A|L)$ and variance of residuals $\sigma^2$ for all combinations of values of $L$. We also assume the density $f(A)$ is normal. 
+  
+  
+```{r}
+## analysis restricted to subjects reporting <=25 cig/day at baseline
+nhefs.nmv.s=subset(nhefs.nmv, smokeintensity<=25)
+
+## estimating denominator in ip weights 
+den.fit.obj=lm(
+  smkintensity82_71~sex+race+age+I(age^2)+
+    education+smokeintensity+I(smokeintensity^2)+
+    smokeyrs+I(smokeyrs^2)+exercise+active+wt71+I(wt71^2),
+  data=nhefs.nmv.s
+)
+
+p.den=predict(den.fit.obj, type="response")
+dens.den=dnorm(nhefs.nmv.s$smkintensity82_71, 
+                mean=p.den,
+                sd=summary(den.fit.obj)$sigma)
+
+
+## estimating numerator in ip weights 
+num.fit.obj=lm(smkintensity82_71~1, data=nhefs.nmv.s)
+p.num=predict(num.fit.obj, type="response")
+dens.num=dnorm(nhefs.nmv.s$smkintensity82_71, 
+               p.num, 
+               summary(num.fit.obj)$sigma)
+
+nhefs.nmv.s$sw.a=dens.num/dens.den
+summary(nhefs.nmv.s$sw.a)
+
+```
+
+  
+```{r}
+msm.sw.cont=geeglm(wt82_71~smkintensity82_71+I(smkintensity82_71*smkintensity82_71),
+data=nhefs.nmv.s,
+weights=sw.a,
+id=seqn,
+corstr="independence")
+
+summary(msm.sw.cont)
+
+beta=coef(msm.sw.cont)
+SE=coef(summary(msm.sw.cont))[,2]
+lcl=beta-qnorm(0.975)*SE
+ucl=beta+qnorm(0.975)*SE
+cbind(beta, lcl, ucl)
+```
 
 
 

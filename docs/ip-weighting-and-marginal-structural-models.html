@@ -24,7 +24,7 @@
 <meta name="author" content="Duzhe Wang" />
 
 
-<meta name="date" content="2020-12-25" />
+<meta name="date" content="2021-01-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -139,7 +139,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#program-11.3"><i class="fa fa-check"></i>Program 11.3</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html"><i class="fa fa-check"></i>12. IP weighting and marginal structural models</a><ul>
-<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#concepts-and-points"><i class="fa fa-check"></i>Concepts and points</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#estimating-ip-weights-via-modeling"><i class="fa fa-check"></i>Estimating IP weights via modeling</a><ul>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#definition"><i class="fa fa-check"></i>Definition</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#equivalence-of-ip-weighting-and-standardization"><i class="fa fa-check"></i>Equivalence of IP weighting and standardization</a></li>
@@ -148,6 +147,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#horvitz-thompson-estimator-and-hajek-estimator"><i class="fa fa-check"></i>Horvitz-Thompson estimator and Hajek estimator</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#stablized-ip-weights"><i class="fa fa-check"></i>Stablized IP weights</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#marginal-structural-models"><i class="fa fa-check"></i>Marginal structural models</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#real-data-analysis"><i class="fa fa-check"></i>Real data analysis</a><ul>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#background"><i class="fa fa-check"></i>Background</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#input-dataset"><i class="fa fa-check"></i>Input dataset</a></li>
@@ -155,6 +155,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#compare-the-treatment-group-and-the-control-group"><i class="fa fa-check"></i>Compare the treatment group and the control group</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#estimating-ip-weights-via-modeling-1"><i class="fa fa-check"></i>Estimating IP weights via modeling</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#stablized-ip-weights-1"><i class="fa fa-check"></i>Stablized IP weights</a></li>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#marginal-structural-models-1"><i class="fa fa-check"></i>Marginal structural models</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -178,12 +179,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="ip-weighting-and-marginal-structural-models" class="section level1 unnumbered">
 <h1>12. IP weighting and marginal structural models</h1>
-<div id="concepts-and-points" class="section level2 unnumbered">
-<h2>Concepts and points</h2>
-<ul>
-<li>Confounder</li>
-</ul>
-</div>
+<!--## Concepts and points{-}
+
+- Confounder
+-->
 <div id="estimating-ip-weights-via-modeling" class="section level2 unnumbered">
 <h2>Estimating IP weights via modeling</h2>
 <div id="definition" class="section level3 unnumbered">
@@ -262,6 +261,12 @@ where g(A) is any function of <span class="math inline">\(A\)</span> that is not
 <li><p>More on IPW: <a href="http://www.rebeccabarter.com/blog/2017-07-05-ip-weighting/" class="uri">http://www.rebeccabarter.com/blog/2017-07-05-ip-weighting/</a></p></li>
 </ul>
 </div>
+<div id="marginal-structural-models" class="section level2 unnumbered">
+<h2>Marginal structural models</h2>
+<ul>
+<li>Examples of marginal structural mean models: <span class="math inline">\(E(Y^a)=\beta_0+\beta_1a\)</span> or <span class="math inline">\(E(Y^a)=\beta_0+\beta_1a+\beta_2a^2\)</span></li>
+</ul>
+</div>
 <div id="real-data-analysis" class="section level2 unnumbered">
 <h2>Real data analysis</h2>
 <div id="background" class="section level3 unnumbered">
@@ -333,7 +338,7 @@ where g(A) is any function of <span class="math inline">\(A\)</span> that is not
 <a class="sourceLine" id="cb34-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb34-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb34-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <ul>
 <li><code>wt71</code></li>
 </ul>
@@ -351,7 +356,7 @@ where g(A) is any function of <span class="math inline">\(A\)</span> that is not
 <a class="sourceLine" id="cb39-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb39-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb39-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <ul>
 <li><code>smokeintensity</code>: number of cigarettes smoked per day in 1971</li>
 </ul>
@@ -369,7 +374,7 @@ where g(A) is any function of <span class="math inline">\(A\)</span> that is not
 <a class="sourceLine" id="cb44-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb44-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb44-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 <ul>
 <li><code>smokeyrs</code>: years of smoking</li>
 </ul>
@@ -387,7 +392,7 @@ where g(A) is any function of <span class="math inline">\(A\)</span> that is not
 <a class="sourceLine" id="cb49-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb49-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb49-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <ul>
 <li>sex</li>
 </ul>
@@ -404,7 +409,7 @@ where g(A) is any function of <span class="math inline">\(A\)</span> that is not
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">nhefs.nmv<span class="op">$</span>sex=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>sex)</a>
 <a class="sourceLine" id="cb54-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> sex)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb54-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <ul>
 <li>race: 0 if white, 1 if black or other in 1971</li>
 </ul>
@@ -421,7 +426,7 @@ where g(A) is any function of <span class="math inline">\(A\)</span> that is not
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">nhefs.nmv<span class="op">$</span>race=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>race)</a>
 <a class="sourceLine" id="cb59-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> race)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb59-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 <ul>
 <li>education (AMOUNT OF EDUCATION BY 1971): 1 if 8TH GRADE OR LESS, 2 if HS DROPOUT, 3 if HS, 4 if COLLEGE DROPOUT, 5 if COLLEGE OR MORE</li>
 </ul>
@@ -438,7 +443,7 @@ where g(A) is any function of <span class="math inline">\(A\)</span> that is not
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">nhefs.nmv<span class="op">$</span>education=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>education)</a>
 <a class="sourceLine" id="cb64-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> education)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb64-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <ul>
 <li>exercise: 0 if much exercise,1 if moderate exercise,2 if little or no exercise</li>
 </ul>
@@ -455,7 +460,7 @@ where g(A) is any function of <span class="math inline">\(A\)</span> that is not
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1">nhefs.nmv<span class="op">$</span>exercise=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>exercise)</a>
 <a class="sourceLine" id="cb69-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> exercise)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb69-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 <ul>
 <li>active: 0 if very active, 1 if moderately active, 2 if inactive</li>
 </ul>
@@ -472,7 +477,7 @@ where g(A) is any function of <span class="math inline">\(A\)</span> that is not
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1">nhefs.nmv<span class="op">$</span>active=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>active)</a>
 <a class="sourceLine" id="cb74-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> active)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb74-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 </div>
 <div id="estimating-ip-weights-via-modeling-1" class="section level3 unnumbered">
 <h3>Estimating IP weights via modeling</h3>
@@ -797,6 +802,79 @@ where g(A) is any function of <span class="math inline">\(A\)</span> that is not
 <a class="sourceLine" id="cb102-12" data-line-number="12"></a>
 <a class="sourceLine" id="cb102-13" data-line-number="13">ate</a></code></pre></div>
 <pre><code>## [1] 3.44</code></pre>
+</div>
+<div id="marginal-structural-models-1" class="section level3 unnumbered">
+<h3>Marginal structural models</h3>
+<ul>
+<li>Estimating stabilized weights
+<ul>
+<li>Approaches in the book: we need to estimate the stabilized weights <span class="math inline">\(SW^A=f(A)/f(A|L)\)</span>. For a continuous treatment <span class="math inline">\(A\)</span>, <span class="math inline">\(f(A|L)\)</span> is a probability density function. We assume that the density <span class="math inline">\(f(A|L)\)</span> is normal with mean <span class="math inline">\(\mu_L=E(A|L)\)</span> and constant variance <span class="math inline">\(\sigma^2\)</span>. Then we use a linear regression model to estimate the mean <span class="math inline">\(E(A|L)\)</span> and variance of residuals <span class="math inline">\(\sigma^2\)</span> for all combinations of values of <span class="math inline">\(L\)</span>. We also assume the density <span class="math inline">\(f(A)\)</span> is normal.</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="co">## analysis restricted to subjects reporting &lt;=25 cig/day at baseline</span></a>
+<a class="sourceLine" id="cb104-2" data-line-number="2">nhefs.nmv.s=<span class="kw">subset</span>(nhefs.nmv, smokeintensity<span class="op">&lt;=</span><span class="dv">25</span>)</a>
+<a class="sourceLine" id="cb104-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb104-4" data-line-number="4"><span class="co">## estimating denominator in ip weights </span></a>
+<a class="sourceLine" id="cb104-5" data-line-number="5">den.fit.obj=<span class="kw">lm</span>(</a>
+<a class="sourceLine" id="cb104-6" data-line-number="6">  smkintensity82_<span class="dv">71</span><span class="op">~</span>sex<span class="op">+</span>race<span class="op">+</span>age<span class="op">+</span><span class="kw">I</span>(age<span class="op">^</span><span class="dv">2</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb104-7" data-line-number="7"><span class="st">    </span>education<span class="op">+</span>smokeintensity<span class="op">+</span><span class="kw">I</span>(smokeintensity<span class="op">^</span><span class="dv">2</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb104-8" data-line-number="8"><span class="st">    </span>smokeyrs<span class="op">+</span><span class="kw">I</span>(smokeyrs<span class="op">^</span><span class="dv">2</span>)<span class="op">+</span>exercise<span class="op">+</span>active<span class="op">+</span>wt71<span class="op">+</span><span class="kw">I</span>(wt71<span class="op">^</span><span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb104-9" data-line-number="9">  <span class="dt">data=</span>nhefs.nmv.s</a>
+<a class="sourceLine" id="cb104-10" data-line-number="10">)</a>
+<a class="sourceLine" id="cb104-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb104-12" data-line-number="12">p.den=<span class="kw">predict</span>(den.fit.obj, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)</a>
+<a class="sourceLine" id="cb104-13" data-line-number="13">dens.den=<span class="kw">dnorm</span>(nhefs.nmv.s<span class="op">$</span>smkintensity82_<span class="dv">71</span>, </a>
+<a class="sourceLine" id="cb104-14" data-line-number="14">                <span class="dt">mean=</span>p.den,</a>
+<a class="sourceLine" id="cb104-15" data-line-number="15">                <span class="dt">sd=</span><span class="kw">summary</span>(den.fit.obj)<span class="op">$</span>sigma)</a>
+<a class="sourceLine" id="cb104-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb104-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb104-18" data-line-number="18"><span class="co">## estimating numerator in ip weights </span></a>
+<a class="sourceLine" id="cb104-19" data-line-number="19">num.fit.obj=<span class="kw">lm</span>(smkintensity82_<span class="dv">71</span><span class="op">~</span><span class="dv">1</span>, <span class="dt">data=</span>nhefs.nmv.s)</a>
+<a class="sourceLine" id="cb104-20" data-line-number="20">p.num=<span class="kw">predict</span>(num.fit.obj, <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)</a>
+<a class="sourceLine" id="cb104-21" data-line-number="21">dens.num=<span class="kw">dnorm</span>(nhefs.nmv.s<span class="op">$</span>smkintensity82_<span class="dv">71</span>, </a>
+<a class="sourceLine" id="cb104-22" data-line-number="22">               p.num, </a>
+<a class="sourceLine" id="cb104-23" data-line-number="23">               <span class="kw">summary</span>(num.fit.obj)<span class="op">$</span>sigma)</a>
+<a class="sourceLine" id="cb104-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb104-25" data-line-number="25">nhefs.nmv.s<span class="op">$</span>sw.a=dens.num<span class="op">/</span>dens.den</a>
+<a class="sourceLine" id="cb104-26" data-line-number="26"><span class="kw">summary</span>(nhefs.nmv.s<span class="op">$</span>sw.a)</a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.19    0.89    0.97    1.00    1.05    5.10</code></pre>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1">msm.sw.cont=<span class="kw">geeglm</span>(wt82_<span class="dv">71</span><span class="op">~</span>smkintensity82_<span class="dv">71</span><span class="op">+</span><span class="kw">I</span>(smkintensity82_<span class="dv">71</span><span class="op">*</span>smkintensity82_<span class="dv">71</span>),</a>
+<a class="sourceLine" id="cb106-2" data-line-number="2"><span class="dt">data=</span>nhefs.nmv.s,</a>
+<a class="sourceLine" id="cb106-3" data-line-number="3"><span class="dt">weights=</span>sw.a,</a>
+<a class="sourceLine" id="cb106-4" data-line-number="4"><span class="dt">id=</span>seqn,</a>
+<a class="sourceLine" id="cb106-5" data-line-number="5"><span class="dt">corstr=</span><span class="st">&quot;independence&quot;</span>)</a>
+<a class="sourceLine" id="cb106-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb106-7" data-line-number="7"><span class="kw">summary</span>(msm.sw.cont)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## geeglm(formula = wt82_71 ~ smkintensity82_71 + I(smkintensity82_71 * 
+##     smkintensity82_71), data = nhefs.nmv.s, weights = sw.a, id = seqn, 
+##     corstr = &quot;independence&quot;)
+## 
+##  Coefficients:
+##                                          Estimate  Std.err  Wald Pr(&gt;|W|)    
+## (Intercept)                               2.00452  0.29512 46.13  1.1e-11 ***
+## smkintensity82_71                        -0.10899  0.03154 11.94  0.00055 ***
+## I(smkintensity82_71 * smkintensity82_71)  0.00269  0.00242  1.24  0.26489    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation structure = independence 
+## Estimated Scale Parameters:
+## 
+##             Estimate Std.err
+## (Intercept)     60.5     4.5
+## Number of clusters:   1162  Maximum cluster size: 1</code></pre>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1">beta=<span class="kw">coef</span>(msm.sw.cont)</a>
+<a class="sourceLine" id="cb108-2" data-line-number="2">SE=<span class="kw">coef</span>(<span class="kw">summary</span>(msm.sw.cont))[,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb108-3" data-line-number="3">lcl=beta<span class="op">-</span><span class="kw">qnorm</span>(<span class="fl">0.975</span>)<span class="op">*</span>SE</a>
+<a class="sourceLine" id="cb108-4" data-line-number="4">ucl=beta<span class="op">+</span><span class="kw">qnorm</span>(<span class="fl">0.975</span>)<span class="op">*</span>SE</a>
+<a class="sourceLine" id="cb108-5" data-line-number="5"><span class="kw">cbind</span>(beta, lcl, ucl)</a></code></pre></div>
+<pre><code>##                                              beta      lcl      ucl
+## (Intercept)                               2.00452  1.42610  2.58295
+## smkintensity82_71                        -0.10899 -0.17080 -0.04718
+## I(smkintensity82_71 * smkintensity82_71)  0.00269 -0.00204  0.00743</code></pre>
 
 </div>
 </div>
