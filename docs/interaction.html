@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>11. Why model? | R code for causal inference book</title>
-  <meta name="description" content="11. Why model? | R code for causal inference book" />
+  <title>5. Interaction | R code for causal inference book</title>
+  <meta name="description" content="5. Interaction | R code for causal inference book" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="11. Why model? | R code for causal inference book" />
+  <meta property="og:title" content="5. Interaction | R code for causal inference book" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="11. Why model? | R code for causal inference book" />
+  <meta name="twitter:title" content="5. Interaction | R code for causal inference book" />
   
   
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="interaction.html"/>
-<link rel="next" href="ip-weighting-and-marginal-structural-models.html"/>
+<link rel="prev" href="index.html"/>
+<link rel="next" href="why-model.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -187,142 +187,189 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="why-model" class="section level1 unnumbered">
-<h1>11. Why model?</h1>
-<div id="some-concepts-and-points" class="section level2 unnumbered">
-<h2>Some concepts and points</h2>
+<div id="interaction" class="section level1 unnumbered">
+<h1>5. Interaction</h1>
+<div id="interaction-requires-a-joint-intervention" class="section level2 unnumbered">
+<h2>5.1 Interaction requires a joint intervention</h2>
 <ul>
-<li><p>Estimand</p></li>
-<li><p>Estimator</p></li>
-<li><p>We can not always let the data “speak for themselves” to obtain a meaningful estimate. Rather, we often need to supplement the data with a model.</p></li>
-<li><p>What is a model? A model is defined by an a priori restriction on the joint distribution of the data.</p></li>
-<li><p>When using a parametric model, the inferences are correct only if the restrictions encoded in the model are correct, i.e., if the model is correctly specified. Thus model-based causal inference relies on conditions of no model misspecification.</p></li>
-<li><p>Fisher consistency: An estimator of a population quantity that, when calculated using the entire population rather than a sample, yields the true value of the population parameter.</p></li>
-<li><p>Bias-variance trade-off</p></li>
+<li>We refer to interventions on two or more treatments as joint interventions.</li>
+<li><p>We say that there is interaction between <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> on the additive scale in the population if
+<span class="math display">\[P(Y^{a=1, e=1}=1)-P(Y^{a=0, e=1}=1)\ne P(Y^{a=1, e=0}=1)-P(Y^{a=0, e=0}=1).\]</span>
+This is equivalent to
+<span class="math display">\[P(Y^{a=1, e=1}=1)-P(Y^{a=1, e=0}=1)\ne P(Y^{a=0, e=1}=1)-P(Y^{a=0, e=0}=1).\]</span></p></li>
+<li><p>Difference between interaction and effect modification: a variable <span class="math inline">\(V\)</span> is a modifier of the effect of <span class="math inline">\(A\)</span> on <span class="math inline">\(Y\)</span> when the average causal effect of <span class="math inline">\(A\)</span> on <span class="math inline">\(Y\)</span> varies across levels of <span class="math inline">\(V\)</span>. Note the concept of effect modification
+refers to the causal effect of <span class="math inline">\(A\)</span>, not to the causal effect of <span class="math inline">\(V\)</span>. In contrast, the definition of interaction between <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> gives equal status to both treatments <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span>. The concept of interaction refers to the joint causal effect of two treatments <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span>, and thus involves the counterfactual outcomes <span class="math inline">\(Y^{a, e}\)</span> under a joint intervention.</p></li>
 </ul>
 </div>
-<div id="program-11.1" class="section level2 unnumbered">
-<h2>Program 11.1</h2>
+<div id="identifying-interaction" class="section level2 unnumbered">
+<h2>5.2 Identifying interaction</h2>
+<p>Consider two cases:</p>
 <ul>
-<li>Sample averages by treatment level</li>
-<li>Data from Figures 11.1 and 11.2</li>
+<li>Suppose <span class="math inline">\(E\)</span> were randomly, and unconditionally, assigned by the investigators. Then we have
+<span class="math display">\[P(Y^{a=1, e=1}=1)=P(Y^{a=1}=1|E=1)\]</span>.
+Using a similar argument, we can rewrite the definition of interaction between <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> on the additive scale as
+<span class="math display">\[P(Y^{a=1}=1|E=1)-P(Y^{a=0}=1|E=1)\ne P(Y^{a=1}=1|E=0)-P(Y^{a=0}=1|E=0).\]</span>
+This is exactly the definition of modification of the effect of <span class="math inline">\(A\)</span> by <span class="math inline">\(E\)</span> on the additive scale. In the other words, when treatment <span class="math inline">\(E\)</span> is randomly assigned, then the concepts of interaction and effect modification coincide.</li>
+<li>Suppose treatment <span class="math inline">\(E\)</span> was not assigned by investigators. To assess the presence of interaction between <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span>, we need to compute the four marginal risks <span class="math inline">\(P(Y^{a, e}=1)\)</span>. An equivalent way of conceptualizing this problem follows: rather than viewing <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> as two distinct treatments with two possible levels (1 or 0) each, one can view <span class="math inline">\(AE\)</span> as a combined treatment with four possible levels <span class="math inline">\((11, 01, 10, 00)\)</span>. Under this conceptualization the identification of interaction between two treatments is not different from the identification of the causal effect of one treatment.</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">A&lt;-<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">8</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>))</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">Y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">150</span>, <span class="dv">220</span>, <span class="dv">110</span>, <span class="dv">50</span>, <span class="dv">180</span>, <span class="dv">90</span>, <span class="dv">170</span>, <span class="dv">170</span>, <span class="dv">30</span>, <span class="dv">70</span>, <span class="dv">110</span>, <span class="dv">80</span>, <span class="dv">50</span>, <span class="dv">10</span>, <span class="dv">20</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">plot</span>(A, Y, <span class="dt">pch=</span><span class="dv">16</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-1-1.png" width="85%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">mean</span>(Y[A <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</a></code></pre></div>
-<pre><code>## [1] 67.5</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">mean</span>(Y[A <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
-<pre><code>## [1] 146</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">A2&lt;-<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">4</span>,<span class="dv">4</span>))</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">Y2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">110</span>, <span class="dv">80</span>, <span class="dv">50</span>, <span class="dv">40</span>, <span class="dv">170</span>, <span class="dv">30</span>, <span class="dv">70</span>, <span class="dv">50</span>, <span class="dv">110</span>, <span class="dv">50</span>, <span class="dv">180</span>, <span class="dv">130</span>, <span class="dv">200</span>, <span class="dv">150</span>, <span class="dv">220</span>, <span class="dv">210</span>)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">plot</span>(A2, Y2, <span class="dt">pch=</span><span class="dv">16</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-1.png" width="85%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
-<pre><code>## [1] 70</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre></div>
-<pre><code>## [1] 80</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">3</span>])</a></code></pre></div>
-<pre><code>## [1] 118</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">4</span>])</a></code></pre></div>
-<pre><code>## [1] 195</code></pre>
 </div>
-<div id="program-11.2" class="section level2 unnumbered">
-<h2>Program 11.2</h2>
+<div id="counterfactual-response-types-and-interaction" class="section level2 unnumbered">
+<h2>5.3 Counterfactual response types and interaction</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Type</th>
+<th align="center">a=1, e=1</th>
+<th align="center">a=0, e=1</th>
+<th align="center">a=1, e=0</th>
+<th align="center">a=0, e=0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">6</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">7</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">8</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">9</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">10</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">11</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">12</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">13</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">14</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">15</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">16</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>2-parameter linear model</li>
-<li>Data from Figures 11.3 and 11.1</li>
+<li>Each cell in the above table is <span class="math inline">\(Y^{a, e}\)</span> for each <span class="math inline">\(a, e\)</span> value.</li>
+<li><p>Type 1, 4, 6, 11, 13, 16: for an invididual with one of these response types, the causal effect of treatment <span class="math inline">\(A\)</span> on the outcome <span class="math inline">\(Y\)</span> is the same regardless of the value of treatment <span class="math inline">\(E\)</span>. Therefore, in a population in which every individual has one of these 6 response types,
+<span class="math display">\[P(Y^{a=1, e=1}=1)-P(Y^{a=0, e=1}=1)=P(Y^{a=1, e=0}=1)-P(Y^{a=0, e=0}=1).\]</span>
+That is, if all individuals in the population have responses 1, 4, 6, 11, 13 and 16, then there will be no interaction between <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> on the additive scale.</p></li>
+<li><p>The presence of additive interaction between <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> implies that there must be individuals in at least one of the other remaining response types.</p></li>
 </ul>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">A3 &lt;-<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">11</span>, <span class="dv">17</span>, <span class="dv">23</span>, <span class="dv">29</span>, <span class="dv">37</span>, <span class="dv">41</span>, <span class="dv">53</span>, <span class="dv">67</span>, <span class="dv">79</span>, <span class="dv">83</span>, <span class="dv">97</span>, <span class="dv">60</span>, <span class="dv">71</span>, <span class="dv">15</span>, <span class="dv">45</span>)</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">Y3 &lt;-<span class="kw">c</span>(<span class="dv">21</span>, <span class="dv">54</span>, <span class="dv">33</span>, <span class="dv">101</span>, <span class="dv">85</span>, <span class="dv">65</span>, <span class="dv">157</span>, <span class="dv">120</span>, <span class="dv">111</span>, <span class="dv">200</span>, <span class="dv">140</span>, <span class="dv">220</span>, <span class="dv">230</span>, <span class="dv">217</span>, <span class="dv">11</span>, <span class="dv">190</span>)</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="kw">plot</span>(Y3 <span class="op">~</span><span class="st"> </span>A3, <span class="dt">pch=</span><span class="dv">16</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-1.png" width="85%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">glm</span>(Y3 <span class="op">~</span><span class="st"> </span>A3))</a></code></pre></div>
-<pre><code>## 
-## Call:
-## glm(formula = Y3 ~ A3)
-## 
-## Deviance Residuals: 
-##    Min      1Q  Median      3Q     Max  
-## -61.93  -30.56   -5.74   30.65   77.22  
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)    24.55      21.33    1.15   0.2691    
-## A3              2.14       0.40    5.35   0.0001 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for gaussian family taken to be 1944)
-## 
-##     Null deviance: 82800  on 15  degrees of freedom
-## Residual deviance: 27218  on 14  degrees of freedom
-## AIC: 170.4
-## 
-## Number of Fisher Scoring iterations: 2</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">predict</span>(<span class="kw">glm</span>(Y3 <span class="op">~</span><span class="st"> </span>A3), <span class="kw">data.frame</span>(<span class="dt">A3 =</span> <span class="dv">90</span>))</a></code></pre></div>
-<pre><code>##   1 
-## 217</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">glm</span>(Y <span class="op">~</span><span class="st"> </span>A))</a></code></pre></div>
-<pre><code>## 
-## Call:
-## glm(formula = Y ~ A)
-## 
-## Deviance Residuals: 
-##    Min      1Q  Median      3Q     Max  
-## -96.25  -40.00    3.12   35.94  102.50  
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)   
-## (Intercept)     67.5       19.7    3.42   0.0041 **
-## A               78.8       27.9    2.82   0.0135 * 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for gaussian family taken to be 3110)
-## 
-##     Null deviance: 68344  on 15  degrees of freedom
-## Residual deviance: 43538  on 14  degrees of freedom
-## AIC: 177.9
-## 
-## Number of Fisher Scoring iterations: 2</code></pre>
 </div>
-<div id="program-11.3" class="section level2 unnumbered">
-<h2>Program 11.3</h2>
+<div id="sufficient-causes" class="section level2 unnumbered">
+<h2>5.4 Sufficient causes</h2>
 <ul>
-<li>3-parameter linear model: <span class="math inline">\(E(Y|A)=\theta_0+\theta_{1}A+\theta_{2}A^2\)</span>, where <span class="math inline">\(A^2=A\times A\)</span></li>
-<li>Data from Figure 11.3</li>
+<li>Sufficient-component causes</li>
+<li>9 possible sufficient-component causes for a dichotomous outcome and two treatments:
+<img src="images/fig5-2.png"></li>
 </ul>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">Asq &lt;-<span class="st"> </span>A3 <span class="op">*</span><span class="st"> </span>A3</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2">mod3 &lt;-<span class="st"> </span><span class="kw">glm</span>(Y3 <span class="op">~</span><span class="st"> </span>A3 <span class="op">+</span><span class="st"> </span>Asq)</a>
-<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="kw">summary</span>(mod3)</a></code></pre></div>
-<pre><code>## 
-## Call:
-## glm(formula = Y3 ~ A3 + Asq)
-## 
-## Deviance Residuals: 
-##    Min      1Q  Median      3Q     Max  
-##  -65.3   -34.4    13.2    26.1    64.4  
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)  
-## (Intercept)  -7.4069    31.7478   -0.23    0.819  
-## A3            4.1072     1.5309    2.68    0.019 *
-## Asq          -0.0204     0.0153   -1.33    0.206  
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for gaussian family taken to be 1843)
-## 
-##     Null deviance: 82800  on 15  degrees of freedom
-## Residual deviance: 23955  on 13  degrees of freedom
-## AIC: 170.4
-## 
-## Number of Fisher Scoring iterations: 2</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">predict</span>(mod3, <span class="kw">data.frame</span>(<span class="kw">cbind</span>(<span class="dt">A3 =</span> <span class="dv">90</span>, <span class="dt">Asq =</span> <span class="dv">8100</span>)))</a></code></pre></div>
-<pre><code>##   1 
-## 197</code></pre>
+</div>
+<div id="sufficient-cause-interaction" class="section level2 unnumbered">
+<h2>5.5 Sufficient cause interaction</h2>
+<ul>
+<li><p>The definition of interaction within the counterfactual framework does not require any knowledge about those mechanisms nor even that the treatments work together.</p></li>
+<li><p>Another concept of interaction is not based on counterfactual contrasts but rather on sufficient-component causes. Therefore, it is called interaction within the sufficient-component-cause framework, or for brevity, sufficient cause interaction.</p></li>
+<li><p>A sufficient cause interaction between <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> exists in the population if <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> occur together in a sufficient cause. For example, suppose individuals with background factors <span class="math inline">\(U_5=1\)</span> will develop the outcome when jointly receiving <span class="math inline">\(E=1\)</span> and <span class="math inline">\(A=1\)</span>, but not when receiving only one of the two treatments. Then a sufficient cause interaction between <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> exists if there exists an individual with <span class="math inline">\(U_5=1\)</span>.</p></li>
+</ul>
+</div>
+<div id="counterfactuals-or-sufficient-component-causes" class="section level2 unnumbered">
+<h2>5.6 Counterfactuals or sufficient-component causes?</h2>
+<ul>
+<li><p>The sufficient component cause model considers sets of actions, events, or states of nature which together inevitably bring about the outcome under consideration. The model gives an account of the causes of a particular effect. It addresses the question, “Given a particular effect, what are the various events which might have been its cause?”</p></li>
+<li><p>The potential outcomes focus on one particular cause or intervention and gives an account of the various effects of that cause. In contrast to the sufficient component cause framework, the potential outcomes framework addresses the question, “What would have occurred if a particular factor were intervened upon and thus set to a different level than it in fact was?” Unlike the sufficient component cause framework, the counterfactual framework does not require a detailed knowledge of the meachanisms by which the factor affects the outcome.</p></li>
+</ul>
 
 </div>
 </div>
@@ -331,8 +378,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="interaction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="ip-weighting-and-marginal-structural-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="why-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -363,7 +410,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/duzhewang/cibook/edit/master/11-why-model.Rmd",
+"link": "https://github.com/duzhewang/cibook/edit/master/05-interaction.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -371,7 +418,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/duzhewang/cibook/blob/master/11-why-model.Rmd",
+"link": "https://github.com/duzhewang/cibook/blob/master/05-interaction.Rmd",
 "text": null
 },
 "download": null,
