@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>R code for causal inference book</title>
-  <meta name="description" content="R code for causal inference book" />
+  <title>6. Graphical representation of causal effects | R code for causal inference book</title>
+  <meta name="description" content="6. Graphical representation of causal effects | R code for causal inference book" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="R code for causal inference book" />
+  <meta property="og:title" content="6. Graphical representation of causal effects | R code for causal inference book" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="R code for causal inference book" />
+  <meta name="twitter:title" content="6. Graphical representation of causal effects | R code for causal inference book" />
   
   
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="interaction.html"/>
+<link rel="prev" href="interaction.html"/>
+<link rel="next" href="why-model.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -192,23 +192,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">R code for causal inference book</h1>
-<p class="author"><em>Duzhe Wang</em></p>
-<p class="date"><em>2021-01-16</em></p>
-</div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<p>The R code is based on the code by Joy Shi and Sean McGrath given <a href="https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/1268/20/Rcode_CIpart2.zip">here</a>, and the rendered version by Tom Palmer given <a href="https://remlapmot.github.io/cibookex-r/">here</a>.</p>
+<div id="graphical-representation-of-causal-effects" class="section level1 unnumbered">
+<h1>6. Graphical representation of causal effects</h1>
+<p>The use of graphs in causal inference problems makes it easier to follow a sensible advice: draw your assumptions before your conclusions.</p>
+<div id="causal-diagrams" class="section level2 unnumbered">
+<h2>6.1 Causal diagrams</h2>
+<!--<img src="images/fig6-1.png">
 
+- The presence of an arrow pointing from a particular variable $V$ to another variable $W$ indicates that we know there is a direct causal effect for at least one individual. 
+
+- A standard causal diagram does not distinguish whether an arrow represents a harmful effect or a protective effect. 
+
+-->
+<div id="causal-directed-acyclic-graphs" class="section level3 unnumbered">
+<h3>Causal directed acyclic graphs</h3>
+<ul>
+<li><p>We define a DAG <span class="math inline">\(G\)</span> to be a graph whose nodes are random variables <span class="math inline">\(V=(V_1,..., V_M)\)</span> with directed edges and no directed cycles. We use <span class="math inline">\(PA_m\)</span> to denote the parents of <span class="math inline">\(V_m\)</span>, i.e., the set of nodes from which there is a direct arrow into <span class="math inline">\(V_m\)</span>. The variable <span class="math inline">\(V_m\)</span> is a descendant of <span class="math inline">\(V_j\)</span> if there is a sequence of nodes connected by edges between <span class="math inline">\(V_j\)</span> and <span class="math inline">\(V_m\)</span> such that, following the direction indicated by the arrows, one can reach <span class="math inline">\(V_m\)</span> by starting at <span class="math inline">\(V_j\)</span>. We adopt the ordering convention that if <span class="math inline">\(m&gt;j\)</span>, <span class="math inline">\(V_m\)</span> is not an ancestor of <span class="math inline">\(V_j\)</span>. We define the distribution of <span class="math inline">\(V\)</span> to be Markov with respect to a DAG <span class="math inline">\(G\)</span> if for each <span class="math inline">\(j\)</span>, <span class="math inline">\(V_j\)</span> is independent of its non-descendants conditional on its parents.</p></li>
+<li><p>A causal DAG is a DAG in which 1) the lack of an arrow from node <span class="math inline">\(V_j\)</span> to <span class="math inline">\(V_m\)</span> can be interpreted as the absence of a direct causal effect of <span class="math inline">\(V_j\)</span> on <span class="math inline">\(V_m\)</span> relative to the other variables on the graph, <strong>2) all common causes, even if unmeasured, of any pair of variables on the graph are themselves on the graph</strong>, and 3) any variable is a cause of its descendants.</p></li>
+<li><p>Causal Markov assumption: conditional on its direct causes, a variable <span class="math inline">\(V_j\)</span> is independent of any variable for which it is not a cause. That is, conditional on its parents, <span class="math inline">\(V_j\)</span> is independent of its non-descendants. Mathematically, it’s equivalent to the statement that the density <span class="math inline">\(f(V)\)</span> of the variables <span class="math inline">\(V\)</span> in DAG <span class="math inline">\(G\)</span> satisfies the Markov factorization
+<span class="math display">\[ f(v)=\prod_{i=1}^{M}f(v_j|pa_{j}). \]</span></p></li>
+</ul>
+
+<div class="proof">
+ <span class="proof"><em>Proof. </em></span> We want to show the equivalence. We have
+<span class="math display">\[f(v)=f(v_1)\prod_{i=2}^{M}f(v_j|v_1,..., v_{j-1} ).\]</span>
+Based on the Markov assumption and the ordering convention, we have
+<span class="math display">\[f(v_j|v_1,..., v_{j-1})=f(v_j|pa_{j}).\]</span>
+Therefore, we have <span class="math inline">\(f(v)=\prod_{i=1}^{M}f(v_j|pa_{j})\)</span>.
+</div>
+
+
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="interaction.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="interaction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="why-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -239,7 +262,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/duzhewang/cibook/edit/master/index.Rmd",
+"link": "https://github.com/duzhewang/cibook/edit/master/06-graphical-representation-of-causal-effects.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -247,7 +270,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/duzhewang/cibook/blob/master/index.Rmd",
+"link": "https://github.com/duzhewang/cibook/blob/master/06-graphical-representation-of-causal-effects.Rmd",
 "text": null
 },
 "download": null,

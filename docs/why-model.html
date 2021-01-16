@@ -24,14 +24,14 @@
 <meta name="author" content="Duzhe Wang" />
 
 
-<meta name="date" content="2021-01-14" />
+<meta name="date" content="2021-01-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="interaction.html"/>
+<link rel="prev" href="graphical-representation-of-causal-effects.html"/>
 <link rel="next" href="ip-weighting-and-marginal-structural-models.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -140,6 +140,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="interaction.html"><a href="interaction.html#sufficient-cause-interaction"><i class="fa fa-check"></i>5.5 Sufficient cause interaction</a></li>
 <li class="chapter" data-level="" data-path="interaction.html"><a href="interaction.html#counterfactuals-or-sufficient-component-causes"><i class="fa fa-check"></i>5.6 Counterfactuals or sufficient-component causes?</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html"><i class="fa fa-check"></i>6. Graphical representation of causal effects</a><ul>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#causal-diagrams"><i class="fa fa-check"></i>6.1 Causal diagrams</a><ul>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#causal-directed-acyclic-graphs"><i class="fa fa-check"></i>Causal directed acyclic graphs</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html"><i class="fa fa-check"></i>11. Why model?</a><ul>
 <li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#some-concepts-and-points"><i class="fa fa-check"></i>Some concepts and points</a></li>
 <li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#program-11.1"><i class="fa fa-check"></i>Program 11.1</a></li>
@@ -210,7 +215,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">A&lt;-<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">8</span>), <span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>))</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">Y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">150</span>, <span class="dv">220</span>, <span class="dv">110</span>, <span class="dv">50</span>, <span class="dv">180</span>, <span class="dv">90</span>, <span class="dv">170</span>, <span class="dv">170</span>, <span class="dv">30</span>, <span class="dv">70</span>, <span class="dv">110</span>, <span class="dv">80</span>, <span class="dv">50</span>, <span class="dv">10</span>, <span class="dv">20</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">plot</span>(A, Y, <span class="dt">pch=</span><span class="dv">16</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-1-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-1.png" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">mean</span>(Y[A <span class="op">==</span><span class="st"> </span><span class="dv">0</span>])</a></code></pre></div>
 <pre><code>## [1] 67.5</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">mean</span>(Y[A <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
@@ -218,7 +223,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">A2&lt;-<span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="kw">rep</span>(<span class="dv">4</span>,<span class="dv">4</span>))</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">Y2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">110</span>, <span class="dv">80</span>, <span class="dv">50</span>, <span class="dv">40</span>, <span class="dv">170</span>, <span class="dv">30</span>, <span class="dv">70</span>, <span class="dv">50</span>, <span class="dv">110</span>, <span class="dv">50</span>, <span class="dv">180</span>, <span class="dv">130</span>, <span class="dv">200</span>, <span class="dv">150</span>, <span class="dv">220</span>, <span class="dv">210</span>)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw">plot</span>(A2, Y2, <span class="dt">pch=</span><span class="dv">16</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-2-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-1.png" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
 <pre><code>## [1] 70</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">mean</span>(Y2[A2 <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre></div>
@@ -237,7 +242,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">A3 &lt;-<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">11</span>, <span class="dv">17</span>, <span class="dv">23</span>, <span class="dv">29</span>, <span class="dv">37</span>, <span class="dv">41</span>, <span class="dv">53</span>, <span class="dv">67</span>, <span class="dv">79</span>, <span class="dv">83</span>, <span class="dv">97</span>, <span class="dv">60</span>, <span class="dv">71</span>, <span class="dv">15</span>, <span class="dv">45</span>)</a>
 <a class="sourceLine" id="cb15-2" data-line-number="2">Y3 &lt;-<span class="kw">c</span>(<span class="dv">21</span>, <span class="dv">54</span>, <span class="dv">33</span>, <span class="dv">101</span>, <span class="dv">85</span>, <span class="dv">65</span>, <span class="dv">157</span>, <span class="dv">120</span>, <span class="dv">111</span>, <span class="dv">200</span>, <span class="dv">140</span>, <span class="dv">220</span>, <span class="dv">230</span>, <span class="dv">217</span>, <span class="dv">11</span>, <span class="dv">190</span>)</a>
 <a class="sourceLine" id="cb15-3" data-line-number="3"><span class="kw">plot</span>(Y3 <span class="op">~</span><span class="st"> </span>A3, <span class="dt">pch=</span><span class="dv">16</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-3-1.png" width="85%" style="display: block; margin: auto;" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-4-1.png" width="85%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">glm</span>(Y3 <span class="op">~</span><span class="st"> </span>A3))</a></code></pre></div>
 <pre><code>## 
 ## Call:
@@ -331,7 +336,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="interaction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="graphical-representation-of-causal-effects.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="ip-weighting-and-marginal-structural-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
