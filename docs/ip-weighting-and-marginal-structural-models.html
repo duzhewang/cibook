@@ -24,7 +24,7 @@
 <meta name="author" content="Duzhe Wang" />
 
 
-<meta name="date" content="2021-01-16" />
+<meta name="date" content="2021-01-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -143,6 +143,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html"><i class="fa fa-check"></i>6. Graphical representation of causal effects</a><ul>
 <li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#causal-diagrams"><i class="fa fa-check"></i>6.1 Causal diagrams</a><ul>
 <li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#causal-directed-acyclic-graphs"><i class="fa fa-check"></i>Causal directed acyclic graphs</a></li>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#examples"><i class="fa fa-check"></i>Examples</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#causal-diagrams-and-marginal-independence"><i class="fa fa-check"></i>6.2 Causal diagrams and marginal independence</a></li>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#causal-diagrams-and-conditional-independence"><i class="fa fa-check"></i>6.3 Causal diagrams and conditional independence</a></li>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#appendix-a-uncorrelated-vs.independent"><i class="fa fa-check"></i>Appendix A: uncorrelated vs. independent</a></li>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#appendix-b-the-flow-of-association-and-causation-in-graphs"><i class="fa fa-check"></i>Appendix B: The flow of association and causation in graphs</a><ul>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#graph-terminology"><i class="fa fa-check"></i>Graph terminology</a></li>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#bayesian-networks"><i class="fa fa-check"></i>Bayesian networks</a></li>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#causal-graphs"><i class="fa fa-check"></i>Causal graphs</a></li>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#two-node-graphs-and-graphical-building-blocks"><i class="fa fa-check"></i>Two-node graphs and graphical building blocks</a></li>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#chains-and-forks"><i class="fa fa-check"></i>Chains and forks</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html"><i class="fa fa-check"></i>11. Why model?</a><ul>
@@ -465,7 +476,7 @@ Therefore, additive effect modification is present if <span class="math inline">
 <a class="sourceLine" id="cb34-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb34-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb34-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <ul>
 <li><code>wt71</code></li>
 </ul>
@@ -483,7 +494,7 @@ Therefore, additive effect modification is present if <span class="math inline">
 <a class="sourceLine" id="cb39-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb39-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb39-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <ul>
 <li><code>smokeintensity</code>: number of cigarettes smoked per day in 1971</li>
 </ul>
@@ -501,7 +512,7 @@ Therefore, additive effect modification is present if <span class="math inline">
 <a class="sourceLine" id="cb44-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb44-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb44-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <ul>
 <li><code>smokeyrs</code>: years of smoking</li>
 </ul>
@@ -519,7 +530,7 @@ Therefore, additive effect modification is present if <span class="math inline">
 <a class="sourceLine" id="cb49-6" data-line-number="6"><span class="st">      </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>, <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb49-7" data-line-number="7"><span class="st">      </span><span class="kw">ggtitle</span>(<span class="st">&quot;Boxplot&quot;</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb49-8" data-line-number="8"><span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;qsmk&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <ul>
 <li>sex</li>
 </ul>
@@ -536,7 +547,7 @@ Therefore, additive effect modification is present if <span class="math inline">
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">nhefs.nmv<span class="op">$</span>sex=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>sex)</a>
 <a class="sourceLine" id="cb54-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> sex)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb54-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <ul>
 <li>race: 0 if white, 1 if black or other in 1971</li>
 </ul>
@@ -553,7 +564,7 @@ Therefore, additive effect modification is present if <span class="math inline">
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">nhefs.nmv<span class="op">$</span>race=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>race)</a>
 <a class="sourceLine" id="cb59-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> race)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb59-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <ul>
 <li>education (AMOUNT OF EDUCATION BY 1971): 1 if 8TH GRADE OR LESS, 2 if HS DROPOUT, 3 if HS, 4 if COLLEGE DROPOUT, 5 if COLLEGE OR MORE</li>
 </ul>
@@ -570,7 +581,7 @@ Therefore, additive effect modification is present if <span class="math inline">
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">nhefs.nmv<span class="op">$</span>education=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>education)</a>
 <a class="sourceLine" id="cb64-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> education)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb64-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 <ul>
 <li>exercise: 0 if much exercise,1 if moderate exercise,2 if little or no exercise</li>
 </ul>
@@ -587,7 +598,7 @@ Therefore, additive effect modification is present if <span class="math inline">
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1">nhefs.nmv<span class="op">$</span>exercise=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>exercise)</a>
 <a class="sourceLine" id="cb69-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> exercise)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb69-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <ul>
 <li>active: 0 if very active, 1 if moderately active, 2 if inactive</li>
 </ul>
@@ -604,7 +615,7 @@ Therefore, additive effect modification is present if <span class="math inline">
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1">nhefs.nmv<span class="op">$</span>active=<span class="kw">as.factor</span>(nhefs.nmv<span class="op">$</span>active)</a>
 <a class="sourceLine" id="cb74-2" data-line-number="2">nhefs.nmv<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> qsmk, <span class="dt">fill =</span> active)) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb74-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</a></code></pre></div>
-<p><img src="bookdownproj_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 </div>
 <div id="estimating-ip-weights-via-modeling" class="section level3 unnumbered">
 <h3>Estimating IP weights via modeling</h3>
