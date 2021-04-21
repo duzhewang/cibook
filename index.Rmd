@@ -1,5 +1,5 @@
 --- 
-title: "R code for causal inference book"
+title: "Causal inference"
 author: "Duzhe Wang"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -8,5 +8,8 @@ site: bookdown::bookdown_site
 
 # Preface{-}
 
-The R code is based on the code by Joy Shi and Sean McGrath given [here](https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/1268/20/Rcode_CIpart2.zip), and the rendered version by Tom Palmer given [here](https://remlapmot.github.io/cibookex-r/). 
+- These notes are based on the book **Causal Inference, What If**
+- R code reference:
+  - [Joy Shi and Sean McGrath](https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/1268/20/Rcode_CIpart2.zip)
+  - [Tom Palmer](https://remlapmot.github.io/cibookex-r/). 
 
