@@ -304,7 +304,7 @@ where implies that $X_1$ and $X_3$ are dependent conditoning on $X_2$.
 - Descendants of colliders: Conditioning on descendants of a collider also induces association in between the parents of the collider. The intuition is that if we learn something about a collider's descendant, we usually also learn something about the collider itself because there is a direct causal path from the collider to its descendants. For example, consider $X_4=2X_2$ in the above numerical example.   
 
 ### d-separation {-}
-
+to be written...
 
 
 
