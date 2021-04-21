@@ -24,7 +24,7 @@
 <meta name="author" content="Duzhe Wang" />
 
 
-<meta name="date" content="2021-01-23" />
+<meta name="date" content="2021-04-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -154,6 +154,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#causal-graphs"><i class="fa fa-check"></i>Causal graphs</a></li>
 <li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#two-node-graphs-and-graphical-building-blocks"><i class="fa fa-check"></i>Two-node graphs and graphical building blocks</a></li>
 <li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#chains-and-forks"><i class="fa fa-check"></i>Chains and forks</a></li>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#colliders-and-their-descendants"><i class="fa fa-check"></i>Colliders and their descendants</a></li>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#d-separation"><i class="fa fa-check"></i>d-separation</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html"><i class="fa fa-check"></i>11. Why model?</a><ul>
@@ -326,17 +328,19 @@ If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</s
 <ul>
 <li>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, then they are also uncorrelated. (This also implies that if <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are correlated, then they are dependent.)</li>
 </ul>
-
-<div class="proof">
- <span class="proof"><em>Proof. </em></span> <span class="math inline">\(E(XY)=\int\int xyp_{X, Y}(x, y)dxdy = \int\int xyp_{X}(x)p_{Y}(y)dxdy = \int xp_{X}(x)dx\int yp_{Y}(y)dy =E(X)E(Y)\)</span>
-</div>
-
+<p><span class="math display">\[\begin{equation*}
+E(XY)=\int\int xyp_{X, Y}(x, y)dxdy
+= \int\int xyp_{X}(x)p_{Y}(y)dxdy  \\ 
+= \int xp_{X}(x)dx\int yp_{Y}(y)dy
+=E(X)E(Y)
+\end{equation*}\]</span></p>
 <ul>
-<li>However, if <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are uncorrelated, then they can still be dependent. For example, let <span class="math inline">\(Y=X^2\)</span>, then if <span class="math inline">\(E(X)=0\)</span> and <span class="math inline">\(E(X^3)=0\)</span>, we have <span class="math inline">\(Cov(X, Y)=E(XY)=E(X^3)=0\)</span>, so <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are uncorrelated, but they are dependent.</li>
+<li>However, if <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are uncorrelated, then they can still be dependent. For example, let <span class="math inline">\(Y=X^2\)</span>, then if <span class="math inline">\(E(X)=0\)</span> and <span class="math inline">\(E(X^3)=0\)</span>, we have <span class="math inline">\(Cov(X, Y)=E(XY)=E(X^3)=0\)</span>, so <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are uncorrelated, but they are dependent based on the above lemma.</li>
 </ul>
 </div>
 <div id="appendix-b-the-flow-of-association-and-causation-in-graphs" class="section level2 unnumbered">
 <h2>Appendix B: The flow of association and causation in graphs</h2>
+<p>This section is mainly from Brady Neal’s Introduction to Causal Inference from a Machine Learning Perspective.</p>
 <div id="graph-terminology" class="section level3 unnumbered">
 <h3>Graph terminology</h3>
 <ul>
@@ -373,39 +377,128 @@ If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</s
 <li>Adjacent nodes in the DAG are dependent</li>
 </ol></li>
 </ul></li>
-<li>Note the second part of minimality assumption is equivalent to the following way: if we were to remove any edges from the DAG, P would not be Markov with respect to the graph with the removed edges.
+<li><strong>Note the second part of minimality assumption is equivalent to the following way: if we were to remove any edges from the DAG, P would not be Markov with respect to the graph with the removed edges.</strong>
 <ul>
-<li>We show this equivalence by a concrete example:
+<li>We show this equivalence by a concrete example: see the following DAG.
 <p align="center">
 <image src="images/minimality.png">
-</p></li>
+</p>
+We first show part 2 of the minimality assumption implies the above statement. Based on the local Markov assumption, we have
+<span class="math display">\[f(x_1, x_2, x_3, x_4)=f(x_1)f(x_2|x_1)f(x_3|x_1, x_2)f(x_4|x_3). \]</span>
+Consider the case that we remove the edge <span class="math inline">\(X_2\rightarrow X_3\)</span>. If <span class="math inline">\(P\)</span> is Markov with respect to the graph with the removed edge, then we have
+<span class="math display">\[f(x_1, x_2, x_3, x_4)=f(x_1)f(x_2|x_1)f(x_3|x_1)f(x_4|x_3).\]</span>
+Therefore, we have
+<span class="math display">\[f(x_3|x_1, x_2)=f(x_3|x_1),\]</span>
+which implies that <span class="math inline">\(f(x_3|x_2)=f(x_3)\)</span>. Then <span class="math inline">\(X_3\)</span> is independent of <span class="math inline">\(X_2\)</span>. This contracts with part 2 of the minimality assumption. So we have <span class="math inline">\(P\)</span> is not Markov with respect to the graph with the removed edges. Next, we show the other direction. Since <span class="math inline">\(P\)</span> would not be Markov respect to the graph with the removed edges, so we have
+<span class="math inline">\(f(x_3|x_1, x_2)\ne f(x_3|x_1)\)</span>, which implies that <span class="math inline">\(f(x_3|x_2)\ne f(x_3)\)</span>. Hence we have <span class="math inline">\(X_3\)</span> is dependent of <span class="math inline">\(X_2\)</span>.</li>
 </ul></li>
+<li><strong>To see why the assumption is named “minimality”. We know that if <span class="math inline">\(P\)</span> is Markov with respect to a DAG <span class="math inline">\(G\)</span>, then <span class="math inline">\(P\)</span> satisfies a set of independencies that are specific to the structure of <span class="math inline">\(G\)</span>. If <span class="math inline">\(P\)</span> and <span class="math inline">\(G\)</span> also satisfy minimality, then this set of independencies is minimal in the sense the <span class="math inline">\(P\)</span> does not satisfy any additional independencies. This is equivalent to saying that adjacent nodes are dependent. </strong> (Why?)</li>
 </ul>
-<p>(<strong>What does the minimality assumption mean?</strong>)</p>
 </div>
 <div id="causal-graphs" class="section level3 unnumbered">
 <h3>Causal graphs</h3>
 <ul>
-<li><p>What is a cause? A variable <span class="math inline">\(X\)</span> is said to be a cause of a variable <span class="math inline">\(Y\)</span> if <span class="math inline">\(Y\)</span> can change in response to changes in <span class="math inline">\(X\)</span>. (<strong>This definition implies if <span class="math inline">\(X\)</span> is a cause of <span class="math inline">\(Y\)</span>, then <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are dependent.</strong>)</p></li>
-<li><p>Causal edges assumption: In a directed graph, every parent is a direct cause of all its children.
-(Based on the definition of a cause, this assumption implies that adjacent nodes are dependent.)</p></li>
+<li><p>What is a cause? A variable <span class="math inline">\(X\)</span> is said to be a cause of a variable <span class="math inline">\(Y\)</span> if <span class="math inline">\(Y\)</span> can change in response to changes in <span class="math inline">\(X\)</span>. (<strong>Based on the lemma in Appendix A, this definition implies if <span class="math inline">\(X\)</span> is a cause of <span class="math inline">\(Y\)</span>, then <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are dependent.</strong>)</p></li>
+<li>(Strict) causal edges assumption: In a directed graph, every parent is a direct cause of all its children.
+<ul>
+<li>Based on the definition of a cause, this assumption implies that adjacent nodes are dependent.</li>
+<li>This is indeed the second part of the minimality assumption.</li>
+</ul></li>
 </ul>
 </div>
 <div id="two-node-graphs-and-graphical-building-blocks" class="section level3 unnumbered">
 <h3>Two-node graphs and graphical building blocks</h3>
 <ul>
-<li>Two unconnected nodes</li>
+<li><p>Flow of association: by “flow of association”, we mean whether any two nodes in a graph are associated or not associated. Another way of saying this is whether two nodes are statistically dependent or statistically independent.</p></li>
+<li>Two unconnected nodes
+<p align="center">
+<image src="images/two-unconnected-nodes.png">
+</p></li>
 </ul>
-<p><image src="images/two-unconnected-nodes.png"></p>
-<p>The Bayesian network factorization implies the two nodes <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> are unassociated (independent) in this building block.</p>
+<p>The Bayesian network factorization (or equivalently the local Markov assumption) implies the two nodes <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> are unassociated (independent) in this building block.</p>
 <ul>
-<li>Two connected nodes</li>
+<li>Two connected nodes
+<p align="center">
+<image src="images/two-connected-nodes.png">
+</p></li>
 </ul>
-<p><image src="images/two-connected-nodes.png"></p>
 <p>The causal edges assumption implies <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> are associated.</p>
 </div>
 <div id="chains-and-forks" class="section level3 unnumbered">
 <h3>Chains and forks</h3>
+<p align="center">
+<image src="images/fig3-12.png">
+</p>
+<p align="center">
+<image src="images/fig3-13.png">
+</p>
+<ul>
+<li><p>In both chains and forks, <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> are depenedent, and <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> are dependent based on the causal edges assumption (or the second part of the minimality assumption).</p></li>
+<li>Is <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> associated in chains and forks?
+<ul>
+<li><strong>Usually, <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> are associated in both chains and forks.</strong> Intuitively, in chain graphs, <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> are usually dependent simply because <span class="math inline">\(X_1\)</span> causes changes in <span class="math inline">\(X_2\)</span> which then causes changes in <span class="math inline">\(X_3\)</span>. In a fork graph, <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> are also usually dependent because the same value that <span class="math inline">\(X_2\)</span> takes on is used to determine both the value that <span class="math inline">\(X_1\)</span> talkes on and the value that <span class="math inline">\(X_3\)</span> takes on.</li>
+<li><strong>However, there exist pathological cases where <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> are not dependent in chains and forks.</strong> We consider the following example: <span class="math inline">\(P(X=1)=P(X=2)=\frac{1}{2}\)</span>, <span class="math inline">\(P(U_Y=1)=P(U_Y=2)=\frac{1}{2}\)</span>, <span class="math inline">\(X\perp U_Y\)</span>, <span class="math inline">\(Y=3\)</span> if <span class="math inline">\(X=1\)</span> and <span class="math inline">\(U_Y=1\)</span>, <span class="math inline">\(Y=4\)</span> if <span class="math inline">\(X=2\)</span> and <span class="math inline">\(U_Y=1\)</span>, <span class="math inline">\(Y=5\)</span> if <span class="math inline">\(U_Y=2\)</span>; <span class="math inline">\(Z=6\)</span> if <span class="math inline">\(Y=5\)</span> or <span class="math inline">\(U_Z=1\)</span> and <span class="math inline">\(Z=7\)</span> if <span class="math inline">\(Y\ne 5\)</span> and <span class="math inline">\(U_Z=2\)</span>. Then we have
+<span class="math display">\[\begin{equation*}
+P(X=1, Z=6)=P(X=1, Y=5~\text{or}~U_Z=1)=P(X=1, Y=5, U_Z=1) \\
++P(X=1, Y=5, U_Z=2)+P(X=1, Y=3, U_Z=1)+P(X=1, Y=4, U_Z=1) \\
+= \frac{1}{8}+\frac{1}{8}+\frac{1}{8}=\frac{3}{8}=P(X=1)P(Z=6).
+\end{equation*}\]</span>
+Similarly, we have <span class="math inline">\(P(X=1, Z=7)=P(X=1)P(Z=7)\)</span>, <span class="math inline">\(P(X=2, Z=6)=P(X=2)P(Z=6)\)</span> and <span class="math inline">\(P(X=2, Z=7)=P(X=2)P(Z=7)\)</span>. Therefore, <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> are independent.</li>
+</ul></li>
+<li>Blocked paths
+<p align="center">
+<image src="images/fig3-14-15.png">
+</p>
+<p>When we condition on <span class="math inline">\(X_2\)</span> in chains and forks, it blocks the flow of association from <span class="math inline">\(X_1\)</span> to <span class="math inline">\(X_3\)</span>. This is because of the local Markov assumption.</p></li>
+</ul>
+
+<div class="proof">
+<p> <span class="proof"><em>Proof. </em></span> In chains, we have
+<span class="math display">\[\begin{equation*}
+f(x_1, x_2, x_3)=f(x_1)f(x_2|x_1)f(x_3|x_2).
+\end{equation*}\]</span>
+So
+<span class="math display">\[\begin{equation*}
+f(x_1, x_3|x_2)=\frac{f(x_1)f(x_2|x_1)f(x_3|x_2)}{f(x_2)}=f(x_1|x_2)f(x_3|x_2). 
+\end{equation*}\]</span></p>
+In forks, we have <span class="math inline">\(f(x_1, x_2, x_3)=f(x_2)f(x_1|x_2)f(x_3|x_2)\)</span>. So
+<span class="math display">\[\begin{equation*}
+f(x_1, x_3|x_2)=f(x_1|x_2)f(x_3|x_2). 
+\end{equation*}\]</span>
+</div>
+
+</div>
+<div id="colliders-and-their-descendants" class="section level3 unnumbered">
+<h3>Colliders and their descendants</h3>
+<ul>
+<li>In colliders, <span class="math inline">\(X_1\)</span> is independent of <span class="math inline">\(X_3\)</span>. An intuitive thought: <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> simply as unrelated events that happen, which happen to both contribute to some common effect.
+
+<div class="proof">
+ <span class="proof"><em>Proof. </em></span> We have <span class="math inline">\(f(x_1, x_2, x_3)=f(x_1)f(x_3)f(x_2|x_1, x_3)\)</span>. So
+<span class="math display">\[\begin{equation*}
+f(x_1, x_3)=\int f(x_1)f(x_3)f(x_2|x_1, x_3)dx_2=f(x_1)f(x_3). 
+\end{equation*}\]</span>
+</div>
+<p align="center">
+<image src="images/fig3-16.png">
+</p></li>
+<li><strong>Oddly enough, when we condition on the collider <span class="math inline">\(X_2\)</span>, its parents <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> become dependent.</strong>
+See the example Good-looking men are jerks from the book.</li>
+</ul>
+<p>An numerical example: consider the following data generating process <span class="math inline">\(X_1\sim N(0, 1)\)</span>, <span class="math inline">\(X_3\sim N(0, 1)\)</span> and <span class="math inline">\(X_2=X_1+X_3\)</span>. <span class="math inline">\(X_1\)</span>. Then
+<span class="math display">\[\begin{equation*}
+Cov(X_1, X_3|X_2=x)=E(X_1(x-X_1))=-1,
+\end{equation*}\]</span>
+where implies that <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> are dependent conditoning on <span class="math inline">\(X_2\)</span>.</p>
+<p align="center">
+<image src="images/fig-3-17.png">
+</p>
+<ul>
+<li>Descendants of colliders: Conditioning on descendants of a collider also induces association in between the parents of the collider. The intuition is that if we learn something about a collider’s descendant, we usually also learn something about the collider itself because there is a direct causal path from the collider to its descendants. For example, consider <span class="math inline">\(X_4=2X_2\)</span> in the above numerical example.</li>
+</ul>
+</div>
+<div id="d-separation" class="section level3 unnumbered">
+<h3>d-separation</h3>
 
 </div>
 </div>

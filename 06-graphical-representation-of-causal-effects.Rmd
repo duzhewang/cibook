@@ -137,16 +137,19 @@ See https://stats.stackexchange.com/questions/16321/are-the-random-variables-x-a
 
 - If $X$ and $Y$ are independent, then they are also uncorrelated. (This also implies that if $X$ and $Y$ are correlated, then they are dependent.)
 
-```{proof}
-$E(XY)=\int\int xyp_{X, Y}(x, y)dxdy
-= \int\int xyp_{X}(x)p_{Y}(y)dxdy
+\begin{equation*}
+E(XY)=\int\int xyp_{X, Y}(x, y)dxdy
+= \int\int xyp_{X}(x)p_{Y}(y)dxdy  \\ 
 = \int xp_{X}(x)dx\int yp_{Y}(y)dy
-=E(X)E(Y)$
-```
+=E(X)E(Y)
+\end{equation*}
 
-- However, if $X$ and $Y$ are uncorrelated, then they can still be dependent. For example, let $Y=X^2$, then if $E(X)=0$ and $E(X^3)=0$, we have $Cov(X, Y)=E(XY)=E(X^3)=0$, so $X$ and $Y$ are uncorrelated, but they are dependent.  
+
+- However, if $X$ and $Y$ are uncorrelated, then they can still be dependent. For example, let $Y=X^2$, then if $E(X)=0$ and $E(X^3)=0$, we have $Cov(X, Y)=E(XY)=E(X^3)=0$, so $X$ and $Y$ are uncorrelated, but they are dependent based on the above lemma.  
 
 ## Appendix B: The flow of association and causation in graphs {-}
+This section is mainly from Brady Neal's Introduction to Causal Inference from a Machine Learning Perspective. 
+
 
 ### Graph terminology {-}
 
@@ -182,56 +185,125 @@ $E(XY)=\int\int xyp_{X, Y}(x, y)dxdy
    - 1. Local Markov assumption
    - 2. Adjacent nodes in the DAG are dependent 
 
-- Note the second part of minimality assumption is equivalent to the following way: if we were to remove any edges from the DAG, P would not be Markov with respect to the graph with the removed edges. 
-  - We show this equivalence by a concrete example: 
+- **Note the second part of minimality assumption is equivalent to the following way: if we were to remove any edges from the DAG, P would not be Markov with respect to the graph with the removed edges.** 
+  - We show this equivalence by a concrete example: see the following DAG. 
 <p align="center">
 <image src="images/minimality.png">
 </p>
+We first show part 2 of the minimality assumption implies the above statement. Based on the local Markov assumption, we have 
+$$f(x_1, x_2, x_3, x_4)=f(x_1)f(x_2|x_1)f(x_3|x_1, x_2)f(x_4|x_3). $$
+Consider the case that we remove the edge $X_2\rightarrow X_3$. If $P$ is Markov with respect to the graph with the removed edge, then we have 
+$$f(x_1, x_2, x_3, x_4)=f(x_1)f(x_2|x_1)f(x_3|x_1)f(x_4|x_3).$$
+Therefore, we have 
+$$f(x_3|x_1, x_2)=f(x_3|x_1),$$
+which implies that $f(x_3|x_2)=f(x_3)$. Then $X_3$ is independent of $X_2$. This contracts with part 2 of the minimality assumption. So we have $P$ is not Markov with respect to the graph with the removed edges. Next, we show the other direction. Since $P$ would not be Markov respect to the graph with the removed edges, so we have
+$f(x_3|x_1, x_2)\ne f(x_3|x_1)$, which implies that $f(x_3|x_2)\ne f(x_3)$. Hence we have $X_3$ is dependent of $X_2$. 
 
-(**What does the minimality assumption mean?**)
+- **To see why the assumption is named "minimality". We know that if $P$ is Markov with respect to a DAG $G$, then $P$ satisfies a set of independencies that are specific to the structure of $G$. If $P$ and $G$ also satisfy minimality, then this set of independencies is minimal in the sense the $P$ does not satisfy any additional independencies. This is equivalent to saying that adjacent nodes are dependent. ** (Why?)
 
 
 ### Causal graphs {-}
 
-- What is a cause? A variable $X$ is said to be a cause of a variable $Y$ if $Y$ can change in response to changes in $X$. (**This definition implies if $X$ is a cause of $Y$, then $X$ and $Y$ are dependent.**)
+- What is a cause? A variable $X$ is said to be a cause of a variable $Y$ if $Y$ can change in response to changes in $X$. (**Based on the lemma in Appendix A, this definition implies if $X$ is a cause of $Y$, then $X$ and $Y$ are dependent.**)
 
-- Causal edges assumption: In a directed graph, every parent is a direct cause of all its children. 
-(Based on the definition of a cause, this assumption implies that adjacent nodes are dependent.)
+- (Strict) causal edges assumption: In a directed graph, every parent is a direct cause of all its children. 
+   - Based on the definition of a cause, this assumption implies that adjacent nodes are dependent.
+   - This is indeed the second part of the minimality assumption. 
 
 ### Two-node graphs and graphical building blocks {-}
+- Flow of association: by "flow of association", we mean whether any two nodes in a graph are associated or not associated. Another way of saying this is whether two nodes are statistically dependent or statistically independent. 
 
 - Two unconnected nodes
-
+<p  align="center">
 <image src="images/two-unconnected-nodes.png">
+</p>
 
-The Bayesian network factorization implies the two nodes $X_1$ and $X_2$ are unassociated (independent) in this building block. 
+The Bayesian network factorization (or equivalently the local Markov assumption) implies the two nodes $X_1$ and $X_2$ are unassociated (independent) in this building block. 
 
 
 - Two connected nodes 
-
+<p align="center">
 <image src="images/two-connected-nodes.png">
-
+</p>
 
 The causal edges assumption implies $X_1$ and $X_2$ are associated. 
 
 
 ### Chains and forks {-}
+<p  align="center">
+<image src="images/fig3-12.png">
+</p>
+
+<p  align="center">
+<image src="images/fig3-13.png">
+</p>
+
+- In both chains and forks, $X_1$ and $X_2$ are depenedent, and $X_2$ and $X_3$ are dependent based on the causal edges assumption (or the second part of the minimality assumption). 
+
+- Is $X_1$ and $X_3$ associated in chains and forks? 
+  - **Usually, $X_1$ and $X_3$ are associated in both chains and forks.** Intuitively, in chain graphs, $X_1$ and $X_3$ are usually dependent simply because $X_1$ causes changes in $X_2$ which then causes changes in $X_3$. In a fork graph, $X_1$ and $X_3$ are also usually dependent because the same value that $X_2$ takes on is used to determine both the value that $X_1$ talkes on and the value that $X_3$ takes on. 
+  - **However, there exist pathological cases where $X_1$ and $X_3$ are not dependent in chains and forks.** We consider the following example: $P(X=1)=P(X=2)=\frac{1}{2}$, $P(U_Y=1)=P(U_Y=2)=\frac{1}{2}$, $X\perp U_Y$, $Y=3$ if $X=1$ and $U_Y=1$, $Y=4$ if $X=2$ and $U_Y=1$, $Y=5$ if $U_Y=2$; $Z=6$ if $Y=5$ or $U_Z=1$ and $Z=7$ if $Y\ne 5$ and $U_Z=2$. Then we have 
+  \begin{equation*}
+  P(X=1, Z=6)=P(X=1, Y=5~\text{or}~U_Z=1)=P(X=1, Y=5, U_Z=1) \\
+  +P(X=1, Y=5, U_Z=2)+P(X=1, Y=3, U_Z=1)+P(X=1, Y=4, U_Z=1) \\
+  = \frac{1}{8}+\frac{1}{8}+\frac{1}{8}=\frac{3}{8}=P(X=1)P(Z=6).
+  \end{equation*}
+Similarly, we have $P(X=1, Z=7)=P(X=1)P(Z=7)$, $P(X=2, Z=6)=P(X=2)P(Z=6)$ and $P(X=2, Z=7)=P(X=2)P(Z=7)$. Therefore, $X$ and $Z$ are independent. 
+
+- Blocked paths
+<p  align="center">
+<image src="images/fig3-14-15.png">
+</p>
+When we condition on $X_2$ in chains and forks, it blocks the flow of association from $X_1$ to $X_3$. This is because of the local Markov assumption. 
+
+```{proof}
+In chains, we have 
+\begin{equation*}
+f(x_1, x_2, x_3)=f(x_1)f(x_2|x_1)f(x_3|x_2).
+\end{equation*}
+So 
+\begin{equation*}
+f(x_1, x_3|x_2)=\frac{f(x_1)f(x_2|x_1)f(x_3|x_2)}{f(x_2)}=f(x_1|x_2)f(x_3|x_2). 
+\end{equation*}
+
+In forks, we have $f(x_1, x_2, x_3)=f(x_2)f(x_1|x_2)f(x_3|x_2)$. So 
+\begin{equation*}
+f(x_1, x_3|x_2)=f(x_1|x_2)f(x_3|x_2). 
+\end{equation*}
+```
 
 
+### Colliders and their descendants {-}
+
+- In colliders, $X_1$ is independent of $X_3$. An intuitive thought: $X_1$ and $X_3$ simply as unrelated events that happen, which happen to both contribute to some common effect. 
+```{proof}
+We have $f(x_1, x_2, x_3)=f(x_1)f(x_3)f(x_2|x_1, x_3)$. So 
+\begin{equation*}
+f(x_1, x_3)=\int f(x_1)f(x_3)f(x_2|x_1, x_3)dx_2=f(x_1)f(x_3). 
+\end{equation*}
+```
+<p  align="center"> 
+<image src="images/fig3-16.png">
+</p>
 
 
+- **Oddly enough, when we condition on the collider $X_2$, its parents $X_1$ and $X_3$ become dependent.**
+See the example Good-looking men are jerks from the book. 
+
+An numerical example: consider the following data generating process $X_1\sim N(0, 1)$, $X_3\sim N(0, 1)$ and $X_2=X_1+X_3$. $X_1$. Then 
+\begin{equation*}
+Cov(X_1, X_3|X_2=x)=E(X_1(x-X_1))=-1,
+\end{equation*}
+where implies that $X_1$ and $X_3$ are dependent conditoning on $X_2$. 
+
+<p  align="center"> 
+<image src="images/fig-3-17.png">
+</p>
 
 
+- Descendants of colliders: Conditioning on descendants of a collider also induces association in between the parents of the collider. The intuition is that if we learn something about a collider's descendant, we usually also learn something about the collider itself because there is a direct causal path from the collider to its descendants. For example, consider $X_4=2X_2$ in the above numerical example.   
 
-
-
-
-
-
-
-
-
-
+### d-separation {-}
 
 
 
