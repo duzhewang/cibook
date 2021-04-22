@@ -24,7 +24,7 @@
 <meta name="author" content="Duzhe Wang" />
 
 
-<meta name="date" content="2021-04-21" />
+<meta name="date" content="2021-04-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -167,6 +167,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html"><i class="fa fa-check"></i>12. IP weighting and marginal structural models</a><ul>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#part-1-summary-of-the-chapter"><i class="fa fa-check"></i>Part 1: Summary of the chapter</a><ul>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#definitions"><i class="fa fa-check"></i>Definitions</a></li>
+<li class="chapter" data-level="0.0.1" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#more-about-conditional-exchangeability-assumption"><i class="fa fa-check"></i><b>0.0.1</b> More about conditional exchangeability assumption</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#equivalence-of-ip-weighting-and-standardization"><i class="fa fa-check"></i>Equivalence of IP weighting and standardization</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#equivalence-of-potential-outcome-mean-standardized-mean-and-ip-weighted-mean"><i class="fa fa-check"></i>Equivalence of potential outcome mean, standardized mean and IP weighted mean</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#what-does-ip-weighting-mean"><i class="fa fa-check"></i>What does IP weighting mean?</a></li>
@@ -335,7 +336,8 @@ E(XY)=\int\int xyp_{X, Y}(x, y)dxdy
 =E(X)E(Y)
 \end{equation*}\]</span></p>
 <ul>
-<li>However, if <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are uncorrelated, then they can still be dependent. For example, let <span class="math inline">\(Y=X^2\)</span>, then if <span class="math inline">\(E(X)=0\)</span> and <span class="math inline">\(E(X^3)=0\)</span>, we have <span class="math inline">\(Cov(X, Y)=E(XY)=E(X^3)=0\)</span>, so <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are uncorrelated, but they are dependent based on the above lemma.</li>
+<li><p>However, if <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are uncorrelated, then they can still be dependent. For example, let <span class="math inline">\(Y=X^2\)</span>, then if <span class="math inline">\(E(X)=0\)</span> and <span class="math inline">\(E(X^3)=0\)</span>, we have <span class="math inline">\(Cov(X, Y)=E(XY)=E(X^3)=0\)</span>, so <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are uncorrelated, but they are dependent based on the above lemma.</p></li>
+<li><p><strong>Take-away message</strong>: Pearson correlation only measures the <strong>linear</strong> dependence.</p></li>
 </ul>
 </div>
 <div id="appendix-b-the-flow-of-association-and-causation-in-graphs" class="section level2 unnumbered">

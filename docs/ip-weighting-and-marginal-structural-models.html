@@ -24,7 +24,7 @@
 <meta name="author" content="Duzhe Wang" />
 
 
-<meta name="date" content="2021-04-21" />
+<meta name="date" content="2021-04-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -167,6 +167,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html"><i class="fa fa-check"></i>12. IP weighting and marginal structural models</a><ul>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#part-1-summary-of-the-chapter"><i class="fa fa-check"></i>Part 1: Summary of the chapter</a><ul>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#definitions"><i class="fa fa-check"></i>Definitions</a></li>
+<li class="chapter" data-level="0.0.1" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#more-about-conditional-exchangeability-assumption"><i class="fa fa-check"></i><b>0.0.1</b> More about conditional exchangeability assumption</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#equivalence-of-ip-weighting-and-standardization"><i class="fa fa-check"></i>Equivalence of IP weighting and standardization</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#equivalence-of-potential-outcome-mean-standardized-mean-and-ip-weighted-mean"><i class="fa fa-check"></i>Equivalence of potential outcome mean, standardized mean and IP weighted mean</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#what-does-ip-weighting-mean"><i class="fa fa-check"></i>What does IP weighting mean?</a></li>
@@ -220,6 +221,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Potential outcome mean for treatment level <span class="math inline">\(A=a\)</span>: <span class="math inline">\(E(Y^{a})\)</span></li>
 <li>Standardized mean for treatment level <span class="math inline">\(A=a\)</span>: <span class="math inline">\(\sum_{l}E(Y|A=a, L=l)P(L=l)\)</span></li>
 <li><p>IP weighted mean of <span class="math inline">\(Y\)</span> for treatment level <span class="math inline">\(A=a\)</span>: <span class="math inline">\(E\left(\frac{I(A=a)Y}{f(A|L)}\right)\)</span></p></li>
+</ul>
+</div>
+<div id="more-about-conditional-exchangeability-assumption" class="section level3">
+<h3><span class="header-section-number">0.0.1</span> More about conditional exchangeability assumption</h3>
+<ul>
+<li><p>First, the conditional exchangeability assumption is also called <strong>unconfoundedness</strong>. The latter name is much easier to understand the meaning of this assumption</p></li>
+<li><p>Next, why do we call it conditional exchangeability?</p></li>
+</ul>
+<p>Conditional exchangeability means condtionining on <span class="math inline">\(X\)</span>, the treatment group is comparable to the control group. More precisely, it means <span class="math inline">\(f(Y^{(a=1)}|A=0, X)=f(Y^{(a=1)}|A=1, X)\)</span>. It is equivalent to <span class="math inline">\(Y^{(a=1)}\perp A|X\)</span>. Therefore, condtional exchangeability and unconfoundedness are the same thing.</p>
+<ul>
+<li>Third, unconfoundedness implies no unobserved/unmeasured confounders.
+<ul>
+<li>Suppose there exists unmeasured confounding <span class="math inline">\(X_u\)</span>, then we have <span class="math inline">\(Y^{(a=0)}=f_0(X, X_u)\)</span>, <span class="math inline">\(Y^{(a=1)}=f_1(X, X_u)\)</span> and <span class="math inline">\(A=f_A(X, X_u)\)</span>. Therefore, only conditioning on <span class="math inline">\(X\)</span> would not make unconfoundedness satisfied.</li>
+<li>Since unconfoundedness is the key assumption to identify the causal effect, so based on the above reasoning, when we assume the unconfoundness, we also implicitly assume no unmeasured confounders.</li>
+</ul></li>
 </ul>
 </div>
 <div id="equivalence-of-ip-weighting-and-standardization" class="section level3 unnumbered">

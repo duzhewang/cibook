@@ -14,6 +14,21 @@
 - Standardized mean for treatment level $A=a$: $\sum_{l}E(Y|A=a, L=l)P(L=l)$
 - IP weighted mean of $Y$ for treatment level $A=a$: $E\left(\frac{I(A=a)Y}{f(A|L)}\right)$
 
+
+### More about conditional exchangeability assumption
+
+- First, the conditional exchangeability assumption is also called **unconfoundedness**. The latter name is much easier to understand the meaning of this assumption
+
+- Next, why do we call it conditional exchangeability?
+
+Conditional exchangeability means condtionining on $X$, the treatment group is comparable to the control group. More precisely, it means $f(Y^{(a=1)}|A=0, X)=f(Y^{(a=1)}|A=1, X)$. It is equivalent to $Y^{(a=1)}\perp A|X$. Therefore, condtional exchangeability and unconfoundedness are the same thing. 
+
+- Third, unconfoundedness implies no unobserved/unmeasured confounders. 
+  - Suppose there exists unmeasured confounding $X_u$, then we have $Y^{(a=0)}=f_0(X, X_u)$, $Y^{(a=1)}=f_1(X, X_u)$ and $A=f_A(X, X_u)$. Therefore, only conditioning on $X$ would not make unconfoundedness satisfied. 
+  - Since unconfoundedness is the key assumption to identify the causal effect, so based on the above reasoning, when we assume the unconfoundness, we also implicitly assume no unmeasured confounders. 
+
+
+
 ### Equivalence of IP weighting and standardization{-}
 Under the **positivity** assumption, we have 
 \begin{equation*}
