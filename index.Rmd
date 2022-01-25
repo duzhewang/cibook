@@ -1,15 +1,9 @@
 --- 
-title: "Causal inference"
+title: "Causal Inference Notes"
 author: "Duzhe Wang"
-date: "`r Sys.Date()`"
+date: "Last updated date: `r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
 
 
-# Preface{-}
-
-- These notes are based on the book **Causal Inference, What If**
-- R code reference:
-  - [Joy Shi and Sean McGrath](https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/1268/20/Rcode_CIpart2.zip)
-  - [Tom Palmer](https://remlapmot.github.io/cibookex-r/). 
-
+# Preface {-}
