@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6. Graphical representation of causal effects | Causal inference</title>
   <meta name="description" content="6. Graphical representation of causal effects | Causal inference" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6. Graphical representation of causal effects | Causal inference" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Duzhe Wang" />
 
 
-<meta name="date" content="2021-04-22" />
+<meta name="date" content="2022-01-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,9 @@
   
 <link rel="prev" href="interaction.html"/>
 <link rel="next" href="why-model.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,29 +51,32 @@
 
 
 
-
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +85,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -115,6 +120,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
@@ -132,7 +138,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
-<li class="chapter" data-level="" data-path="interaction.html"><a href="interaction.html"><i class="fa fa-check"></i>5. Interaction</a><ul>
+<li class="chapter" data-level="" data-path="interaction.html"><a href="interaction.html"><i class="fa fa-check"></i>5. Interaction</a>
+<ul>
 <li class="chapter" data-level="" data-path="interaction.html"><a href="interaction.html#interaction-requires-a-joint-intervention"><i class="fa fa-check"></i>5.1 Interaction requires a joint intervention</a></li>
 <li class="chapter" data-level="" data-path="interaction.html"><a href="interaction.html#identifying-interaction"><i class="fa fa-check"></i>5.2 Identifying interaction</a></li>
 <li class="chapter" data-level="" data-path="interaction.html"><a href="interaction.html#counterfactual-response-types-and-interaction"><i class="fa fa-check"></i>5.3 Counterfactual response types and interaction</a></li>
@@ -140,15 +147,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="interaction.html"><a href="interaction.html#sufficient-cause-interaction"><i class="fa fa-check"></i>5.5 Sufficient cause interaction</a></li>
 <li class="chapter" data-level="" data-path="interaction.html"><a href="interaction.html#counterfactuals-or-sufficient-component-causes"><i class="fa fa-check"></i>5.6 Counterfactuals or sufficient-component causes?</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html"><i class="fa fa-check"></i>6. Graphical representation of causal effects</a><ul>
-<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#causal-diagrams"><i class="fa fa-check"></i>6.1 Causal diagrams</a><ul>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html"><i class="fa fa-check"></i>6. Graphical representation of causal effects</a>
+<ul>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#causal-diagrams"><i class="fa fa-check"></i>6.1 Causal diagrams</a>
+<ul>
 <li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#causal-directed-acyclic-graphs"><i class="fa fa-check"></i>Causal directed acyclic graphs</a></li>
 <li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#examples"><i class="fa fa-check"></i>Examples</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#causal-diagrams-and-marginal-independence"><i class="fa fa-check"></i>6.2 Causal diagrams and marginal independence</a></li>
 <li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#causal-diagrams-and-conditional-independence"><i class="fa fa-check"></i>6.3 Causal diagrams and conditional independence</a></li>
-<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#appendix-a-uncorrelated-vs.independent"><i class="fa fa-check"></i>Appendix A: uncorrelated vs. independent</a></li>
-<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#appendix-b-the-flow-of-association-and-causation-in-graphs"><i class="fa fa-check"></i>Appendix B: The flow of association and causation in graphs</a><ul>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#appendix-a-uncorrelated-vs.-independent"><i class="fa fa-check"></i>Appendix A: uncorrelated vs. independent</a></li>
+<li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#appendix-b-the-flow-of-association-and-causation-in-graphs"><i class="fa fa-check"></i>Appendix B: The flow of association and causation in graphs</a>
+<ul>
 <li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#graph-terminology"><i class="fa fa-check"></i>Graph terminology</a></li>
 <li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#bayesian-networks"><i class="fa fa-check"></i>Bayesian networks</a></li>
 <li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#causal-graphs"><i class="fa fa-check"></i>Causal graphs</a></li>
@@ -158,14 +168,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="graphical-representation-of-causal-effects.html"><a href="graphical-representation-of-causal-effects.html#d-separation"><i class="fa fa-check"></i>d-separation</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html"><i class="fa fa-check"></i>11. Why model?</a><ul>
+<li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html"><i class="fa fa-check"></i>11. Why model?</a>
+<ul>
 <li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#some-concepts-and-points"><i class="fa fa-check"></i>Some concepts and points</a></li>
 <li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#program-11.1"><i class="fa fa-check"></i>Program 11.1</a></li>
 <li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#program-11.2"><i class="fa fa-check"></i>Program 11.2</a></li>
 <li class="chapter" data-level="" data-path="why-model.html"><a href="why-model.html#program-11.3"><i class="fa fa-check"></i>Program 11.3</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html"><i class="fa fa-check"></i>12. IP weighting and marginal structural models</a><ul>
-<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#part-1-summary-of-the-chapter"><i class="fa fa-check"></i>Part 1: Summary of the chapter</a><ul>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html"><i class="fa fa-check"></i>12. IP weighting and marginal structural models</a>
+<ul>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#part-1-summary-of-the-chapter"><i class="fa fa-check"></i>Part 1: Summary of the chapter</a>
+<ul>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#definitions"><i class="fa fa-check"></i>Definitions</a></li>
 <li class="chapter" data-level="0.0.1" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#more-about-conditional-exchangeability-assumption"><i class="fa fa-check"></i><b>0.0.1</b> More about conditional exchangeability assumption</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#equivalence-of-ip-weighting-and-standardization"><i class="fa fa-check"></i>Equivalence of IP weighting and standardization</a></li>
@@ -177,7 +190,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#marginal-structural-models"><i class="fa fa-check"></i>Marginal structural models</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#effect-modification-and-marginal-structural-models"><i class="fa fa-check"></i>Effect modification and marginal structural models</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#part-2-real-data-analysis"><i class="fa fa-check"></i>Part 2: Real data analysis</a><ul>
+<li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#part-2-real-data-analysis"><i class="fa fa-check"></i>Part 2: Real data analysis</a>
+<ul>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#background"><i class="fa fa-check"></i>Background</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#input-dataset"><i class="fa fa-check"></i>Input dataset</a></li>
 <li class="chapter" data-level="" data-path="ip-weighting-and-marginal-structural-models.html"><a href="ip-weighting-and-marginal-structural-models.html#ignore-subjects-with-missing-values-for-weight-in-1982"><i class="fa fa-check"></i>Ignore subjects with missing values for weight in 1982</a></li>
@@ -228,14 +242,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 
 <div class="proof">
-<p> <span class="proof"><em>Proof. </em></span> We want to show the equivalence. We have
+<p>\iffalse{} <span class="proof"><em>Proof. </em></span> We want to show the equivalence. We have
 <span class="math display">\[f(v)=f(v_1)\prod_{i=2}^{M}f(v_j|v_1,..., v_{j-1} ).\]</span>
 Based on the Markov assumption and the ordering convention, we have
 <span class="math display">\[f(v_j|v_1,..., v_{j-1})=f(v_j|pa_{j}).\]</span>
 Therefore, we have <span class="math inline">\(f(v)=\prod_{i=1}^{M}f(v_j|pa_{j})\)</span>.</p>
 <p>Theorem 20.3 in the book All of Statistics also has an explanation.</p>
 </div>
-
 </div>
 <div id="examples" class="section level3 unnumbered">
 <h3>Examples</h3>
@@ -267,13 +280,12 @@ Therefore, we have <span class="math inline">\(f(v)=\prod_{i=1}^{M}f(v_j|pa_{j})
 <p>The common effect <span class="math inline">\(L\)</span> is referred to as a collider on the path <span class="math inline">\(A\rightarrow L\leftarrow Y\)</span> because two arrowheads collide on this node. Colliders, unlike other variables, block the flow of association along the path on which they lie. Thus, <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> are independent because the only path between them, <span class="math inline">\(A\rightarrow L\leftarrow Y\)</span>, is blocked by the collider <span class="math inline">\(L\)</span>.</p>
 
 <div class="proof">
- <span class="proof"><em>Proof. </em></span> By Markov assumption, we have
+\iffalse{} <span class="proof"><em>Proof. </em></span> By Markov assumption, we have
 <span class="math display">\[ f(a, y, l)=f(a)f(y)f(l|a, y).\]</span>
 So
 <span class="math display">\[f(a, y)=\int f(a, y, l)dl=\int f(a)f(y)f(l|a, y)dl=f(a)f(y).\]</span>
 Therefore, <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> are independent.
 </div>
-
 <ul>
 <li><strong>In summary, two variables are marginally associated if one causes the other, or if they share common causes. Otherwise they will be marginally independent.</strong></li>
 </ul>
@@ -288,9 +300,8 @@ Therefore, <span class="math inline">\(A\)</span> and <span class="math inline">
 <p>Conclusion: Even though <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> are marginally associated, <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> are conditionally independent given <span class="math inline">\(B\)</span>. Graphically, we say that a box placed around variable <span class="math inline">\(B\)</span> blocks the flow of association through the path <span class="math inline">\(A\rightarrow B\rightarrow Y\)</span>.</p>
 
 <div class="proof">
- <span class="proof"><em>Proof. </em></span> By Markov assumption (conditional on its direct causes, a variable <span class="math inline">\(V_j\)</span> is independent of any variable for which it is not a cause), we have <span class="math inline">\(Y\)</span> is independent of <span class="math inline">\(A\)</span> conditional on <span class="math inline">\(B\)</span>.
+\iffalse{} <span class="proof"><em>Proof. </em></span> By Markov assumption (conditional on its direct causes, a variable <span class="math inline">\(V_j\)</span> is independent of any variable for which it is not a cause), we have <span class="math inline">\(Y\)</span> is independent of <span class="math inline">\(A\)</span> conditional on <span class="math inline">\(B\)</span>.
 </div>
-
 <ul>
 <li>Consider the following causal DAG:
 <image src="images/fig6-6.png"></li>
@@ -299,9 +310,8 @@ Therefore, <span class="math inline">\(A\)</span> and <span class="math inline">
 <p>Conclusion: <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> are conditionally independent given <span class="math inline">\(L\)</span>.</p>
 
 <div class="proof">
-<p> <span class="proof"><em>Proof. </em></span> By Markov assumption.</p>
+<p>\iffalse{} <span class="proof"><em>Proof. </em></span> By Markov assumption.</p>
 </div>
-
 <ul>
 <li>Consider the following causal DAG:
 <image src="images/fig6-6.png"></li>
@@ -309,7 +319,7 @@ Therefore, <span class="math inline">\(A\)</span> and <span class="math inline">
 <p>Question: Is <span class="math inline">\(A\)</span> associated with <span class="math inline">\(Y\)</span> conditional on <span class="math inline">\(L\)</span>?</p>
 <p>Conclusion:</p>
 </div>
-<div id="appendix-a-uncorrelated-vs.independent" class="section level2 unnumbered">
+<div id="appendix-a-uncorrelated-vs.-independent" class="section level2 unnumbered">
 <h2>Appendix A: uncorrelated vs. independent</h2>
 <ul>
 <li><p>Two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are <strong>uncorrelated</strong> when their correlation coefficient is 0: <span class="math inline">\(\rho(X, Y)=0\)</span>.
@@ -323,9 +333,8 @@ If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</s
 </ul>
 
 <div class="proof">
- <span class="proof"><em>Proof. </em></span> See <a href="https://stats.stackexchange.com/questions/16321/are-the-random-variables-x-and-fx-dependent" class="uri">https://stats.stackexchange.com/questions/16321/are-the-random-variables-x-and-fx-dependent</a>.
+\iffalse{} <span class="proof"><em>Proof. </em></span> See <a href="https://stats.stackexchange.com/questions/16321/are-the-random-variables-x-and-fx-dependent" class="uri">https://stats.stackexchange.com/questions/16321/are-the-random-variables-x-and-fx-dependent</a>.
 </div>
-
 <ul>
 <li>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, then they are also uncorrelated. (This also implies that if <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are correlated, then they are dependent.)</li>
 </ul>
@@ -401,7 +410,7 @@ which implies that <span class="math inline">\(f(x_3|x_2)=f(x_3)\)</span>. Then 
 <h3>Causal graphs</h3>
 <ul>
 <li><p>What is a cause? A variable <span class="math inline">\(X\)</span> is said to be a cause of a variable <span class="math inline">\(Y\)</span> if <span class="math inline">\(Y\)</span> can change in response to changes in <span class="math inline">\(X\)</span>. (<strong>Based on the lemma in Appendix A, this definition implies if <span class="math inline">\(X\)</span> is a cause of <span class="math inline">\(Y\)</span>, then <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are dependent.</strong>)</p></li>
-<li>(Strict) causal edges assumption: In a directed graph, every parent is a direct cause of all its children.
+<li><p>(Strict) causal edges assumption: In a directed graph, every parent is a direct cause of all its children.</p>
 <ul>
 <li>Based on the definition of a cause, this assumption implies that adjacent nodes are dependent.</li>
 <li>This is indeed the second part of the minimality assumption.</li>
@@ -412,9 +421,9 @@ which implies that <span class="math inline">\(f(x_3|x_2)=f(x_3)\)</span>. Then 
 <h3>Two-node graphs and graphical building blocks</h3>
 <ul>
 <li><p>Flow of association: by “flow of association”, we mean whether any two nodes in a graph are associated or not associated. Another way of saying this is whether two nodes are statistically dependent or statistically independent.</p></li>
-<li>Two unconnected nodes
+<li><p>Two unconnected nodes</p>
 <p align="center">
-<image src="images/two-unconnected-nodes.png">
+<p><image src="images/two-unconnected-nodes.png"></p>
 </p></li>
 </ul>
 <p>The Bayesian network factorization (or equivalently the local Markov assumption) implies the two nodes <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> are unassociated (independent) in this building block.</p>
@@ -436,7 +445,7 @@ which implies that <span class="math inline">\(f(x_3|x_2)=f(x_3)\)</span>. Then 
 </p>
 <ul>
 <li><p>In both chains and forks, <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> are depenedent, and <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> are dependent based on the causal edges assumption (or the second part of the minimality assumption).</p></li>
-<li>Is <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> associated in chains and forks?
+<li><p>Is <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> associated in chains and forks?</p>
 <ul>
 <li><strong>Usually, <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> are associated in both chains and forks.</strong> Intuitively, in chain graphs, <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> are usually dependent simply because <span class="math inline">\(X_1\)</span> causes changes in <span class="math inline">\(X_2\)</span> which then causes changes in <span class="math inline">\(X_3\)</span>. In a fork graph, <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> are also usually dependent because the same value that <span class="math inline">\(X_2\)</span> takes on is used to determine both the value that <span class="math inline">\(X_1\)</span> talkes on and the value that <span class="math inline">\(X_3\)</span> takes on.</li>
 <li><strong>However, there exist pathological cases where <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> are not dependent in chains and forks.</strong> We consider the following example: <span class="math inline">\(P(X=1)=P(X=2)=\frac{1}{2}\)</span>, <span class="math inline">\(P(U_Y=1)=P(U_Y=2)=\frac{1}{2}\)</span>, <span class="math inline">\(X\perp U_Y\)</span>, <span class="math inline">\(Y=3\)</span> if <span class="math inline">\(X=1\)</span> and <span class="math inline">\(U_Y=1\)</span>, <span class="math inline">\(Y=4\)</span> if <span class="math inline">\(X=2\)</span> and <span class="math inline">\(U_Y=1\)</span>, <span class="math inline">\(Y=5\)</span> if <span class="math inline">\(U_Y=2\)</span>; <span class="math inline">\(Z=6\)</span> if <span class="math inline">\(Y=5\)</span> or <span class="math inline">\(U_Z=1\)</span> and <span class="math inline">\(Z=7\)</span> if <span class="math inline">\(Y\ne 5\)</span> and <span class="math inline">\(U_Z=2\)</span>. Then we have
@@ -447,15 +456,15 @@ P(X=1, Z=6)=P(X=1, Y=5~\text{or}~U_Z=1)=P(X=1, Y=5, U_Z=1) \\
 \end{equation*}\]</span>
 Similarly, we have <span class="math inline">\(P(X=1, Z=7)=P(X=1)P(Z=7)\)</span>, <span class="math inline">\(P(X=2, Z=6)=P(X=2)P(Z=6)\)</span> and <span class="math inline">\(P(X=2, Z=7)=P(X=2)P(Z=7)\)</span>. Therefore, <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> are independent.</li>
 </ul></li>
-<li>Blocked paths
+<li><p>Blocked paths</p>
 <p align="center">
-<image src="images/fig3-14-15.png">
+<p><image src="images/fig3-14-15.png"></p>
 </p>
 <p>When we condition on <span class="math inline">\(X_2\)</span> in chains and forks, it blocks the flow of association from <span class="math inline">\(X_1\)</span> to <span class="math inline">\(X_3\)</span>. This is because of the local Markov assumption.</p></li>
 </ul>
 
 <div class="proof">
-<p> <span class="proof"><em>Proof. </em></span> In chains, we have
+<p>\iffalse{} <span class="proof"><em>Proof. </em></span> In chains, we have
 <span class="math display">\[\begin{equation*}
 f(x_1, x_2, x_3)=f(x_1)f(x_2|x_1)f(x_3|x_2).
 \end{equation*}\]</span>
@@ -468,7 +477,6 @@ In forks, we have <span class="math inline">\(f(x_1, x_2, x_3)=f(x_2)f(x_1|x_2)f
 f(x_1, x_3|x_2)=f(x_1|x_2)f(x_3|x_2). 
 \end{equation*}\]</span>
 </div>
-
 </div>
 <div id="colliders-and-their-descendants" class="section level3 unnumbered">
 <h3>Colliders and their descendants</h3>
@@ -476,7 +484,7 @@ f(x_1, x_3|x_2)=f(x_1|x_2)f(x_3|x_2).
 <li>In colliders, <span class="math inline">\(X_1\)</span> is independent of <span class="math inline">\(X_3\)</span>. An intuitive thought: <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> simply as unrelated events that happen, which happen to both contribute to some common effect.
 
 <div class="proof">
- <span class="proof"><em>Proof. </em></span> We have <span class="math inline">\(f(x_1, x_2, x_3)=f(x_1)f(x_3)f(x_2|x_1, x_3)\)</span>. So
+\iffalse{} <span class="proof"><em>Proof. </em></span> We have <span class="math inline">\(f(x_1, x_2, x_3)=f(x_1)f(x_3)f(x_2|x_1, x_3)\)</span>. So
 <span class="math display">\[\begin{equation*}
 f(x_1, x_3)=\int f(x_1)f(x_3)f(x_2|x_1, x_3)dx_2=f(x_1)f(x_3). 
 \end{equation*}\]</span>
@@ -516,7 +524,6 @@ where implies that <span class="math inline">\(X_1\)</span> and <span class="mat
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -535,6 +542,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -555,6 +563,10 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }
