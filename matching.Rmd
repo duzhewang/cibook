@@ -1,0 +1,102 @@
+# Matching {-}
+
+## [Matching methods for causal inference: a review and a look forward](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/) {-}
+
+- Matching: broadly refer to any method that aims to equate/balance the distribution of covariates in the treated and control groups.
+
+- We can think of any study aiming to estimate the effect of some intervention as having two key stages: (1) **design**, and (2) **outcome analysis**. Stage (1) uses only background information on the individuals in the study, designing the nonexperimental study as would be a randomized experiment, without access to the outcome values. Matching methods are a key tool for stage (1). Only after stage (1) is finished does stage (2) begin, comparing the outcomes of the treated and control individuals. 
+
+- Matching methods are commonly used in two types of settings: 
+  - one in which the outcome values are not yet available and matching is used to select subjects for follow-up. 
+It's particularly relevant for studies with cost considerations that prohibit the collection of outcome data for the full control group. 
+
+  - The second setting is one in which all of the outcome data is already available, and the goal of the matching is to reduce bias in the estimation of the treatment effect. 
+  
+  - A common feature of matching methods, which is automatic in the first setting but not the second, is that **the outcome values are not used in the matching preocess**. 
+  
+- The matching can be done multiple times and the matched samples with the best balance - the most similar treated and control groups - are chosen as the final matched samples.    
+
+
+- Steps in implementing matching methods: matching methods have four key steps, with the first three representing the design and the fourth the analysis. 
+  - 1. Defining "closeness": the distance measure used to determine whether an individual is a good match for another. 
+  - 2. Implementing a matching method, given that measure of closeness.
+  - 3. Assessing the quality of the resulting matched samples, and perhaps iterating with steps 1 and 2 until well-matched samples result.
+  - 4. Analysis of the outcome and estimation of the treatment effect, given the matching done in step 3. 
+  
+**Step 1: Defining closeness**
+
+- What variables do we include? 
+  - To satisfy the assumption of ignorable treatment assignment, it is important to include in the matching procedure all variables known to be related to both treatment assignment and the outcome.**(Question: any practical guidance?)**   
+
+- What distance measures do we use? (similarity between two individuals). There are four primary ways to define the distance $D_{ij}$ between individuals $i$ and $j$ for matching. 
+  - 1. Exact: $D_{ij}=0$ if $X_i=X_j$, $=\infty$ if $X_i \ne X_j$
+  - 2. Mahalanobis: $D_{ij}=(X_i-X_j)^T\Sigma^{-1}(X_i-X_j)$. If interest is in the ATT, $\Sigma$ is the variance covariance matrix of $X$ in the full control group; if interest is in the ATE, then $\Sigma$ is the variance covariance matrix of $X$ in the pooled treatment and full control groups. If $X$ contains categorical variables, they should be converted to a series of binary indicators, although the distance works best with continuous variables.
+  - 3. Propensity score: $D_{ij}=|e_i-e_j|$, where $e_k$ is the propensity score for individual $k$
+  - 4. linear propensity score: $D_{ij}=|logit(e_i)-logit(e_j)|$
+  - The distance measures described above can also be combined, for example, Mahalanobis matching within propensity score calipers 
+  
+- How do we estimate the propensity score? 
+  - In practice, the true propensity scores are rarely known outside of randomized experiments and thus must be estimated. 
+  - common models: logistic regression, boosted CART, generalized boosted models
+  - Model diagnostics: with propensity score estimation, concern is not with the parameter estimates of the model, but rather with the resulting balance of the covariates. 
+  - Research indicates that misestimation of the propensity score is not a large problem, and that **treatment effect estimates are more biased when the outcome model is misspecified than when the propensity score model is misspecified**. 
+  
+
+**Step 2: Matching methods**
+
+- k:1 nearest neighbor matching 
+  - this is generally the most effective method for settings where the goal is to select individuals for follow-up.   
+  - Nearest neighbor matching nearly always estimates the ATT, as it matches control individuals to the treated group and discards controls who are not selected as matches. 
+  - 1:1 nearest neighbor matching selects for each treated individual $i$ the control individual with the smallest distance from individual $i$. 
+  - Optimal matching: if the goal is simply to find well-matched groups, greedy matching may be sufficient. However, if the goal is well-matched pairs, then optimal matching may be preferable.  
+  - With or without replacement 
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
