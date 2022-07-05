@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5. Interaction | Causal Inference Notes</title>
   <meta name="description" content="5. Interaction | Causal Inference Notes" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5. Interaction | Causal Inference Notes" />
   <meta property="og:type" content="book" />
-  
   
   
   
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="graphical-representation-of-causal-effects.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -133,7 +132,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">R code for causal inference book</a></li>
+<li><a href="./">Causal inference notes</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
@@ -202,7 +201,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="matching.html"><a href="matching.html"><i class="fa fa-check"></i>Matching</a>
 <ul>
-<li><a href="matching.html#matching-methods-for-causal-inference-a-review-and-a-look-forward"><span>Matching methods for causal inference: a review and a look forward</span></a></li>
+<li class="chapter" data-level="" data-path="matching.html"><a href="matching.html#matching-methods-for-causal-inference-a-review-and-a-look-forward"><i class="fa fa-check"></i><span>Matching methods for causal inference: a review and a look forward</span></a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -223,10 +222,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="interaction" class="section level1 unnumbered">
-<h1>5. Interaction</h1>
-<div id="interaction-requires-a-joint-intervention" class="section level2 unnumbered">
-<h2>5.1 Interaction requires a joint intervention</h2>
+<div id="interaction" class="section level1 unnumbered hasAnchor">
+<h1>5. Interaction<a href="interaction.html#interaction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="interaction-requires-a-joint-intervention" class="section level2 unnumbered hasAnchor">
+<h2>5.1 Interaction requires a joint intervention<a href="interaction.html#interaction-requires-a-joint-intervention" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li><p>We refer to interventions on two or more treatments as joint interventions.</p></li>
 <li><p>We say that there is interaction between <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> on the additive scale in the population if
@@ -237,8 +236,8 @@ This is equivalent to
 refers to the causal effect of <span class="math inline">\(A\)</span>, not to the causal effect of <span class="math inline">\(V\)</span>. In contrast, the definition of interaction between <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> gives equal status to both treatments <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span>. The concept of interaction refers to the joint causal effect of two treatments <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span>, and thus involves the counterfactual outcomes <span class="math inline">\(Y^{a, e}\)</span> under a joint intervention.</p></li>
 </ul>
 </div>
-<div id="identifying-interaction" class="section level2 unnumbered">
-<h2>5.2 Identifying interaction</h2>
+<div id="identifying-interaction" class="section level2 unnumbered hasAnchor">
+<h2>5.2 Identifying interaction<a href="interaction.html#identifying-interaction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Consider two cases:</p>
 <ul>
 <li>Suppose <span class="math inline">\(E\)</span> were randomly, and unconditionally, assigned by the investigators. Then we have
@@ -249,8 +248,8 @@ This is exactly the definition of modification of the effect of <span class="mat
 <li>Suppose treatment <span class="math inline">\(E\)</span> was not assigned by investigators. To assess the presence of interaction between <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span>, we need to compute the four marginal risks <span class="math inline">\(P(Y^{a, e}=1)\)</span>. An equivalent way of conceptualizing this problem follows: rather than viewing <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> as two distinct treatments with two possible levels (1 or 0) each, one can view <span class="math inline">\(AE\)</span> as a combined treatment with four possible levels <span class="math inline">\((11, 01, 10, 00)\)</span>. Under this conceptualization the identification of interaction between two treatments is not different from the identification of the causal effect of one treatment.</li>
 </ul>
 </div>
-<div id="counterfactual-response-types-and-interaction" class="section level2 unnumbered">
-<h2>5.3 Counterfactual response types and interaction</h2>
+<div id="counterfactual-response-types-and-interaction" class="section level2 unnumbered hasAnchor">
+<h2>5.3 Counterfactual response types and interaction<a href="interaction.html#counterfactual-response-types-and-interaction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <table>
 <thead>
 <tr class="header">
@@ -384,24 +383,24 @@ That is, if all individuals in the population have responses 1, 4, 6, 11, 13 and
 <li><p>The presence of additive interaction between <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> implies that there must be individuals in at least one of the other remaining response types.</p></li>
 </ul>
 </div>
-<div id="sufficient-causes" class="section level2 unnumbered">
-<h2>5.4 Sufficient causes</h2>
+<div id="sufficient-causes" class="section level2 unnumbered hasAnchor">
+<h2>5.4 Sufficient causes<a href="interaction.html#sufficient-causes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li>Sufficient-component causes</li>
 <li>9 possible sufficient-component causes for a dichotomous outcome and two treatments:
 <img src="images/fig5-2.png"></li>
 </ul>
 </div>
-<div id="sufficient-cause-interaction" class="section level2 unnumbered">
-<h2>5.5 Sufficient cause interaction</h2>
+<div id="sufficient-cause-interaction" class="section level2 unnumbered hasAnchor">
+<h2>5.5 Sufficient cause interaction<a href="interaction.html#sufficient-cause-interaction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li><p>The definition of interaction within the counterfactual framework does not require any knowledge about those mechanisms nor even that the treatments work together.</p></li>
 <li><p>Another concept of interaction is not based on counterfactual contrasts but rather on sufficient-component causes. Therefore, it is called interaction within the sufficient-component-cause framework, or for brevity, sufficient cause interaction.</p></li>
 <li><p>A sufficient cause interaction between <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> exists in the population if <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> occur together in a sufficient cause. For example, suppose individuals with background factors <span class="math inline">\(U_5=1\)</span> will develop the outcome when jointly receiving <span class="math inline">\(E=1\)</span> and <span class="math inline">\(A=1\)</span>, but not when receiving only one of the two treatments. Then a sufficient cause interaction between <span class="math inline">\(A\)</span> and <span class="math inline">\(E\)</span> exists if there exists an individual with <span class="math inline">\(U_5=1\)</span>.</p></li>
 </ul>
 </div>
-<div id="counterfactuals-or-sufficient-component-causes" class="section level2 unnumbered">
-<h2>5.6 Counterfactuals or sufficient-component causes?</h2>
+<div id="counterfactuals-or-sufficient-component-causes" class="section level2 unnumbered hasAnchor">
+<h2>5.6 Counterfactuals or sufficient-component causes?<a href="interaction.html#counterfactuals-or-sufficient-component-causes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li><p>The sufficient component cause model considers sets of actions, events, or states of nature which together inevitably bring about the outcome under consideration. The model gives an account of the causes of a particular effect. It addresses the question, “Given a particular effect, what are the various events which might have been its cause?”</p></li>
 <li><p>The potential outcomes focus on one particular cause or intervention and gives an account of the various effects of that cause. In contrast to the sufficient component cause framework, the potential outcomes framework addresses the question, “What would have occurred if a particular factor were intervened upon and thus set to a different level than it in fact was?” Unlike the sufficient component cause framework, the counterfactual framework does not require a detailed knowledge of the meachanisms by which the factor affects the outcome.</p></li>

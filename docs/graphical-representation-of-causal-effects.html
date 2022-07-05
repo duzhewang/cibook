@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6. Graphical representation of causal effects | Causal Inference Notes</title>
   <meta name="description" content="6. Graphical representation of causal effects | Causal Inference Notes" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6. Graphical representation of causal effects | Causal Inference Notes" />
   <meta property="og:type" content="book" />
-  
   
   
   
@@ -32,7 +31,6 @@
   
 <link rel="prev" href="interaction.html"/>
 <link rel="next" href="why-model.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -50,8 +48,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -133,7 +132,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">R code for causal inference book</a></li>
+<li><a href="./">Causal inference notes</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
@@ -202,7 +201,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="matching.html"><a href="matching.html"><i class="fa fa-check"></i>Matching</a>
 <ul>
-<li><a href="matching.html#matching-methods-for-causal-inference-a-review-and-a-look-forward"><span>Matching methods for causal inference: a review and a look forward</span></a></li>
+<li class="chapter" data-level="" data-path="matching.html"><a href="matching.html#matching-methods-for-causal-inference-a-review-and-a-look-forward"><i class="fa fa-check"></i><span>Matching methods for causal inference: a review and a look forward</span></a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -223,11 +222,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="graphical-representation-of-causal-effects" class="section level1 unnumbered">
-<h1>6. Graphical representation of causal effects</h1>
+<div id="graphical-representation-of-causal-effects" class="section level1 unnumbered hasAnchor">
+<h1>6. Graphical representation of causal effects<a href="graphical-representation-of-causal-effects.html#graphical-representation-of-causal-effects" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>The use of graphs in causal inference problems makes it easier to follow a sensible advice: draw your assumptions before your conclusions.</p>
-<div id="causal-diagrams" class="section level2 unnumbered">
-<h2>6.1 Causal diagrams</h2>
+<div id="causal-diagrams" class="section level2 unnumbered hasAnchor">
+<h2>6.1 Causal diagrams<a href="graphical-representation-of-causal-effects.html#causal-diagrams" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <!--<img src="images/fig6-1.png">
 
 - The presence of an arrow pointing from a particular variable $V$ to another variable $W$ indicates that we know there is a direct causal effect for at least one individual. 
@@ -235,17 +234,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 - A standard causal diagram does not distinguish whether an arrow represents a harmful effect or a protective effect. 
 
 -->
-<div id="causal-directed-acyclic-graphs" class="section level3 unnumbered">
-<h3>Causal directed acyclic graphs</h3>
+<div id="causal-directed-acyclic-graphs" class="section level3 unnumbered hasAnchor">
+<h3>Causal directed acyclic graphs<a href="graphical-representation-of-causal-effects.html#causal-directed-acyclic-graphs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li><p>We define a DAG <span class="math inline">\(G\)</span> to be a graph whose nodes are random variables <span class="math inline">\(V=(V_1,..., V_M)\)</span> with directed edges and no directed cycles. We use <span class="math inline">\(PA_m\)</span> to denote the parents of <span class="math inline">\(V_m\)</span>, i.e., the set of nodes from which there is a direct arrow into <span class="math inline">\(V_m\)</span>. The variable <span class="math inline">\(V_m\)</span> is a descendant of <span class="math inline">\(V_j\)</span> if there is a sequence of nodes connected by edges between <span class="math inline">\(V_j\)</span> and <span class="math inline">\(V_m\)</span> such that, following the direction indicated by the arrows, one can reach <span class="math inline">\(V_m\)</span> by starting at <span class="math inline">\(V_j\)</span>. We adopt the ordering convention that if <span class="math inline">\(m&gt;j\)</span>, <span class="math inline">\(V_m\)</span> is not an ancestor of <span class="math inline">\(V_j\)</span>. We define the distribution of <span class="math inline">\(V\)</span> to be Markov with respect to a DAG <span class="math inline">\(G\)</span> if for each <span class="math inline">\(j\)</span>, <span class="math inline">\(V_j\)</span> is independent of its non-descendants conditional on its parents.</p></li>
 <li><p>A causal DAG is a DAG in which 1) the lack of an arrow from node <span class="math inline">\(V_j\)</span> to <span class="math inline">\(V_m\)</span> can be interpreted as the absence of a direct causal effect of <span class="math inline">\(V_j\)</span> on <span class="math inline">\(V_m\)</span> relative to the other variables on the graph, <strong>2) all common causes, even if unmeasured, of any pair of variables on the graph are themselves on the graph</strong>, and 3) any variable is a cause of its descendants.</p></li>
 <li><p>Causal Markov assumption: conditional on its direct causes, a variable <span class="math inline">\(V_j\)</span> is independent of any variable for which it is not a cause. That is, conditional on its parents, <span class="math inline">\(V_j\)</span> is independent of its non-descendants. Mathematically, it’s equivalent to the statement that the density <span class="math inline">\(f(V)\)</span> of the variables <span class="math inline">\(V\)</span> in DAG <span class="math inline">\(G\)</span> satisfies the Markov factorization
 <span class="math display">\[ f(v)=\prod_{i=1}^{M}f(v_j|pa_{j}). \]</span></p></li>
 </ul>
-
 <div class="proof">
-<p>\iffalse{} <span class="proof"><em>Proof. </em></span> We want to show the equivalence. We have
+<p><span id="unlabeled-div-1" class="proof"><em>Proof</em>. </span>We want to show the equivalence. We have
 <span class="math display">\[f(v)=f(v_1)\prod_{i=2}^{M}f(v_j|v_1,..., v_{j-1} ).\]</span>
 Based on the Markov assumption and the ordering convention, we have
 <span class="math display">\[f(v_j|v_1,..., v_{j-1})=f(v_j|pa_{j}).\]</span>
@@ -253,8 +251,8 @@ Therefore, we have <span class="math inline">\(f(v)=\prod_{i=1}^{M}f(v_j|pa_{j})
 <p>Theorem 20.3 in the book All of Statistics also has an explanation.</p>
 </div>
 </div>
-<div id="examples" class="section level3 unnumbered">
-<h3>Examples</h3>
+<div id="examples" class="section level3 unnumbered hasAnchor">
+<h3>Examples<a href="graphical-representation-of-causal-effects.html#examples" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li>A marginally randomized experiment can be represented by the following causal DAG:
 <img src="images/fig6-2.png"></li>
@@ -271,8 +269,8 @@ Therefore, we have <span class="math inline">\(f(v)=\prod_{i=1}^{M}f(v_j|pa_{j})
 <p><img src="images/fig6-3.png"></p>
 </div>
 </div>
-<div id="causal-diagrams-and-marginal-independence" class="section level2 unnumbered">
-<h2>6.2 Causal diagrams and marginal independence</h2>
+<div id="causal-diagrams-and-marginal-independence" class="section level2 unnumbered hasAnchor">
+<h2>6.2 Causal diagrams and marginal independence<a href="graphical-representation-of-causal-effects.html#causal-diagrams-and-marginal-independence" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li><p>Causal diagrams are a simple way to encode our subject-matter knowledge, and our assumptions, about the qualitative causal structure of a problem. Causal diagrams also encode information about potential associations between the variables in the causal network. It is precisely this simultaneous representation of association and causation that makes causal diagrams such an attractive tool.</p></li>
 <li><p>When one knows that <span class="math inline">\(A\)</span> has a causal effect on <span class="math inline">\(Y\)</span>, as in Figure 6.2, then one should also generally expect <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> to be associated. This is consistenct with the fact that, in an ideal randomized experiment with unconditional exchangeability, causation <span class="math inline">\(P(Y^{a=1}=1)\ne P(Y^{a=0}=1)\)</span> implies association <span class="math inline">\(P(Y=1|A=1)\ne P(Y=1|A=0)\)</span>, and vice versa.</p></li>
@@ -281,29 +279,27 @@ Therefore, we have <span class="math inline">\(f(v)=\prod_{i=1}^{M}f(v_j|pa_{j})
 </ul>
 <p><image src="images/fig6-4.png"></p>
 <p>The common effect <span class="math inline">\(L\)</span> is referred to as a collider on the path <span class="math inline">\(A\rightarrow L\leftarrow Y\)</span> because two arrowheads collide on this node. Colliders, unlike other variables, block the flow of association along the path on which they lie. Thus, <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> are independent because the only path between them, <span class="math inline">\(A\rightarrow L\leftarrow Y\)</span>, is blocked by the collider <span class="math inline">\(L\)</span>.</p>
-
 <div class="proof">
-\iffalse{} <span class="proof"><em>Proof. </em></span> By Markov assumption, we have
+<p><span id="unlabeled-div-2" class="proof"><em>Proof</em>. </span>By Markov assumption, we have
 <span class="math display">\[ f(a, y, l)=f(a)f(y)f(l|a, y).\]</span>
 So
 <span class="math display">\[f(a, y)=\int f(a, y, l)dl=\int f(a)f(y)f(l|a, y)dl=f(a)f(y).\]</span>
-Therefore, <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> are independent.
+Therefore, <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> are independent.</p>
 </div>
 <ul>
 <li><strong>In summary, two variables are marginally associated if one causes the other, or if they share common causes. Otherwise they will be marginally independent.</strong></li>
 </ul>
 </div>
-<div id="causal-diagrams-and-conditional-independence" class="section level2 unnumbered">
-<h2>6.3 Causal diagrams and conditional independence</h2>
+<div id="causal-diagrams-and-conditional-independence" class="section level2 unnumbered hasAnchor">
+<h2>6.3 Causal diagrams and conditional independence<a href="graphical-representation-of-causal-effects.html#causal-diagrams-and-conditional-independence" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li>Consider the following causal DAG:</li>
 </ul>
 <p><image src="images/fig6-5.png"></p>
 <p>Question: is there an association between <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> within levels of (conditional on) <span class="math inline">\(B\)</span>?</p>
 <p>Conclusion: Even though <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> are marginally associated, <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> are conditionally independent given <span class="math inline">\(B\)</span>. Graphically, we say that a box placed around variable <span class="math inline">\(B\)</span> blocks the flow of association through the path <span class="math inline">\(A\rightarrow B\rightarrow Y\)</span>.</p>
-
 <div class="proof">
-\iffalse{} <span class="proof"><em>Proof. </em></span> By Markov assumption (conditional on its direct causes, a variable <span class="math inline">\(V_j\)</span> is independent of any variable for which it is not a cause), we have <span class="math inline">\(Y\)</span> is independent of <span class="math inline">\(A\)</span> conditional on <span class="math inline">\(B\)</span>.
+<p><span id="unlabeled-div-3" class="proof"><em>Proof</em>. </span>By Markov assumption (conditional on its direct causes, a variable <span class="math inline">\(V_j\)</span> is independent of any variable for which it is not a cause), we have <span class="math inline">\(Y\)</span> is independent of <span class="math inline">\(A\)</span> conditional on <span class="math inline">\(B\)</span>.</p>
 </div>
 <ul>
 <li>Consider the following causal DAG:
@@ -311,9 +307,8 @@ Therefore, <span class="math inline">\(A\)</span> and <span class="math inline">
 </ul>
 <p>Question: is <span class="math inline">\(A\)</span> associated with <span class="math inline">\(Y\)</span> conditional on <span class="math inline">\(L\)</span>?</p>
 <p>Conclusion: <span class="math inline">\(A\)</span> and <span class="math inline">\(Y\)</span> are conditionally independent given <span class="math inline">\(L\)</span>.</p>
-
 <div class="proof">
-<p>\iffalse{} <span class="proof"><em>Proof. </em></span> By Markov assumption.</p>
+<p><span id="unlabeled-div-4" class="proof"><em>Proof</em>. </span>By Markov assumption.</p>
 </div>
 <ul>
 <li>Consider the following causal DAG:
@@ -322,8 +317,8 @@ Therefore, <span class="math inline">\(A\)</span> and <span class="math inline">
 <p>Question: Is <span class="math inline">\(A\)</span> associated with <span class="math inline">\(Y\)</span> conditional on <span class="math inline">\(L\)</span>?</p>
 <p>Conclusion:</p>
 </div>
-<div id="appendix-a-uncorrelated-vs.-independent" class="section level2 unnumbered">
-<h2>Appendix A: uncorrelated vs. independent</h2>
+<div id="appendix-a-uncorrelated-vs.-independent" class="section level2 unnumbered hasAnchor">
+<h2>Appendix A: uncorrelated vs. independent<a href="graphical-representation-of-causal-effects.html#appendix-a-uncorrelated-vs.-independent" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
 <li><p>Two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are <strong>uncorrelated</strong> when their correlation coefficient is 0: <span class="math inline">\(\rho(X, Y)=0\)</span>.
 Being uncorrelated is the same as having zero covariance. If <span class="math inline">\(\rho(X, Y)\ne 0\)</span>, then <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are correlated.</p></li>
@@ -334,9 +329,8 @@ Equivalently, the conditional distribution is the same as the marginal distribut
 If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are not independent, then they are <strong>dependent</strong>.</p></li>
 <li><p>If <span class="math inline">\(Y\)</span> is a non-constant function of <span class="math inline">\(X\)</span>, then <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are always dependent. (Lemma: Let <span class="math inline">\(X\)</span> be a random variable and let <span class="math inline">\(f\)</span> be a Borel measurable function such that <span class="math inline">\(X\)</span> and <span class="math inline">\(f(X)\)</span> are independent. Then <span class="math inline">\(f(X)\)</span> is constant almost surely. That is, there is some <span class="math inline">\(a\in \mathbb{R}\)</span> such that <span class="math inline">\(P(f(X)=a)=1\)</span>.)</p></li>
 </ul>
-
 <div class="proof">
-\iffalse{} <span class="proof"><em>Proof. </em></span> See <a href="https://stats.stackexchange.com/questions/16321/are-the-random-variables-x-and-fx-dependent" class="uri">https://stats.stackexchange.com/questions/16321/are-the-random-variables-x-and-fx-dependent</a>.
+<p><span id="unlabeled-div-5" class="proof"><em>Proof</em>. </span>See <a href="https://stats.stackexchange.com/questions/16321/are-the-random-variables-x-and-fx-dependent" class="uri">https://stats.stackexchange.com/questions/16321/are-the-random-variables-x-and-fx-dependent</a>.</p>
 </div>
 <ul>
 <li>If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, then they are also uncorrelated. (This also implies that if <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are correlated, then they are dependent.)</li>
@@ -352,17 +346,17 @@ E(XY)=\int\int xyp_{X, Y}(x, y)dxdy
 <li><p><strong>Take-away message</strong>: Pearson correlation only measures the <strong>linear</strong> dependence.</p></li>
 </ul>
 </div>
-<div id="appendix-b-the-flow-of-association-and-causation-in-graphs" class="section level2 unnumbered">
-<h2>Appendix B: The flow of association and causation in graphs</h2>
+<div id="appendix-b-the-flow-of-association-and-causation-in-graphs" class="section level2 unnumbered hasAnchor">
+<h2>Appendix B: The flow of association and causation in graphs<a href="graphical-representation-of-causal-effects.html#appendix-b-the-flow-of-association-and-causation-in-graphs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>This section is mainly from Brady Neal’s Introduction to Causal Inference from a Machine Learning Perspective.</p>
-<div id="graph-terminology" class="section level3 unnumbered">
-<h3>Graph terminology</h3>
+<div id="graph-terminology" class="section level3 unnumbered hasAnchor">
+<h3>Graph terminology<a href="graphical-representation-of-causal-effects.html#graph-terminology" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li>If two parents <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> share some child <span class="math inline">\(Z\)</span>, but there is no edge connecting <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, then <span class="math inline">\(X\rightarrow Z\leftarrow Y\)</span> is known as an <strong>immorality</strong>.</li>
 </ul>
 </div>
-<div id="bayesian-networks" class="section level3 unnumbered">
-<h3>Bayesian networks</h3>
+<div id="bayesian-networks" class="section level3 unnumbered hasAnchor">
+<h3>Bayesian networks<a href="graphical-representation-of-causal-effects.html#bayesian-networks" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li><p>Chain rule: <span class="math inline">\(P(x_1, x_2,..., x_n)=P(x_1)\prod_i P(x_i|x_{i-1},...,x_1)\)</span></p></li>
 <li><p>Given a probability distribution and a corresponding DAG, we can formalize the specification of independencies with the <strong>local Markov assumption</strong>: <strong>Given its parents in the DAG, a node <span class="math inline">\(X\)</span> is independent of its non-descendants.</strong></p></li>
@@ -371,12 +365,14 @@ E(XY)=\int\int xyp_{X, Y}(x, y)dxdy
 <li><p>Local Markov assumption and Bayesian network factorization are equivalent.</p></li>
 </ul>
 <!--
-\BeginKnitrBlock{proof}<div class="proof">\iffalse{} <span class="proof"><em>Proof. </em></span>  \fi{}- From local Markov assumption to Bayesian network factorization: this is straightforward. 
+::: {.proof}
+- From local Markov assumption to Bayesian network factorization: this is straightforward. 
 
 - From Bayesian network factorization to local Markov assumption: 
 
 
-</div>\EndKnitrBlock{proof}
+
+:::
 
 
 -->
@@ -409,8 +405,8 @@ which implies that <span class="math inline">\(f(x_3|x_2)=f(x_3)\)</span>. Then 
 <li><strong>To see why the assumption is named “minimality”. We know that if <span class="math inline">\(P\)</span> is Markov with respect to a DAG <span class="math inline">\(G\)</span>, then <span class="math inline">\(P\)</span> satisfies a set of independencies that are specific to the structure of <span class="math inline">\(G\)</span>. If <span class="math inline">\(P\)</span> and <span class="math inline">\(G\)</span> also satisfy minimality, then this set of independencies is minimal in the sense the <span class="math inline">\(P\)</span> does not satisfy any additional independencies. This is equivalent to saying that adjacent nodes are dependent. </strong> (Why?)</li>
 </ul>
 </div>
-<div id="causal-graphs" class="section level3 unnumbered">
-<h3>Causal graphs</h3>
+<div id="causal-graphs" class="section level3 unnumbered hasAnchor">
+<h3>Causal graphs<a href="graphical-representation-of-causal-effects.html#causal-graphs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li><p>What is a cause? A variable <span class="math inline">\(X\)</span> is said to be a cause of a variable <span class="math inline">\(Y\)</span> if <span class="math inline">\(Y\)</span> can change in response to changes in <span class="math inline">\(X\)</span>. (<strong>Based on the lemma in Appendix A, this definition implies if <span class="math inline">\(X\)</span> is a cause of <span class="math inline">\(Y\)</span>, then <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are dependent.</strong>)</p></li>
 <li><p>(Strict) causal edges assumption: In a directed graph, every parent is a direct cause of all its children.</p>
@@ -420,8 +416,8 @@ which implies that <span class="math inline">\(f(x_3|x_2)=f(x_3)\)</span>. Then 
 </ul></li>
 </ul>
 </div>
-<div id="two-node-graphs-and-graphical-building-blocks" class="section level3 unnumbered">
-<h3>Two-node graphs and graphical building blocks</h3>
+<div id="two-node-graphs-and-graphical-building-blocks" class="section level3 unnumbered hasAnchor">
+<h3>Two-node graphs and graphical building blocks<a href="graphical-representation-of-causal-effects.html#two-node-graphs-and-graphical-building-blocks" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li><p>Flow of association: by “flow of association”, we mean whether any two nodes in a graph are associated or not associated. Another way of saying this is whether two nodes are statistically dependent or statistically independent.</p></li>
 <li><p>Two unconnected nodes</p>
@@ -438,8 +434,8 @@ which implies that <span class="math inline">\(f(x_3|x_2)=f(x_3)\)</span>. Then 
 </ul>
 <p>The causal edges assumption implies <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> are associated.</p>
 </div>
-<div id="chains-and-forks" class="section level3 unnumbered">
-<h3>Chains and forks</h3>
+<div id="chains-and-forks" class="section level3 unnumbered hasAnchor">
+<h3>Chains and forks<a href="graphical-representation-of-causal-effects.html#chains-and-forks" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p align="center">
 <image src="images/fig3-12.png">
 </p>
@@ -465,9 +461,8 @@ Similarly, we have <span class="math inline">\(P(X=1, Z=7)=P(X=1)P(Z=7)\)</span>
 </p>
 <p>When we condition on <span class="math inline">\(X_2\)</span> in chains and forks, it blocks the flow of association from <span class="math inline">\(X_1\)</span> to <span class="math inline">\(X_3\)</span>. This is because of the local Markov assumption.</p></li>
 </ul>
-
 <div class="proof">
-<p>\iffalse{} <span class="proof"><em>Proof. </em></span> In chains, we have
+<p><span id="unlabeled-div-6" class="proof"><em>Proof</em>. </span>In chains, we have
 <span class="math display">\[\begin{equation*}
 f(x_1, x_2, x_3)=f(x_1)f(x_2|x_1)f(x_3|x_2).
 \end{equation*}\]</span>
@@ -475,23 +470,22 @@ So
 <span class="math display">\[\begin{equation*}
 f(x_1, x_3|x_2)=\frac{f(x_1)f(x_2|x_1)f(x_3|x_2)}{f(x_2)}=f(x_1|x_2)f(x_3|x_2). 
 \end{equation*}\]</span></p>
-In forks, we have <span class="math inline">\(f(x_1, x_2, x_3)=f(x_2)f(x_1|x_2)f(x_3|x_2)\)</span>. So
+<p>In forks, we have <span class="math inline">\(f(x_1, x_2, x_3)=f(x_2)f(x_1|x_2)f(x_3|x_2)\)</span>. So
 <span class="math display">\[\begin{equation*}
 f(x_1, x_3|x_2)=f(x_1|x_2)f(x_3|x_2). 
-\end{equation*}\]</span>
+\end{equation*}\]</span></p>
 </div>
 </div>
-<div id="colliders-and-their-descendants" class="section level3 unnumbered">
-<h3>Colliders and their descendants</h3>
+<div id="colliders-and-their-descendants" class="section level3 unnumbered hasAnchor">
+<h3>Colliders and their descendants<a href="graphical-representation-of-causal-effects.html#colliders-and-their-descendants" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li>In colliders, <span class="math inline">\(X_1\)</span> is independent of <span class="math inline">\(X_3\)</span>. An intuitive thought: <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_3\)</span> simply as unrelated events that happen, which happen to both contribute to some common effect.
-
-<div class="proof">
-\iffalse{} <span class="proof"><em>Proof. </em></span> We have <span class="math inline">\(f(x_1, x_2, x_3)=f(x_1)f(x_3)f(x_2|x_1, x_3)\)</span>. So
+::: {.proof}
+We have <span class="math inline">\(f(x_1, x_2, x_3)=f(x_1)f(x_3)f(x_2|x_1, x_3)\)</span>. So
 <span class="math display">\[\begin{equation*}
 f(x_1, x_3)=\int f(x_1)f(x_3)f(x_2|x_1, x_3)dx_2=f(x_1)f(x_3). 
 \end{equation*}\]</span>
-</div>
+:::
 <p align="center">
 <image src="images/fig3-16.png">
 </p></li>
@@ -510,8 +504,8 @@ where implies that <span class="math inline">\(X_1\)</span> and <span class="mat
 <li>Descendants of colliders: Conditioning on descendants of a collider also induces association in between the parents of the collider. The intuition is that if we learn something about a collider’s descendant, we usually also learn something about the collider itself because there is a direct causal path from the collider to its descendants. For example, consider <span class="math inline">\(X_4=2X_2\)</span> in the above numerical example.</li>
 </ul>
 </div>
-<div id="d-separation" class="section level3 unnumbered">
-<h3>d-separation</h3>
+<div id="d-separation" class="section level3 unnumbered hasAnchor">
+<h3>d-separation<a href="graphical-representation-of-causal-effects.html#d-separation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>to be written…</p>
 
 </div>
