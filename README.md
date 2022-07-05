@@ -1,8 +1,3 @@
-
-- Main reference:
-  - [Causal inference, What If](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)
-  - [Causal inference book R code](https://github.com/remlapmot/cibookex-r)
-  
 - How to render the book? 
   - 1. Render locally with `bookdown::render_book("index.Rmd")`
   - 2. Use `browseURL("docs/index.html")` to review the book locally (or just open `index.html` in a browser)

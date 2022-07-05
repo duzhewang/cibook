@@ -1,0 +1,58 @@
+# Reference {-}
+
+## Books {-} 
+- [Causal Inference: What If](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)
+- [Causal Inference: The Mixtape](https://mixtape.scunning.com/)
+
+## Code {-}
+- [Causal Inference: What If. R code](https://remlapmot.github.io/cibookex-r/)
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

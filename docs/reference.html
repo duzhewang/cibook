@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Matching | Causal Inference Notes</title>
-  <meta name="description" content="Matching | Causal Inference Notes" />
+  <title>Reference | Causal Inference Notes</title>
+  <meta name="description" content="Reference | Causal Inference Notes" />
   <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Matching | Causal Inference Notes" />
+  <meta property="og:title" content="Reference | Causal Inference Notes" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Matching | Causal Inference Notes" />
+  <meta name="twitter:title" content="Reference | Causal Inference Notes" />
   
   
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="ip-weighting-and-marginal-structural-models.html"/>
-<link rel="next" href="reference.html"/>
+<link rel="prev" href="matching.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -227,79 +227,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="matching" class="section level1 unnumbered hasAnchor">
-<h1>Matching<a href="matching.html#matching" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="matching-methods-for-causal-inference-a-review-and-a-look-forward" class="section level2 unnumbered hasAnchor">
-<h2><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2943670/">Matching methods for causal inference: a review and a look forward</a><a href="matching.html#matching-methods-for-causal-inference-a-review-and-a-look-forward" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="reference" class="section level1 unnumbered hasAnchor">
+<h1>Reference<a href="reference.html#reference" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="books" class="section level2 unnumbered hasAnchor">
+<h2>Books<a href="reference.html#books" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
-<li><p>Matching: broadly refer to any method that aims to equate/balance the distribution of covariates in the treated and control groups.</p></li>
-<li><p>We can think of any study aiming to estimate the effect of some intervention as having two key stages: (1) <strong>design</strong>, and (2) <strong>outcome analysis</strong>. Stage (1) uses only background information on the individuals in the study, designing the nonexperimental study as would be a randomized experiment, without access to the outcome values. Matching methods are a key tool for stage (1). Only after stage (1) is finished does stage (2) begin, comparing the outcomes of the treated and control individuals.</p></li>
-<li><p>Matching methods are commonly used in two types of settings:</p>
-<ul>
-<li><p>one in which the outcome values are not yet available and matching is used to select subjects for follow-up.
-It’s particularly relevant for studies with cost considerations that prohibit the collection of outcome data for the full control group.</p></li>
-<li><p>The second setting is one in which all of the outcome data is already available, and the goal of the matching is to reduce bias in the estimation of the treatment effect.</p></li>
-<li><p>A common feature of matching methods, which is automatic in the first setting but not the second, is that <strong>the outcome values are not used in the matching preocess</strong>.</p></li>
-</ul></li>
-<li><p>The matching can be done multiple times and the matched samples with the best balance - the most similar treated and control groups - are chosen as the final matched samples.</p></li>
-<li><p>Steps in implementing matching methods: matching methods have four key steps, with the first three representing the design and the fourth the analysis.</p>
-<ul>
-<li><ol style="list-style-type: decimal">
-<li>Defining “closeness”: the distance measure used to determine whether an individual is a good match for another.</li>
-</ol></li>
-<li><ol start="2" style="list-style-type: decimal">
-<li>Implementing a matching method, given that measure of closeness.</li>
-</ol></li>
-<li><ol start="3" style="list-style-type: decimal">
-<li>Assessing the quality of the resulting matched samples, and perhaps iterating with steps 1 and 2 until well-matched samples result.</li>
-</ol></li>
-<li><ol start="4" style="list-style-type: decimal">
-<li>Analysis of the outcome and estimation of the treatment effect, given the matching done in step 3.</li>
-</ol></li>
-</ul></li>
+<li><a href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/">Causal Inference: What If</a></li>
+<li><a href="https://mixtape.scunning.com/">Causal Inference: The Mixtape</a></li>
 </ul>
-<p><strong>Step 1: Defining closeness</strong></p>
+</div>
+<div id="code" class="section level2 unnumbered hasAnchor">
+<h2>Code<a href="reference.html#code" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
-<li>What variables do we include?
-<ul>
-<li>To satisfy the assumption of ignorable treatment assignment, it is important to include in the matching procedure all variables known to be related to both treatment assignment and the outcome.<strong>(Question: any practical guidance?)</strong></li>
-</ul></li>
-<li>What distance measures do we use? (similarity between two individuals). There are four primary ways to define the distance <span class="math inline">\(D_{ij}\)</span> between individuals <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> for matching.
-<ul>
-<li><ol style="list-style-type: decimal">
-<li>Exact: <span class="math inline">\(D_{ij}=0\)</span> if <span class="math inline">\(X_i=X_j\)</span>, <span class="math inline">\(=\infty\)</span> if <span class="math inline">\(X_i \ne X_j\)</span></li>
-</ol></li>
-<li><ol start="2" style="list-style-type: decimal">
-<li>Mahalanobis: <span class="math inline">\(D_{ij}=(X_i-X_j)^T\Sigma^{-1}(X_i-X_j)\)</span>. If interest is in the ATT, <span class="math inline">\(\Sigma\)</span> is the variance covariance matrix of <span class="math inline">\(X\)</span> in the full control group; if interest is in the ATE, then <span class="math inline">\(\Sigma\)</span> is the variance covariance matrix of <span class="math inline">\(X\)</span> in the pooled treatment and full control groups. If <span class="math inline">\(X\)</span> contains categorical variables, they should be converted to a series of binary indicators, although the distance works best with continuous variables.</li>
-</ol></li>
-<li><ol start="3" style="list-style-type: decimal">
-<li>Propensity score: <span class="math inline">\(D_{ij}=|e_i-e_j|\)</span>, where <span class="math inline">\(e_k\)</span> is the propensity score for individual <span class="math inline">\(k\)</span></li>
-</ol></li>
-<li><ol start="4" style="list-style-type: decimal">
-<li>linear propensity score: <span class="math inline">\(D_{ij}=|logit(e_i)-logit(e_j)|\)</span></li>
-</ol></li>
-<li>The distance measures described above can also be combined, for example, Mahalanobis matching within propensity score calipers</li>
-</ul></li>
-<li>How do we estimate the propensity score?
-<ul>
-<li>In practice, the true propensity scores are rarely known outside of randomized experiments and thus must be estimated.</li>
-<li>common models: logistic regression, boosted CART, generalized boosted models</li>
-<li>Model diagnostics: with propensity score estimation, concern is not with the parameter estimates of the model, but rather with the resulting balance of the covariates.</li>
-<li>Research indicates that misestimation of the propensity score is not a large problem, and that <strong>treatment effect estimates are more biased when the outcome model is misspecified than when the propensity score model is misspecified</strong>.</li>
-</ul></li>
-</ul>
-<p><strong>Step 2: Matching methods</strong></p>
-<ul>
-<li>k:1 nearest neighbor matching
-<ul>
-<li>this is generally the most effective method for settings where the goal is to select individuals for follow-up.<br />
-</li>
-<li>Nearest neighbor matching nearly always estimates the ATT, as it matches control individuals to the treated group and discards controls who are not selected as matches.</li>
-<li>1:1 nearest neighbor matching selects for each treated individual <span class="math inline">\(i\)</span> the control individual with the smallest distance from individual <span class="math inline">\(i\)</span>.</li>
-<li>Optimal matching: if the goal is simply to find well-matched groups, greedy matching may be sufficient. However, if the goal is well-matched pairs, then optimal matching may be preferable.<br />
-</li>
-<li>With or without replacement</li>
-</ul></li>
+<li><a href="https://remlapmot.github.io/cibookex-r/">Causal Inference: What If. R code</a></li>
 </ul>
 
 </div>
@@ -309,8 +249,8 @@ It’s particularly relevant for studies with cost considerations that prohibit 
           </div>
         </div>
       </div>
-<a href="ip-weighting-and-marginal-structural-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="reference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="matching.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -341,7 +281,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/duzhewang/cibook/edit/master/matching.Rmd",
+"link": "https://github.com/duzhewang/cibook/edit/master/reference.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -349,7 +289,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/duzhewang/cibook/blob/master/matching.Rmd",
+"link": "https://github.com/duzhewang/cibook/blob/master/reference.Rmd",
 "text": null
 },
 "download": null,
