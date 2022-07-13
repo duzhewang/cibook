@@ -3,6 +3,8 @@
 ## Books {-} 
 - [Causal Inference: What If](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)
 - [Causal Inference: The Mixtape](https://mixtape.scunning.com/)
+- [Causal Inference for the Brave and True](https://matheusfacure.github.io/python-causality-handbook/landing-page.html)
+  - This online book has python code
 
 ## Code {-}
 - [Causal Inference: What If. R code](https://remlapmot.github.io/cibookex-r/)
