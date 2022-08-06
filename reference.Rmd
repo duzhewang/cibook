@@ -6,6 +6,9 @@
 - [Causal Inference for the Brave and True](https://matheusfacure.github.io/python-causality-handbook/landing-page.html)
   - This online book has python code
 
+## Courses {-}
+- [STA640 Causal Inference](http://www2.stat.duke.edu/~fl35/CausalInferenceClass.html)
+
 ## Code {-}
 - [Causal Inference: What If. R code](https://remlapmot.github.io/cibookex-r/)
 
